@@ -47,7 +47,6 @@ export class TimerComponent implements OnInit {
   }
 
   onSelect(): void {
-    document.getElementById('startButton').innerText = 'Clicked';
     if (!this.running) {
       this.timer();
       document.getElementById('startButton').innerHTML = 'Stop';

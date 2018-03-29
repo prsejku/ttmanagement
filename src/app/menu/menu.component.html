@@ -1,0 +1,20 @@
+<mat-card class="tmg-panel">
+  <mat-card-content>
+    <mat-sidenav-container class="tmg-sidenav-container">
+      <mat-sidenav #sidenav class="tmg-sidenav">
+        <nav>
+          <button mat-raised-button routerLink="/dashboard" (click)="sidenav.close()"><mat-icon>dashboard</mat-icon>Dashboard</button>
+        </nav><br />
+        <nav>
+          <button mat-raised-button routerLink="/timer" (click)="sidenav.close()"><mat-icon>timer</mat-icon>Timer</button>
+        </nav>
+      </mat-sidenav>
+      <mat-sidenav-content class="tmg-sidenav-content">
+        <button mat-button (click)="sidenav.open()">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <router-outlet></router-outlet>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </mat-card-content>
+</mat-card>
