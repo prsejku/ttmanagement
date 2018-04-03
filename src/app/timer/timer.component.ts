@@ -55,6 +55,7 @@ export class TimerComponent implements OnInit {
       document.getElementById('startButton').innerHTML = 'Start';
       clearInterval(this.interv);
       this.running = false;
+
     }
   }
 }
