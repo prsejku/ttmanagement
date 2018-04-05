@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {TimerService} from "../timer.service";
 
 @Component({
   selector: 'app-timer',
@@ -10,10 +11,11 @@ export class TimerComponent implements OnInit {
   hr: number;
   min: number;
   sek: number;
+  input: string;
   running: boolean;
   interv;
 
-  constructor() { }
+  constructor(private timerService: TimerService) { }
 
   ngOnInit() {
     this.hr = 0;
@@ -23,9 +25,11 @@ export class TimerComponent implements OnInit {
   }
 
   timer(): void {
+    this.running = true;
     let sek = this.sek, hr = this.hr, min = this.min;
-    let strSek, strMin;
-    this.interv = setInterval(function() {
+    let strSek: string, strMin: string;
+    let input: string;
+    this.interv = setInterval(() => {
       this.hr = hr;
       this.min = min;
       this.sek = sek;
@@ -33,7 +37,9 @@ export class TimerComponent implements OnInit {
       else strSek = sek.toString();
       if (min < 10) strMin = '0'+min;
       else strMin = min.toString();
-      document.getElementById('time').innerHTML = hr+':'+strMin+':'+strSek;
+      input = hr+':'+strMin+':'+strSek
+      document.getElementById('time').innerHTML = input;
+      this.input = input
       sek++;
       if (sek > 59) {
         sek = 0;
@@ -44,18 +50,28 @@ export class TimerComponent implements OnInit {
         }
       }
     }, 1000);
+
   }
 
   onSelect(): void {
     if (!this.running) {
       this.timer();
       document.getElementById('startButton').innerHTML = 'Stop';
-      this.running = true;
     } else {
       document.getElementById('startButton').innerHTML = 'Start';
-      clearInterval(this.interv);
       this.running = false;
-
+      clearInterval(this.interv);
     }
+  }
+
+  submit(input: string): void {
+    this.timerService.enterTime(input.split(':'));
+    this.clear();
+    this.running = false;
+    clearInterval(this.interv);
+  }
+
+  clear(): void {
+    this.input = null;
   }
 }
