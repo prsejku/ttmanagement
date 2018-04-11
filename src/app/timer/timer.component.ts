@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {TimerService} from "../timer.service";
 
 @Component({
   selector: 'app-timer',
@@ -10,52 +11,69 @@ export class TimerComponent implements OnInit {
   hr: number;
   min: number;
   sek: number;
+  input: string;
   running: boolean;
+  date: Date;
   interv;
 
-  constructor() { }
+  constructor(private timerService: TimerService) { }
 
   ngOnInit() {
     this.hr = 0;
     this.min = 0;
     this.sek = 1;
+    this.input = "0:00:00";
     this.running = false;
+    this.date = new Date(Date.now());
+    console.log(this.date.toDateString());
   }
 
   timer(): void {
-    let sek = this.sek, hr = this.hr, min = this.min;
-    let strSek, strMin;
-    this.interv = setInterval(function() {
-      this.hr = hr;
-      this.min = min;
-      this.sek = sek;
-      if (sek < 10) strSek = '0'+sek;
-      else strSek = sek.toString();
-      if (min < 10) strMin = '0'+min;
-      else strMin = min.toString();
-      document.getElementById('time').innerHTML = hr+':'+strMin+':'+strSek;
-      sek++;
-      if (sek > 59) {
-        sek = 0;
-        min++;
-        if (min > 59) {
-          min = 0;
-          hr++;
+    this.running = true;
+    //this.interv = setInterval( () => this.increment(), 1000)
+    this.interv = setInterval(() => this.increment(), 1000);
+  }
+
+    increment(): void {
+      let strSek, strMin;
+        if (this.sek < 10) strSek = '0'+this.sek;
+        else strSek = this.sek.toString();
+        if (this.min < 10) strMin = '0'+this.min;
+        else strMin = this.min.toString();
+        this.input = this.hr+':'+strMin+':'+strSek;
+        this.sek++;
+        if (this.sek > 59) {
+          this.sek = 0;
+          this.min++;
+          if (this.min > 59) {
+            this.min = 0;
+            this.hr++;
+          }
         }
-      }
-    }, 1000);
-  }
-
-  onSelect(): void {
-    if (!this.running) {
-      this.timer();
-      document.getElementById('startButton').innerHTML = 'Stop';
-      this.running = true;
-    } else {
-      document.getElementById('startButton').innerHTML = 'Start';
-      clearInterval(this.interv);
-      this.running = false;
-
     }
-  }
+
+    onSelect(): void {
+        if (!this.running) {
+          this.timer();
+          document.getElementById('startButton').innerHTML = 'pause';
+        } else {
+          document.getElementById('startButton').innerHTML = 'play_arrow';
+          this.running = false;
+          clearInterval(this.interv);
+        }
+    }
+
+      submit(input: string): void {
+        this.timerService.enterTime(input.split(':'));
+        this.running = false;
+        clearInterval(this.interv);
+        this.reset();
+      }
+
+      reset(): void {
+          this.input = "0:00:00";
+          this.hr = 0;
+          this.min = 0;
+          this.sek = 0;
+      }
 }
