@@ -2,7 +2,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatCardModule, MatCheckboxModule, MatButtonModule, MatSidenavModule, MatIconModule } from '@angular/material';
+import {
+    MatCardModule, MatCheckboxModule, MatButtonModule, MatMenuModule, MatIconModule,
+    MatDatepickerModule, MatToolbarModule, MatFormFieldModule, MatNativeDateModule, MatInputModule
+} from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService }  from './in-memory-data.service';
@@ -16,6 +19,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { TimerService } from "./timer.service";
 import { MessageService } from "./message.service";
 import { MessagesComponent } from './messages/messages.component';
+import { HeaderComponent } from './header/header.component';
 
 
 @NgModule({
@@ -26,6 +30,7 @@ import { MessagesComponent } from './messages/messages.component';
     MenuComponent,
     DashboardComponent,
     MessagesComponent,
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -34,8 +39,13 @@ import { MessagesComponent } from './messages/messages.component';
     MatCardModule,
     MatCheckboxModule,
     MatButtonModule,
-    MatSidenavModule,
     MatIconModule,
+    MatDatepickerModule,
+    MatMenuModule,
+    MatToolbarModule,
+    MatFormFieldModule,
+    MatNativeDateModule,
+    MatInputModule,
     AppRoutingModule,
     HttpClientModule,
     HttpClientInMemoryWebApiModule.forRoot(

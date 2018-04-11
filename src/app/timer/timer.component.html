@@ -1,16 +1,14 @@
 <div>
-  <mat-card style="max-width:150px; margin: auto auto 10px;">
-    <mat-card-title>Timer</mat-card-title>
-    <mat-card-content>
-      <span *ngIf="!running">
-        <label>
-          <input [(ngModel)]="input" placeholder="0:00:00">
-        </label>
-      </span>
-      <span id="time" *ngIf="running">0:00:00</span>
-      <button mat-mini-fab (click)="onSelect()" id="startButton" *ngIf="!input">Start</button>
-      <button mat-mini-fab (click)="submit(input)" *ngIf="input">Enter</button>
-      <button mat-mini-fab (click)="clear()" *ngIf="input" id="clear">Clear</button>
-    </mat-card-content>
-  </mat-card>
+  <label>
+    <mat-form-field>
+      <input matInput [matDatepicker]="picker" [value]="date.getDate()">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  </label>
+  <label>
+    <input class="timeInput" [(ngModel)]="input" placeholder="{{input}}" [disabled]="running">
+  </label>
+  <span><button mat-mini-fab (click)="onSelect()"><mat-icon id="startButton">play_arrow</mat-icon></button></span>
+  <span><button mat-mini-fab (click)="submit(input)" [disabled]="input=='0:00:00'">Enter</button></span>
 </div>

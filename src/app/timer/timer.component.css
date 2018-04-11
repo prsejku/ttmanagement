@@ -1,8 +1,5 @@
-input {
+.timeInput {
   max-width:60px;
   text-align:right;
 }
 
-#clear {
-  float:right;
-}
