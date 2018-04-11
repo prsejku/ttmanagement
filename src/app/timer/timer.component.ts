@@ -14,6 +14,7 @@ export class TimerComponent implements OnInit {
   input: string;
   running: boolean;
   date: Date;
+  curDate: string;
   interv;
 
   constructor(private timerService: TimerService) { }
@@ -24,13 +25,11 @@ export class TimerComponent implements OnInit {
     this.sek = 1;
     this.input = "0:00:00";
     this.running = false;
-    this.date = new Date(Date.now());
-    console.log(this.date.toDateString());
+    this.curDate = new Date(Date.now()).toLocaleDateString('en');
   }
 
   timer(): void {
     this.running = true;
-    //this.interv = setInterval( () => this.increment(), 1000)
     this.interv = setInterval(() => this.increment(), 1000);
   }
 

@@ -20,6 +20,7 @@ import { TimerService } from "./timer.service";
 import { MessageService } from "./message.service";
 import { MessagesComponent } from './messages/messages.component';
 import { HeaderComponent } from './header/header.component';
+import { TimerHistoryComponent } from './timer-history/timer-history.component';
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import { HeaderComponent } from './header/header.component';
     DashboardComponent,
     MessagesComponent,
     HeaderComponent,
+    TimerHistoryComponent,
   ],
   imports: [
     BrowserModule,
