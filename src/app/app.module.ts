@@ -21,6 +21,7 @@ import { MessageService } from "./message.service";
 import { MessagesComponent } from './messages/messages.component';
 import { HeaderComponent } from './header/header.component';
 import { TimerHistoryComponent } from './timer-history/timer-history.component';
+import { LoginComponent } from './login/login.component';
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import { TimerHistoryComponent } from './timer-history/timer-history.component';
     MessagesComponent,
     HeaderComponent,
     TimerHistoryComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
