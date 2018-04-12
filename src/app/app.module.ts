@@ -8,18 +8,21 @@ import {
 } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService }  from './in-memory-data.service';
 
 import { AppComponent } from './app.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { TimerComponent } from './timer/timer.component';
 import { MenuComponent } from './menu/menu.component';
-import { AppRoutingModule } from './/app-routing.module';
+import { AppRoutingModule } from './app-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { TimerService } from "./timer.service";
 import { MessageService } from "./message.service";
 import { MessagesComponent } from './messages/messages.component';
 import { HeaderComponent } from './header/header.component';
+import { TimerHistoryComponent } from './timer-history/timer-history.component';
+import { LoginComponent } from './login/login.component';
+import {AuthService} from "./auth.service";
+import {AuthGuard} from "./auth.guard";
 
 
 @NgModule({
@@ -31,6 +34,8 @@ import { HeaderComponent } from './header/header.component';
     DashboardComponent,
     MessagesComponent,
     HeaderComponent,
+    TimerHistoryComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,14 +52,13 @@ import { HeaderComponent } from './header/header.component';
     MatNativeDateModule,
     MatInputModule,
     AppRoutingModule,
-    HttpClientModule,
-    HttpClientInMemoryWebApiModule.forRoot(
-      InMemoryDataService, { dataEncapsulation: false }
-    )
+    HttpClientModule
   ],
   providers: [
     TimerService,
-    MessageService
+    MessageService,
+    AuthService,
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })

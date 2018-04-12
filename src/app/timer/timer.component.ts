@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {TimerService} from "../timer.service";
+import {AuthService} from "../auth.service";
 
 @Component({
   selector: 'app-timer',
@@ -14,9 +15,10 @@ export class TimerComponent implements OnInit {
   input: string;
   running: boolean;
   date: Date;
+  curDate: string;
   interv;
 
-  constructor(private timerService: TimerService) { }
+  constructor(private timerService: TimerService, private authService: AuthService) { }
 
   ngOnInit() {
     this.hr = 0;
@@ -24,13 +26,11 @@ export class TimerComponent implements OnInit {
     this.sek = 1;
     this.input = "0:00:00";
     this.running = false;
-    this.date = new Date(Date.now());
-    console.log(this.date.toDateString());
+    this.curDate = new Date(Date.now()).toLocaleDateString('en');
   }
 
   timer(): void {
     this.running = true;
-    //this.interv = setInterval( () => this.increment(), 1000)
     this.interv = setInterval(() => this.increment(), 1000);
   }
 

@@ -1,0 +1,10 @@
+<form class="login">
+    <mat-form-field>
+        <input matInput placeholder="email address">
+    </mat-form-field><br />
+    <mat-form-field>
+        <input type="password" matInput placeholder="password">
+    </mat-form-field>
+    <button mat-raised-button *ngIf="!authService.isLoggedIn" (click)="login()">Log in</button>
+    <button mat-raised-button *ngIf="authService.isLoggedIn" (click)="logout()">Log out</button>
+</form>
