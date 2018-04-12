@@ -1,18 +1,24 @@
 import { Injectable } from '@angular/core';
-import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import {Observable} from "rxjs/Observable";
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/delay';
 
 @Injectable()
 export class AuthService {
+    isLoggedIn: boolean = false;
 
-  constructor(private router: Router) {  }
+    // store the URL so we can redirect after logging in
+    redirectUrl: string;
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if (localStorage.getItem('currenntUser')) {
-      return true;
+    /*login(): Observable<boolean> {
+        return Observable.of(true).delay(1000).do(val => this.isLoggedIn = true);
+    }*/
+    login() {
+       this.isLoggedIn = true;
     }
 
-    this.router.navigate(['/login'], { queryParams: { returnUrl: state.url}});
-    return false;
-  }
-
+    logout(): void {
+        this.isLoggedIn = false;
+    }
 }

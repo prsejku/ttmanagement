@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="authService.isLoggedIn">
   <label>
     <mat-form-field>
       <input matInput [matDatepicker]="picker" [value]="date" placeholder="{{curDate}}">

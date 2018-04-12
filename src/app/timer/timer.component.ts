@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {TimerService} from "../timer.service";
+import {AuthService} from "../auth.service";
 
 @Component({
   selector: 'app-timer',
@@ -17,7 +18,7 @@ export class TimerComponent implements OnInit {
   curDate: string;
   interv;
 
-  constructor(private timerService: TimerService) { }
+  constructor(private timerService: TimerService, private authService: AuthService) { }
 
   ngOnInit() {
     this.hr = 0;
