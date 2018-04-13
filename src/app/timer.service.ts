@@ -13,6 +13,7 @@ export class TimerService {
     private messageService: MessageService) { }
 
   startTime: Date;
+  startTimeUrl: string;
 
   private log(message: string) {
     this.messageService.add('TimerService: '+message);
@@ -20,7 +21,7 @@ export class TimerService {
 
   enterTime(input: string[]) {
     if (input.length != 3 || input[1].length != 2 || input[2].length != 2) this.log('Please enter [H]H:MM:SS');
-    let timeNum: number[] = new Array();
+    let timeNum: number[] = [];
     for (let i=0; i<input.length; i++) {
       timeNum.push(+input[i]);
     }
@@ -30,5 +31,9 @@ export class TimerService {
       let time: string = input[0]+':'+input[1]+':'+input[2];
       console.log('received time: '+time);
     }
+  }
+
+  getStartingTime(): Observable<Date> {
+    return this.http.get<Date>(this.startTimeUrl);
   }
 }

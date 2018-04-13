@@ -5,5 +5,6 @@
     <mat-form-field>
         <input type="password" matInput placeholder="password">
     </mat-form-field>
-    <button mat-raised-button>Log in</button>
+    <button mat-raised-button *ngIf="!authService.isLoggedIn" (click)="login()">Log in</button>
+    <button mat-raised-button *ngIf="authService.isLoggedIn" (click)="logout()">Log out</button>
 </form>
