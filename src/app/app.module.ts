@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
     MatCardModule, MatCheckboxModule, MatButtonModule, MatMenuModule, MatIconModule,
-    MatDatepickerModule, MatToolbarModule, MatFormFieldModule, MatNativeDateModule, MatInputModule
+    MatDatepickerModule, MatToolbarModule, MatFormFieldModule, MatNativeDateModule, MatInputModule, MatRadioModule
 } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
@@ -21,8 +21,9 @@ import { MessagesComponent } from './messages/messages.component';
 import { HeaderComponent } from './header/header.component';
 import { TimerHistoryComponent } from './timer-history/timer-history.component';
 import { LoginComponent } from './login/login.component';
-import {AuthService} from "./auth.service";
-import {AuthGuard} from "./auth.guard";
+import { AuthService } from "./auth.service";
+import { AuthGuard } from "./auth.guard";
+import {HttpModule} from "@angular/http";
 
 
 @NgModule({
@@ -50,9 +51,11 @@ import {AuthGuard} from "./auth.guard";
     MatToolbarModule,
     MatFormFieldModule,
     MatNativeDateModule,
+    MatRadioModule,
     MatInputModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    HttpModule
   ],
   providers: [
     TimerService,

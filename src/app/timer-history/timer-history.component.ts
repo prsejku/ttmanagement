@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {TimerService} from "../timer.service";
 
 @Component({
   selector: 'app-timer-history',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TimerHistoryComponent implements OnInit {
 
-  constructor() { }
+  constructor(private timerService: TimerService) { }
+
+  userObj;
+  user: string;
 
   ngOnInit() {
+    //this.user = JSON.parse(this.timerService.user).toString();
   }
-
 }

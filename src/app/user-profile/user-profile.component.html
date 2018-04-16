@@ -1,22 +1,43 @@
-<div>
-  <mat-card>
-    <mat-card-header>
-      <div mat-card-avatar class="Avatar-Picture"></div>
-      <mat-card-title>User Profile</mat-card-title>
-      <mat-card-subtitle>{{firstname + lastname}}</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-      <mat-card class = "Profile-Picture">
-        <mat-card-header>
-          <mat-card-title style="font-size: 20px">My Profile Picture</mat-card-title>
-        </mat-card-header>
-        <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba1.jpg" style="margin-top:10px" alt="Photo of a Shiba Inu">
-        <mat-card-actions>
-          <button mat-button>Change</button>
-        </mat-card-actions>
-      </mat-card>
-    </mat-card-content>
-  </mat-card>
-</div>
+  <div>
+    <mat-card>
+      <mat-card-header>
+        <div mat-card-avatar class="Avatar-Picture"></div>
+        <mat-card-title>User Profile</mat-card-title>
+        <mat-card-subtitle>{{firstname}} {{lastname}}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content class = "flex-box">
+        <div class ="first-element">
+          <mat-card class = "Profile-Picture">
+            <mat-card-header>
+              <mat-card-title style="font-size: 20px">My Profile Picture</mat-card-title>
+            </mat-card-header>
+            <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba1.jpg" style="margin-top:10px" alt="Profile Picture of the User">
+            <mat-card-actions>
+              <button mat-button>Change</button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+        <div class ="items-elements">
+          <form class="personal-date-form">
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Firstname" value={{firstname}} disabled = "disabled">
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Lastname" value={{lastname}} disabled = "disabled">
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Email" value={{email}} disabled = "disabled">
+            </mat-form-field>
+          </form>
+          <mat-radio-group class="gender-radio-group" [(ngModel)]="myGender">
+            <mat-radio-button class="gender-radio-button" value="Female">Female</mat-radio-button>
+            <mat-radio-button class="gender-radio-button" value="Male">Male</mat-radio-button>
+            <mat-radio-button class="gender-radio-button" value="Other">Other</mat-radio-button>
+          </mat-radio-group>
+          <div class="example-selected-value">Gender: {{myGender}}</div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
 
 
