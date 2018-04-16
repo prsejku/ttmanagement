@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
     MatCardModule, MatCheckboxModule, MatButtonModule, MatMenuModule, MatIconModule,
-    MatDatepickerModule, MatToolbarModule, MatFormFieldModule, MatNativeDateModule, MatInputModule
+    MatDatepickerModule, MatToolbarModule, MatFormFieldModule, MatNativeDateModule, MatInputModule, MatRadioModule
 } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
@@ -51,6 +51,7 @@ import {HttpModule} from "@angular/http";
     MatToolbarModule,
     MatFormFieldModule,
     MatNativeDateModule,
+    MatRadioModule,
     MatInputModule,
     AppRoutingModule,
     HttpClientModule,
