@@ -2,18 +2,23 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { MessageService } from './message.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
+import { Http, Response } from '@angular/http';
+import 'rxjs/add/operator/map';
 
 @Injectable()
 export class TimerService {
 
-
-  constructor(
-    private http: HttpClient,
-    private messageService: MessageService) { }
+  private url: string = "http://se.bmkw.org/dbconnect2.php?ID=2";
+  constructor(private http: HttpClient, private messageService: MessageService) {
+    this.getData();
+    //this.url += '1';
+  }
+  //constructor(private http: Http, private messageService: MessageService) {}
 
   startTime: Date;
   startTimeUrl: string;
+  user;
 
   private log(message: string) {
     this.messageService.add('TimerService: '+message);
@@ -33,7 +38,15 @@ export class TimerService {
     }
   }
 
-  getStartingTime(): Observable<Date> {
+  /*getStartingTime(): Observable<Date> {
     return this.http.get<Date>(this.startTimeUrl);
+  }
+
+  setStartTime(): Observable<boolean> {
+    return this.http.put<boolean>(this.startTimeUrl, this.startTime == null ? new Date(Date.now()).toISOString() : this.startTime.toISOString());
+  }*/
+
+  getData() {
+    return this.http.get(this.url).subscribe(data => {console.log(data); this.user = data;});
   }
 }
