@@ -21,8 +21,9 @@ import { MessagesComponent } from './messages/messages.component';
 import { HeaderComponent } from './header/header.component';
 import { TimerHistoryComponent } from './timer-history/timer-history.component';
 import { LoginComponent } from './login/login.component';
-import {AuthService} from "./auth.service";
-import {AuthGuard} from "./auth.guard";
+import { AuthService } from "./auth.service";
+import { AuthGuard } from "./auth.guard";
+import {HttpModule} from "@angular/http";
 
 
 @NgModule({
@@ -52,7 +53,8 @@ import {AuthGuard} from "./auth.guard";
     MatNativeDateModule,
     MatInputModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    HttpModule
   ],
   providers: [
     TimerService,
