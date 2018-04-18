@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import {TimerService} from "../timer.service";
+
+
 
 @Component({
   selector: 'app-user-profile',
@@ -7,9 +11,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserProfileComponent implements OnInit {
 
-  value;
+  constructor(public timerService: TimerService) {}
 
-  constructor() { }
+  firstName: string;
+  lastName: string;
+  email: string;
+  myGender: string;
 
   ngOnInit() {
   }

@@ -11,7 +11,8 @@ export class TimerService {
   constructor(private http: HttpClient, private messageService: MessageService) { }
 
   startTimeUrl = "http://se.bmkw.org/api.php/";
-  user: object = null; //Angemeldeter User wird hier gespeichert
+  userJSON; //Angemeldeter User wird hier gespeichert
+  user;
   timeTrackId: number;
 
   private log(message: string) {
@@ -41,8 +42,8 @@ export class TimerService {
   }*/
 
   startTime(): boolean {
-    this.http.post(this.startTimeUrl, new Date(Date.now())).subscribe(usr => this.user = usr);
-    return !(this.user == undefined || this.user == null);
+    this.http.post(this.startTimeUrl, new Date(Date.now())).subscribe(usr => this.userJSON = usr);
+    return !(this.userJSON == undefined || this.userJSON == null);
   }
 
   submitEndTime(endDate: Date): boolean {

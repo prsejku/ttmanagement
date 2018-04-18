@@ -11,15 +11,21 @@ export class AuthService {
     isLoggedIn = false;
 
     redirectUrl: string;
-    loginUrl = "http://se.bmkw.org/api.php/users/email/?email="; //select * from :tabelle where :param = :body
+    loginUrl = "http://se.bmkw.org/api.php/login/users/?email="; //select * from :tabelle where :param = :body
 
     constructor(private http: HttpClient, private timerService: TimerService) {}
 
     login(email: string, pwd: string) {
       this.loginUrl += email + '&pwd='+pwd;
-      this.isLoggedIn = true;
+      console.log('req: '+this.loginUrl);
       try {
-          this.http.get(this.loginUrl).subscribe(usr => this.timerService.user = usr);
+          this.http.get(this.loginUrl).subscribe(usr => this.timerService.userJSON = usr);
+          setTimeout(() => {
+              this.timerService.user = this.timerService.userJSON.users[0];
+              console.log(this.timerService.user);
+              this.isLoggedIn = this.timerService.user != null&&this.timerService.user != undefined;
+          }, 1000);
+
       } catch (err) {
           console.log("login hätte nicht funktioniert!");
       }
@@ -28,5 +34,6 @@ export class AuthService {
     logout(): void {
         this.isLoggedIn = false;
         this.timerService.user = null;
+        this.timerService.userJSON = null;
     }
 }
