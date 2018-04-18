@@ -10,10 +10,6 @@ export class TimerHistoryComponent implements OnInit {
 
   constructor(private timerService: TimerService) { }
 
-  userObj;
-  user: string;
-
   ngOnInit() {
-    //this.user = JSON.parse(this.timerService.user).toString();
   }
 }
