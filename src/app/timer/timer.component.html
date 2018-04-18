@@ -9,6 +9,6 @@
   <label>
     <input class="timeInput" [(ngModel)]="input" placeholder="{{input}}" [disabled]="running">
   </label>
-  <span><button mat-mini-fab (click)="onSelect()"><mat-icon id="startButton">play_arrow</mat-icon></button></span>
+  <span><button mat-mini-fab (click)="onSelect()" [disabled]="!running&&input!='0:00:00'"><mat-icon id="startButton">play_arrow</mat-icon></button></span>
   <span><button mat-mini-fab (click)="submit(input)" [disabled]="input=='0:00:00'">Enter</button></span>
 </div>

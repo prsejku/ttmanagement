@@ -1,13 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
     MatCardModule, MatCheckboxModule, MatButtonModule, MatMenuModule, MatIconModule,
     MatDatepickerModule, MatToolbarModule, MatFormFieldModule, MatNativeDateModule, MatInputModule, MatRadioModule
 } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
-import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 
 import { AppComponent } from './app.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
@@ -23,7 +22,6 @@ import { TimerHistoryComponent } from './timer-history/timer-history.component';
 import { LoginComponent } from './login/login.component';
 import { AuthService } from "./auth.service";
 import { AuthGuard } from "./auth.guard";
-import {HttpModule} from "@angular/http";
 
 
 @NgModule({
@@ -50,12 +48,12 @@ import {HttpModule} from "@angular/http";
     MatMenuModule,
     MatToolbarModule,
     MatFormFieldModule,
+    ReactiveFormsModule,
     MatNativeDateModule,
     MatRadioModule,
     MatInputModule,
     AppRoutingModule,
     HttpClientModule,
-    HttpModule
   ],
   providers: [
     TimerService,

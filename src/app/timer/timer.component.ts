@@ -54,9 +54,11 @@ export class TimerComponent implements OnInit {
 
     onSelect(): void {
         if (!this.running) {
+          this.startDbTimer();
           this.timer();
           document.getElementById('startButton').innerHTML = 'pause';
         } else {
+          this.stopDbTimer();
           document.getElementById('startButton').innerHTML = 'play_arrow';
           this.running = false;
           clearInterval(this.interv);
@@ -76,4 +78,11 @@ export class TimerComponent implements OnInit {
           this.min = 0;
           this.sek = 0;
       }
+  startDbTimer(): boolean {
+    return this.timerService.startTime();
+  }
+
+  stopDbTimer(): boolean {
+    return this.timerService.submitEndTime(new Date(Date.now()));
+  }
 }
