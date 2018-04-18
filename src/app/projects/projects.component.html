@@ -1,0 +1,23 @@
+<mat-form-field style="width:500px">
+  <input matInput placeholder="Project Name" [(ngModel)]="projectName">
+</mat-form-field>
+<mat-form-field style="width:500px">
+  <textarea matInput placeholder="Project Description" [(ngModel)]="projectDesc"></textarea>
+</mat-form-field>
+<button mat-raised-button (click)="addProject()" type="submit">Submit</button>
+<mat-table #table [dataSource]="projects">
+  <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+  <mat-row *matRowDef="let proj; columns: columnsToDisplay"></mat-row>
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+    <mat-cell *matCellDef="let pj">{{pj.NAME}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="description">
+    <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+    <mat-cell *matCellDef="let pj">{{pj.DESCRIPTION}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="delete">
+    <mat-header-cell *matHeaderCellDef>Delete col</mat-header-cell>
+    <mat-cell *matCellDef="let pj"><button mat-icon-button><mat-icon>delete</mat-icon></button></mat-cell>
+  </ng-container>
+</mat-table>
