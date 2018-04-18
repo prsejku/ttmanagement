@@ -3,22 +3,16 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { MessageService } from './message.service';
 import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
-import { Http, Response } from '@angular/http';
 import 'rxjs/add/operator/map';
 
 @Injectable()
 export class TimerService {
 
-  private url: string = "http://se.bmkw.org/dbconnect2.php?ID=2";
-  constructor(private http: HttpClient, private messageService: MessageService) {
-    this.getData();
-    //this.url += '1';
-  }
-  //constructor(private http: Http, private messageService: MessageService) {}
+  constructor(private http: HttpClient, private messageService: MessageService) { }
 
-  startTime: Date;
-  startTimeUrl: string;
-  user;
+  startTimeUrl = "http://se.bmkw.org/api.php/";
+  user: object = null; //Angemeldeter User wird hier gespeichert
+  timeTrackId: number;
 
   private log(message: string) {
     this.messageService.add('TimerService: '+message);
@@ -46,7 +40,13 @@ export class TimerService {
     return this.http.put<boolean>(this.startTimeUrl, this.startTime == null ? new Date(Date.now()).toISOString() : this.startTime.toISOString());
   }*/
 
-  getData() {
-    return this.http.get(this.url).subscribe(data => {console.log(data); this.user = data;});
+  startTime(): boolean {
+    this.http.post(this.startTimeUrl, new Date(Date.now())).subscribe(usr => this.user = usr);
+    return !(this.user == undefined || this.user == null);
+  }
+
+  submitEndTime(endDate: Date): boolean {
+    this.http.post<boolean>(this.startTimeUrl, endDate).subscribe(success => {return success});
+    return false;
   }
 }

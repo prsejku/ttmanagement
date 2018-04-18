@@ -1,14 +1,12 @@
 <form class="login">
-    <!--mat-form-field>
-        <input matInput placeholder="email address" [errorStateMatcher]="matcher">
-    </mat-form-field>
-    <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
-        Please enter a valid email address
-    </mat-error><br />
+
     <mat-form-field>
-        <input type="password" matInput placeholder="password">
-    </mat-form-field-->
-    <button mat-raised-button *ngIf="!authService.isLoggedIn" (click)="login()">Log in</button>
+        <input matInput placeholder="email address" [formControl]="emailCtrl" [(ngModel)]="email" name="email">
+        <mat-error *ngIf="emailCtrl.invalid&&email">{{getMailErrorMessage()}}</mat-error>
+    </mat-form-field><br />
+    <mat-form-field>
+        <input type="password" matInput placeholder="password" [(ngModel)]="pwd" name="pwd">
+    </mat-form-field>
+    <button mat-raised-button type="submit" *ngIf="!authService.isLoggedIn" (click)="login()" [disabled]="!pwd||!email||emailCtrl.hasError('email')">Log in</button>
     <button mat-raised-button *ngIf="authService.isLoggedIn" (click)="logout()">Log out</button>
 </form>
-<div>{{email}}</div>
