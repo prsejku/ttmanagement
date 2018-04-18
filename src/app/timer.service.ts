@@ -4,13 +4,17 @@ import { of } from 'rxjs/observable/of';
 import { MessageService } from './message.service';
 import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import 'rxjs/add/operator/map';
+import {RequestOptions} from "@angular/http";
 
 @Injectable()
 export class TimerService {
 
   constructor(private http: HttpClient, private messageService: MessageService) { }
 
-  startTimeUrl = "http://se.bmkw.org/api.php/";
+  timerUrl = "http://se.bmkw.org/apipost.php/";
+  addProjectUrl = "http://se.bmkw.org/apipost.php/ADD_PROJECT/";
+  getProjectsUrl = "http://se.bmkw.org/api.php/projects/PROJECT_OVERVIEW";
+
   userJSON; //Angemeldeter User wird hier gespeichert
   user;
   timeTrackId: number;
@@ -28,26 +32,39 @@ export class TimerService {
     if (isNaN(timeNum[0]) || isNaN(timeNum[1]) || isNaN(timeNum[2])) this.log('Non-numeric Characters found');
     else if (timeNum[0] < 0 || timeNum[1] < 0 || timeNum[2] < 0 || timeNum[1] > 59 || timeNum[2] > 59) this.log('Time is not valid');
     else {
-      let time: string = input[0]+':'+input[1]+':'+input[2];
+      let time: string = input[0]+':'+input[1]+':'+input[2];//task 1 ist projekt, task 3 ist arbeitspaket, task 7 ist task
       console.log('received time: '+time);
     }
   }
 
-  /*getStartingTime(): Observable<Date> {
-    return this.http.get<Date>(this.startTimeUrl);
-  }
-
-  setStartTime(): Observable<boolean> {
-    return this.http.put<boolean>(this.startTimeUrl, this.startTime == null ? new Date(Date.now()).toISOString() : this.startTime.toISOString());
-  }*/
-
   startTime(): boolean {
-    this.http.post(this.startTimeUrl, new Date(Date.now())).subscribe(usr => this.userJSON = usr);
+    let offset = new Date().getTimezoneOffset();
+    let time = new Date(Date.now()-offset*60000).toISOString() ;
+    //let time = dtime.toISOString();
+    console.log("zeit "+time);
+    let json = JSON.stringify({"startdate": new Date(Date.now()).toISOString(), "projId": 1, "packId": 1, "userId": this.user.USER_ID});
+    console.log(json);
+    this.http.post(this.timerUrl+"START_TIME",json).subscribe(usr => this.userJSON = usr);
     return !(this.userJSON == undefined || this.userJSON == null);
   }
 
   submitEndTime(endDate: Date): boolean {
-    this.http.post<boolean>(this.startTimeUrl, endDate).subscribe(success => {return success});
+    let headers = new Headers({ 'Content-Type': 'application/json'});
+    this.http.post<boolean>(this.timerUrl, endDate).subscribe(success => {return success});
     return false;
   }
+
+  addProject(projectName: string, projectDesc: string): boolean {
+    let name = "'"+projectName+"'";
+    let desc = "'"+projectDesc+"'";
+    let json = JSON.stringify({"name": name, "desc": desc, "user_id": this.user.USER_ID});
+    console.log("POST: "+json);
+    this.http.post(this.addProjectUrl, json).subscribe(b => {return b;});
+    return false;
+  }
+
+  getProjects() {
+    return this.http.get<any[]>(this.getProjectsUrl);
+  }
+
 }
