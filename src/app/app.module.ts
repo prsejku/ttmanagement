@@ -4,7 +4,8 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
     MatCardModule, MatCheckboxModule, MatButtonModule, MatMenuModule, MatIconModule,
-    MatDatepickerModule, MatToolbarModule, MatFormFieldModule, MatNativeDateModule, MatInputModule, MatRadioModule
+    MatDatepickerModule, MatToolbarModule, MatFormFieldModule, MatNativeDateModule, MatInputModule, MatRadioModule,
+    MatTableModule, MatDividerModule
 } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -22,6 +23,7 @@ import { TimerHistoryComponent } from './timer-history/timer-history.component';
 import { LoginComponent } from './login/login.component';
 import { AuthService } from "./auth.service";
 import { AuthGuard } from "./auth.guard";
+import { ProjectsComponent } from './projects/projects.component';
 
 
 @NgModule({
@@ -35,6 +37,7 @@ import { AuthGuard } from "./auth.guard";
     HeaderComponent,
     TimerHistoryComponent,
     LoginComponent,
+    ProjectsComponent,
   ],
   imports: [
     BrowserModule,
@@ -51,7 +54,9 @@ import { AuthGuard } from "./auth.guard";
     ReactiveFormsModule,
     MatNativeDateModule,
     MatRadioModule,
+    MatTableModule,
     MatInputModule,
+    MatDividerModule,
     AppRoutingModule,
     HttpClientModule,
   ],
