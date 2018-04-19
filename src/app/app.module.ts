@@ -5,7 +5,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
     MatCardModule, MatCheckboxModule, MatButtonModule, MatMenuModule, MatIconModule,
     MatDatepickerModule, MatToolbarModule, MatFormFieldModule, MatNativeDateModule, MatInputModule, MatRadioModule,
-    MatTableModule } from '@angular/material';
+    MatTableModule, MatDividerModule
+} from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
@@ -55,6 +56,7 @@ import { ProjectsComponent } from './projects/projects.component';
     MatRadioModule,
     MatTableModule,
     MatInputModule,
+    MatDividerModule,
     AppRoutingModule,
     HttpClientModule,
   ],

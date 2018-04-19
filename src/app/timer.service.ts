@@ -11,7 +11,7 @@ export class TimerService {
 
   constructor(private http: HttpClient, private messageService: MessageService) { }
 
-  timerUrl = "http://se.bmkw.org/apipost.php/";
+  timerUrl = "http://se.bmkw.org/apipost.php/TIMER/";
   addProjectUrl = "http://se.bmkw.org/apipost.php/ADD_PROJECT/";
   getProjectsUrl = "http://se.bmkw.org/api.php/projects/PROJECT_OVERVIEW";
 
@@ -39,19 +39,28 @@ export class TimerService {
 
   startTime(): boolean {
     let offset = new Date().getTimezoneOffset();
-    let time = new Date(Date.now()-offset*60000).toISOString() ;
+    let time = new Date(Date.now()-offset*60000).toISOString();
+    time = time.replace('T', ' ');
+    time = "'"+time.slice(0,19)+"'";
     //let time = dtime.toISOString();
     console.log("zeit "+time);
-    let json = JSON.stringify({"startdate": new Date(Date.now()).toISOString(), "projId": 1, "packId": 1, "userId": this.user.USER_ID});
+    let json = JSON.stringify({"startdate": time, "projId": 1, "packId": 3, "taskId": 7, "userId": this.user.USER_ID});
     console.log(json);
-    this.http.post(this.timerUrl+"START_TIME",json).subscribe(usr => this.userJSON = usr);
+    this.http.post(this.timerUrl+"START_TIMER/",json).subscribe(usr => this.userJSON = usr);
     return !(this.userJSON == undefined || this.userJSON == null);
   }
 
   submitEndTime(endDate: Date): boolean {
-    let headers = new Headers({ 'Content-Type': 'application/json'});
-    this.http.post<boolean>(this.timerUrl, endDate).subscribe(success => {return success});
-    return false;
+      let offset = new Date().getTimezoneOffset();
+      let time = new Date(Date.now()-offset*60000).toISOString();
+      time = time.replace('T', ' ');
+      time = "'"+time.slice(0,19)+"'";
+      //let time = dtime.toISOString();
+      console.log("zeit "+time);
+      let json = JSON.stringify({"userId": this.user.USER_ID, "enddate": time});
+      console.log(json);
+      this.http.post(this.timerUrl+"END_TIMER/",json).subscribe(usr => this.userJSON = usr);
+      return !(this.userJSON == undefined || this.userJSON == null);
   }
 
   addProject(projectName: string, projectDesc: string): boolean {
