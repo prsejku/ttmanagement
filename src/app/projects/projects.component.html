@@ -1,13 +1,19 @@
 <mat-card class="pjContent">
-<div class="addProject"><mat-form-field style="width:500px">
-  <input matInput placeholder="Project Name" [(ngModel)]="projectName">
-</mat-form-field><br />
-<mat-form-field style="width:400px">
-  <textarea matInput placeholder="Project Description" [(ngModel)]="projectDesc"></textarea>
-</mat-form-field>
-  <button mat-raised-button (click)="addProject()" type="submit" style="width:100px">Submit</button></div>
-  <mat-divider></mat-divider>
-<mat-table #table [dataSource]="projects">
+  <mat-accordion style="margin-bottom:50px;">
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>Add new Project</mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-form-field style="max-width:500px">
+        <input matInput placeholder="Project Name" [(ngModel)]="projectName">
+      </mat-form-field><br />
+      <mat-form-field style="width:400px">
+        <textarea matInput placeholder="Project Description" [(ngModel)]="projectDesc"></textarea>
+      </mat-form-field>
+      <button mat-raised-button (click)="addProject()" type="submit" style="width:100px">Submit</button>
+    </mat-expansion-panel>
+  </mat-accordion>
+<mat-table #table [dataSource]="projects" style="margin-top:15px">
   <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
   <mat-row *matRowDef="let proj; columns: columnsToDisplay"></mat-row>
   <ng-container matColumnDef="name">

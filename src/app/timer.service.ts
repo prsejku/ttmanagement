@@ -4,7 +4,7 @@ import { of } from 'rxjs/observable/of';
 import { MessageService } from './message.service';
 import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import 'rxjs/add/operator/map';
-import {RequestOptions} from "@angular/http";
+import {User} from "../models/User";
 
 @Injectable()
 export class TimerService {
@@ -12,11 +12,10 @@ export class TimerService {
   constructor(private http: HttpClient, private messageService: MessageService) { }
 
   timerUrl = "http://se.bmkw.org/apipost.php/TIMER/";
-  addProjectUrl = "http://se.bmkw.org/apipost.php/ADD_PROJECT/";
+  addProjectUrl = "http://se.bmkw.org/apipost.php/projects/ADD_PROJECT/";
   getProjectsUrl = "http://se.bmkw.org/api.php/projects/PROJECT_OVERVIEW";
 
-  userJSON; //Angemeldeter User wird hier gespeichert
-  user;
+  user: User;
   timeTrackId: number;
 
   private log(message: string) {
@@ -46,8 +45,8 @@ export class TimerService {
     console.log("zeit "+time);
     let json = JSON.stringify({"startdate": time, "projId": 1, "packId": 3, "taskId": 7, "userId": this.user.USER_ID});
     console.log(json);
-    this.http.post(this.timerUrl+"START_TIMER/",json).subscribe(usr => this.userJSON = usr);
-    return !(this.userJSON == undefined || this.userJSON == null);
+    this.http.post(this.timerUrl+"START_TIMER/",json);
+    return true;
   }
 
   submitEndTime(endDate: Date): boolean {
@@ -59,8 +58,8 @@ export class TimerService {
       console.log("zeit "+time);
       let json = JSON.stringify({"userId": this.user.USER_ID, "enddate": time});
       console.log(json);
-      this.http.post(this.timerUrl+"END_TIMER/",json).subscribe(usr => this.userJSON = usr);
-      return !(this.userJSON == undefined || this.userJSON == null);
+      this.http.post(this.timerUrl+"END_TIMER/",json);
+      return true;
   }
 
   addProject(projectName: string, projectDesc: string): boolean {
