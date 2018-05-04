@@ -13,14 +13,14 @@ export class AuthService {
     isLoggedIn = false;
     progress = false;
     redirectUrl: string;
-    loginUrl = "http://se.bmkw.org/api.php/login/users/?email="; //select * from :tabelle where :param = :body
+     //select * from :tabelle where :param = :body
 
     constructor(private http: HttpClient, private timerService: TimerService, public router: Router) {}
 
     login(email: string, pwd: string, stay: boolean) {
+        let loginUrl = `http://se.bmkw.org/api.php/login/users/?email=${email}&pwd=${pwd}`;
         this.progress = true;
-        this.loginUrl += email + '&pwd=' + pwd;
-        this.http.get<UserJson>(this.loginUrl).subscribe(response => {
+        this.http.get<UserJson>(loginUrl).subscribe(response => {
             let user = response.users[0];
             this.progress = false;
             if (user == null || user == undefined) return;

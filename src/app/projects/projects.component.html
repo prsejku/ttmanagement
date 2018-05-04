@@ -13,20 +13,20 @@
       <button mat-raised-button (click)="addProject()" type="submit" style="width:100px">Submit</button>
     </mat-expansion-panel>
   </mat-accordion>
-<mat-table #table [dataSource]="projects" style="margin-top:15px">
-  <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
-  <mat-row *matRowDef="let proj; columns: columnsToDisplay"></mat-row>
-  <ng-container matColumnDef="name">
-    <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
-    <mat-cell *matCellDef="let pj">{{pj.NAME}}</mat-cell>
-  </ng-container>
-  <ng-container matColumnDef="description">
-    <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
-    <mat-cell *matCellDef="let pj">{{pj.DESCRIPTION}}</mat-cell>
-  </ng-container>
-  <ng-container matColumnDef="delete">
-    <mat-header-cell *matHeaderCellDef>Delete col</mat-header-cell>
-    <mat-cell *matCellDef="let pj"><button mat-icon-button><mat-icon>delete</mat-icon></button></mat-cell>
-  </ng-container>
-</mat-table>
+    <mat-table #table [dataSource]="projects" style="margin-top:15px">
+      <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+      <mat-row *matRowDef="let proj; columns: columnsToDisplay"></mat-row>
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+        <mat-cell *matCellDef="let pj">{{pj.NAME}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="description">
+        <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+        <mat-cell *matCellDef="let pj">{{pj.DESCRIPTION}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="delete">
+        <mat-header-cell *matHeaderCellDef>Delete col</mat-header-cell>
+        <mat-cell *matCellDef="let pj"><button mat-icon-button><mat-icon>delete</mat-icon></button></mat-cell>
+      </ng-container>
+    </mat-table>
 </mat-card>

@@ -33,7 +33,6 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.email, this.pwd, this.checked);
     this.email = undefined;
     this.pwd = undefined;
-    this.authService.loginUrl = "http://se.bmkw.org/api.php/login/users/?email=";
   }
 
   logout() {

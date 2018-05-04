@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {TimerService} from "../timer.service";
+import { TimerService } from "../timer.service";
+import { Task } from "../../models/task";
 
 @Component({
   selector: 'app-projects',
@@ -12,20 +13,27 @@ export class ProjectsComponent implements OnInit {
 
   projectName: string;
   projectDesc: string;
-  projObj;
-  projects = [];
+  projects: Task[];
   columnsToDisplay = ['name', 'description', 'delete'];
 
   ngOnInit() {
-    this.timerService.getProjects().subscribe(pj => this.projObj = pj);
-    setTimeout(()=> {
-        this.projects = this.projObj.PROJECT_OVERVIEW;
-        console.log(this.projects);
-    }, 1000);
+      this.projectDesc = "";
+      this.getProjects();
   }
 
-  addProject() {
-    if (this.projectName != undefined) this.timerService.addProject(this.projectName, this.projectDesc);
-    setTimeout(()=> this.ngOnInit(), 500);
+    addProject() {
+        if (this.projectName != undefined) {
+            this.timerService.addProject(this.projectName, this.projectDesc).subscribe(b => {
+                if (b) this.getProjects();
+            });
+            this.projectName = undefined;
+            this.projectDesc = undefined;
+        }
+    }
+
+  getProjects() {
+      this.timerService.getProjects().subscribe(tasks => {
+          this.projects = tasks.PROJECT_OVERVIEW;
+      });
   }
 }

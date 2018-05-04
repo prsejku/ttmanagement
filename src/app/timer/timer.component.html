@@ -1,14 +1,8 @@
-<div *ngIf="authService.isLoggedIn">
-  <label>
-    <mat-form-field>
-      <input matInput [matDatepicker]="picker" [value]="date" placeholder="{{curDate}}">
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
-  </label>
-  <label>
-    <input class="timeInput" [(ngModel)]="input" placeholder="{{input}}" [disabled]="running">
-  </label>
-  <span><button mat-mini-fab (click)="onSelect()" [disabled]="!running&&input!='0:00:00'"><mat-icon id="startButton">play_arrow</mat-icon></button></span>
-  <span><button mat-mini-fab (click)="submit(input)" [disabled]="input=='0:00:00'"><mat-icon>refresh</mat-icon></button></span>
+<div *ngIf="authService.isLoggedIn && !loading">
+  <span>{{displayedTime}}</span>
+  <span><button mat-mini-fab (click)="onSelect()" *ngIf="!running"><mat-icon>play_arrow</mat-icon></button></span>
+  <span><button mat-mini-fab (click)="onSelect()" *ngIf="running"><mat-icon>pause</mat-icon></button></span>
+  <span><button mat-mini-fab (click)="submit(input)" [disabled]="displayedTime=='0:00:00' || running"><mat-icon>done</mat-icon></button></span>
 </div>
+<!--button (click)="stopDbTimer()">STOP!!!</button-->
+<mat-spinner *ngIf="loading" class="spinner"></mat-spinner>

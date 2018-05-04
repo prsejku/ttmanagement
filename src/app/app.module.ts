@@ -5,7 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
     MatCardModule, MatCheckboxModule, MatButtonModule, MatMenuModule, MatIconModule,
     MatDatepickerModule, MatToolbarModule, MatFormFieldModule, MatNativeDateModule, MatInputModule, MatRadioModule,
-    MatTableModule, MatDividerModule, MatExpansionModule, MatProgressSpinnerModule
+    MatTableModule, MatDividerModule, MatExpansionModule, MatProgressSpinnerModule, MatSelectModule
 } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -59,6 +59,7 @@ import { ProjectsComponent } from './projects/projects.component';
     MatDividerModule,
     MatExpansionModule,
     MatProgressSpinnerModule,
+    MatSelectModule,
     AppRoutingModule,
     HttpClientModule,
   ],

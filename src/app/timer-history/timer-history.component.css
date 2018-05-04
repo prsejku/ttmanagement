@@ -1,0 +1,10 @@
+.thContent {
+    max-width:1000px;
+    margin:0 auto;
+    text-align:center;
+}
+
+.timeInput {
+    max-width:60px;
+    border:none;
+}

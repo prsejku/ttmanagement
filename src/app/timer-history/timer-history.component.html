@@ -1,0 +1,35 @@
+<mat-card class="thContent">
+    <mat-accordion>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                Enter time manually
+            </mat-expansion-panel-header>
+            <div>
+                <mat-form-field>
+                    <mat-select [(value)]="project" placeholder="Project">
+                       <mat-option>Project</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-select [(value)]="workPack" placeholder="Work Package">
+                       <mat-option>Work Package</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-select [(value)]="taks" placeholder="Task">
+                       <mat-option>task</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+                <mat-form-field>
+                    <input matInput [matDatepicker]="picker" [value]="date" placeholder="{{curDate}}">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            <input class="timeInput" type="text" [(ngModel)]="startTime" placeholder="{{curTime}}" style="text-align:right">
+            -
+            <input class="timeInput" type="text" [(ngModel)]="endTime" placeholder="{{curTime}}">
+            <button mat-mini-fab (click)="submit()"><mat-icon>done</mat-icon></button>
+        </mat-expansion-panel>
+    </mat-accordion>
+</mat-card>
