@@ -1,26 +1,42 @@
+<mat-toolbar>
+  <button mat-button style="margin-left:200px" (click)="setTaskType('Project')">Projects</button>
+  <button mat-button (click)="setTaskType('Work Package')">Work Packages</button>
+  <button mat-button (click)="setTaskType('Task')">Tasks</button>
+</mat-toolbar>
 <mat-card class="pjContent">
-<div class="addProject"><mat-form-field style="width:500px">
-  <input matInput placeholder="Project Name" [(ngModel)]="projectName">
-</mat-form-field><br />
-<mat-form-field style="width:400px">
-  <textarea matInput placeholder="Project Description" [(ngModel)]="projectDesc"></textarea>
-</mat-form-field>
-  <button mat-raised-button (click)="addProject()" type="submit" style="width:100px">Submit</button></div>
-  <mat-divider></mat-divider>
-<mat-table #table [dataSource]="projects">
-  <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
-  <mat-row *matRowDef="let proj; columns: columnsToDisplay"></mat-row>
-  <ng-container matColumnDef="name">
-    <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
-    <mat-cell *matCellDef="let pj">{{pj.NAME}}</mat-cell>
-  </ng-container>
-  <ng-container matColumnDef="description">
-    <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
-    <mat-cell *matCellDef="let pj">{{pj.DESCRIPTION}}</mat-cell>
-  </ng-container>
-  <ng-container matColumnDef="delete">
-    <mat-header-cell *matHeaderCellDef>Delete col</mat-header-cell>
-    <mat-cell *matCellDef="let pj"><button mat-icon-button><mat-icon>delete</mat-icon></button></mat-cell>
-  </ng-container>
-</mat-table>
+  <mat-accordion style="margin-bottom:50px;">
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>Add new&nbsp;{{taskType}}</mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-form-field *ngIf="taskType=='Work Package'||taskType=='Task'">
+        <mat-select placeholder="Part of..." [(value)]="superTask">
+          <mat-option *ngFor="let proj of dropdown" [value]="proj">{{proj.TASK_NR}} | {{proj.NAME}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field style="max-width:500px">
+        <input matInput placeholder="Name" [(ngModel)]="projectName">
+      </mat-form-field><br />
+      <mat-form-field style="width:400px">
+        <textarea matInput placeholder="Description" [(ngModel)]="projectDesc"></textarea>
+      </mat-form-field>
+      <button mat-raised-button (click)="addProject()" type="submit" style="width:100px" [disabled]="!projectName||projectName.startsWith(' ')">Submit</button>
+    </mat-expansion-panel>
+  </mat-accordion>
+    <mat-table #table [dataSource]="projects" style="margin-top:15px">
+      <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+      <mat-row *matRowDef="let proj; columns: columnsToDisplay"></mat-row>
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+        <mat-cell *matCellDef="let pj">{{pj.NAME}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="description">
+        <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+        <mat-cell *matCellDef="let pj">{{pj.DESCRIPTION}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="delete">
+        <mat-header-cell *matHeaderCellDef>Delete col</mat-header-cell>
+        <mat-cell *matCellDef="let pj"><button mat-icon-button><mat-icon>delete</mat-icon></button></mat-cell>
+      </ng-container>
+    </mat-table>
 </mat-card>

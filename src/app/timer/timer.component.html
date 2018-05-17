@@ -1,14 +1,33 @@
-<div *ngIf="authService.isLoggedIn">
-  <label>
-    <mat-form-field>
-      <input matInput [matDatepicker]="picker" [value]="date" placeholder="{{curDate}}">
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
-  </label>
-  <label>
-    <input class="timeInput" [(ngModel)]="input" placeholder="{{input}}" [disabled]="running">
-  </label>
-  <span><button mat-mini-fab (click)="onSelect()" [disabled]="!running&&input!='0:00:00'"><mat-icon id="startButton">play_arrow</mat-icon></button></span>
-  <span><button mat-mini-fab (click)="submit(input)" [disabled]="input=='0:00:00'"><mat-icon>refresh</mat-icon></button></span>
+<div *ngIf="authService.isLoggedIn && !loading">
+  <span>
+    <button mat-icon-button [matMenuTriggerFor]="project">PJ</button>
+    <mat-menu #project="matMenu">
+      <button mat-menu-item *ngIf="!taskService.projects" disabled><mat-spinner [diameter]="40"></mat-spinner></button>
+      <button mat-menu-item *ngFor="let project of taskService.projects" (click)="curProj=project">{{project.TASK_NR}} | {{project.NAME}}</button>
+    </mat-menu>
+    <button mat-icon-button [matMenuTriggerFor]="workPack">WP</button>
+    <mat-menu #workPack="matMenu">
+      <button mat-menu-item *ngFor="let workPack of taskService.workPacks" (click)="curWP=workPack">{{workPack.TASK_NR}} | {{workPack.NAME}}</button>
+    </mat-menu>
+    <button mat-icon-button [matMenuTriggerFor]="task">T</button>
+    <mat-menu #task="matMenu">
+      <button mat-menu-item *ngFor="let task of taskService.tasks" (click)="curTask=task">{{task.TASK_NR}} | {{task.NAME}}</button>
+    </mat-menu>
+  </span>
+  <span>{{displayedTime}}</span>
+  <span><button mat-mini-fab
+                (click)="onSelect()"
+                *ngIf="!running"
+                [disabled]="!curProj||!curWP||!curTask">
+    <mat-icon>play_arrow</mat-icon></button></span>
+  <span><button mat-mini-fab
+                (click)="onSelect()"
+                *ngIf="running">
+    <mat-icon>pause</mat-icon></button></span>
+  <span><button mat-mini-fab
+                (click)="reset(input)"
+                [disabled]="displayedTime=='0:00:00' || running">
+    <mat-icon>refresh</mat-icon>
+  </button></span>
 </div>
+<mat-spinner *ngIf="loading" class="spinner"></mat-spinner>
