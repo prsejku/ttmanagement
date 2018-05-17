@@ -5,7 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
     MatCardModule, MatCheckboxModule, MatButtonModule, MatMenuModule, MatIconModule,
     MatDatepickerModule, MatToolbarModule, MatFormFieldModule, MatNativeDateModule, MatInputModule, MatRadioModule,
-    MatTableModule, MatDividerModule, MatExpansionModule, MatProgressSpinnerModule, MatSelectModule
+    MatTableModule, MatDividerModule, MatExpansionModule, MatProgressSpinnerModule, MatSelectModule, MatChipsModule, MatButtonToggleModule
 } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -24,6 +24,7 @@ import { LoginComponent } from './login/login.component';
 import { AuthService } from "./auth.service";
 import { AuthGuard } from "./auth.guard";
 import { ProjectsComponent } from './projects/projects.component';
+import {TaskService} from './task.service';
 
 
 @NgModule({
@@ -46,6 +47,7 @@ import { ProjectsComponent } from './projects/projects.component';
     MatCardModule,
     MatCheckboxModule,
     MatButtonModule,
+    MatButtonToggleModule,
     MatIconModule,
     MatDatepickerModule,
     MatMenuModule,
@@ -65,6 +67,7 @@ import { ProjectsComponent } from './projects/projects.component';
   ],
   providers: [
     TimerService,
+    TaskService,
     MessageService,
     AuthService,
     AuthGuard

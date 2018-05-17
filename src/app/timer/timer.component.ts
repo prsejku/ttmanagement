@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {TimerService} from "../timer.service";
 import {AuthService} from "../auth.service";
+import { Task } from "../../models/Task"
+import {TaskService} from '../task.service';
 
 @Component({
   selector: 'app-timer',
@@ -16,8 +18,11 @@ export class TimerComponent implements OnInit {
     running: boolean;
     loading: boolean;
     interv;
+    curProj: Task;
+    curWP: Task;
+    curTask: Task;
 
-    constructor(private timerService: TimerService, private authService: AuthService) { }
+    constructor(private timerService: TimerService, private authService: AuthService, private taskService: TaskService) { }
 
     ngOnInit() {
         this.loading = true;
@@ -29,8 +34,7 @@ export class TimerComponent implements OnInit {
                     //Das von JS akzeptierte Datumsformat trennt Datum und Zeit durch 'T',
                     //Oracle trennt aber mit Leerzeichen. --> Ersetzen, um Parse zu ermöglichen
                     let datestring = track.TASK_TIME[0].START_TIME.replace(" ", "T");
-                    let time = new Date(datestring);
-                    console.log(time.toLocaleTimeString());
+                    let time = new Date(datestring).getMilliseconds();
                     let timeDif = new Date(Date.now() - time);
                     console.log(timeDif.toISOString());
                     this.hr = timeDif.getHours();
@@ -43,13 +47,11 @@ export class TimerComponent implements OnInit {
                 });
             } else {
                 this.loading = false;
-                this.hr = 0;
-                this.min = 0;
-                this.sek = 1;
-                this.displayedTime = "0:00:00";
+                this.reset();
                 this.running = false;
             }
         });
+        this.getTasks();
     }
 
     timer(): void {
@@ -94,7 +96,7 @@ export class TimerComponent implements OnInit {
     }
 
     startDbTimer() {
-        this.timerService.startTime().subscribe(b => {
+        this.timerService.startTime(this.curProj.TASK_NR, this.curWP.TASK_NR, this.curTask.TASK_NR).subscribe(b => {
             console.log(b);
         });
     }
@@ -103,5 +105,9 @@ export class TimerComponent implements OnInit {
         this.timerService.submitEndTime(new Date(Date.now())).subscribe(b => {
             console.log(b);
         });
+    }
+
+    getTasks() {
+        this.taskService.getTasks();
     }
 }

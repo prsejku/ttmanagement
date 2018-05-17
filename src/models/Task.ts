@@ -9,6 +9,14 @@ export class Task {
     UNTIL_DATE: string;
 }
 
+export class WorkPackJson {
+    WORKING_PACKAGE_OVERVIEW: Task[];
+}
+
 export class TaskJson {
+    TASK_OVERVIEW: Task[]
+}
+
+export class ProjectJson {
     PROJECT_OVERVIEW: Task[];
 }

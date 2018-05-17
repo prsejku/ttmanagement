@@ -1,16 +1,26 @@
+<mat-toolbar>
+  <button mat-button style="margin-left:200px" (click)="setTaskType('Project')">Projects</button>
+  <button mat-button (click)="setTaskType('Work Package')">Work Packages</button>
+  <button mat-button (click)="setTaskType('Task')">Tasks</button>
+</mat-toolbar>
 <mat-card class="pjContent">
   <mat-accordion style="margin-bottom:50px;">
     <mat-expansion-panel>
       <mat-expansion-panel-header>
-        <mat-panel-title>Add new Project</mat-panel-title>
+        <mat-panel-title>Add new&nbsp;{{taskType}}</mat-panel-title>
       </mat-expansion-panel-header>
+      <mat-form-field *ngIf="taskType=='Work Package'||taskType=='Task'">
+        <mat-select placeholder="Part of..." [(value)]="superTask">
+          <mat-option *ngFor="let proj of dropdown" [value]="proj">{{proj.TASK_NR}} | {{proj.NAME}}</mat-option>
+        </mat-select>
+      </mat-form-field>
       <mat-form-field style="max-width:500px">
-        <input matInput placeholder="Project Name" [(ngModel)]="projectName">
+        <input matInput placeholder="Name" [(ngModel)]="projectName">
       </mat-form-field><br />
       <mat-form-field style="width:400px">
-        <textarea matInput placeholder="Project Description" [(ngModel)]="projectDesc"></textarea>
+        <textarea matInput placeholder="Description" [(ngModel)]="projectDesc"></textarea>
       </mat-form-field>
-      <button mat-raised-button (click)="addProject()" type="submit" style="width:100px">Submit</button>
+      <button mat-raised-button (click)="addProject()" type="submit" style="width:100px" [disabled]="!projectName||projectName.startsWith(' ')">Submit</button>
     </mat-expansion-panel>
   </mat-accordion>
     <mat-table #table [dataSource]="projects" style="margin-top:15px">

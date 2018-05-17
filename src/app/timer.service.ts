@@ -5,16 +5,18 @@ import { MessageService } from './message.service';
 import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import 'rxjs/add/operator/map';
 import { User } from "../models/User";
-import { Task, TaskJson } from '../models/Task';
+import {ProjectJson, Task, TaskJson, WorkPackJson} from '../models/Task';
+import {TaskTimeJson} from '../models/TaskTime';
 
 @Injectable()
 export class TimerService {
 
   constructor(private http: HttpClient, private messageService: MessageService) { }
 
-  timerUrl = "http://se.bmkw.org/apipost.php/TIMER";
-  addProjectUrl = "http://se.bmkw.org/apipost.php/PROJEKT/ADD_PROJECT/";
-  getProjectsUrl = "http://se.bmkw.org/api.php/projects/PROJECT_OVERVIEW";
+  url = "http://se.bmkw.org";
+  apiUrl = `${this.url}/api.php`;
+  apipostUrl = `${this.url}/apipost.php`;
+  getProjectsUrl = "http://se.bmkw.org/api.php/projects";
 
   user: User;
   timeTrackId: number;
@@ -35,19 +37,19 @@ export class TimerService {
           {start_time: isoStartTime, end_time: isoEndTime, proj_id: 0, pack_id: 0, task_id: 0, user_id: this.user.USER_ID}
           );
       console.log(json);
-      this.http.post(this.timerUrl + "/START_TIMER/", json);
+      this.http.post(`${this.apipostUrl}/TIMER/START_TIMER`, json);
   }
 
-  startTime(): Observable<boolean> {
+  startTime(PROJ_ID: number, PACK_ID: number, TASK_ID: number): Observable<boolean> {
     let offset = new Date().getTimezoneOffset();
     let time = new Date(Date.now()-offset*60000).toISOString();
     time = time.replace('T', ' ');
     time = "'"+time.slice(0,19)+"'";
     //let time = dtime.toISOString();
     console.log("zeit "+time);
-    let json = JSON.stringify({"startdate": time, "projId": 1, "packId": 3, "taskId": 7, "userId": this.user.USER_ID});
+    let json = JSON.stringify({"startdate": time, "projId": PROJ_ID, "packId": PACK_ID, "taskId": TASK_ID, "userId": this.user.USER_ID});
     console.log(json);
-    return this.http.post<boolean>(this.timerUrl+"/START_TIMER", json);
+    return this.http.post<boolean>(`${this.apipostUrl}/TIMER/START_TIMER`, json);
     //return true;
   }
 
@@ -60,12 +62,12 @@ export class TimerService {
       console.log("zeit "+time);
       let json = JSON.stringify({"userId": this.user.USER_ID, "enddate": time});
       console.log(json);
-      return this.http.post<boolean>(this.timerUrl+"/END_TIMER/",json);
+      return this.http.post<boolean>(`${this.apipostUrl}/TIMER/END_TIMER`,json);
   }
 
     getRunningTimeUser(): Observable<number> {
         let json = JSON.stringify({"user_id": this.user.USER_ID});
-        return this.http.post<number>(`${this.timerUrl}/RUNNING_TIME_USER/`, json);
+        return this.http.post<number>(`${this.apipostUrl}/TIMER/RUNNING_TIME_USER`, json);
         //return this.http.get("http://se.bmkw.org/api.php/timer/RUNNING_TIME_USER/?USER_ID="+this.user.USER_ID);
     }
 
@@ -74,13 +76,29 @@ export class TimerService {
     let desc = "'"+projectDesc+"'";
     let json = JSON.stringify({"name": name, "desc": desc, "user_id": this.user.USER_ID});
     console.log("POST: "+json);
-    let res = this.http.post(this.addProjectUrl, json);
+    let res = this.http.post(`${this.apipostUrl}/PROJEKT/ADD_PROJECT`, json);
     this.log("Successfully added the Project");
     return res;
   }
 
-  getProjects(): Observable<TaskJson> {
-    return this.http.get<TaskJson>(this.getProjectsUrl);
+    addWorkPack(projectName: string, projectDesc: string, project: number): Observable<Object> {
+        let name = "'"+projectName+"'";
+        let desc = "'"+projectDesc+"'";
+        let json = JSON.stringify({name: name, desc: desc, proj_id: project});
+        console.log("POST: "+json);
+        return this.http.post(`${this.apipostUrl}/WORKING_PACKAGE/ADD_WORKPACK`, json);
+    }
+
+    addTask(name: string, desc: string, workPack: number): Observable<Object> {
+        name = "'"+name+"'";
+        desc = "'"+desc+"'";
+        let json = JSON.stringify({name: name, desc: desc, work_pack: workPack});
+        console.log("POST: "+json);
+        return this.http.post(`${this.apipostUrl}/ACTIVITY/ADD_TASK`, json);
+    }
+
+  getProjects(): Observable<ProjectJson> {
+    return this.http.get<ProjectJson>(`${this.getProjectsUrl}/PROJECT_OVERVIEW`);
   }
 
   static parseTime(input: string): string {
@@ -106,7 +124,15 @@ export class TimerService {
     return finalTime;
   }
 
-    getTimeTrack(t: number) {
-        return this.http.get(`http://se.bmkw.org/api.php/task_time/TASK_TIME/?track_id=${t}`);
+    getTimeTrack(t: number): Observable<TaskTimeJson> {
+        return this.http.get<TaskTimeJson>(`http://se.bmkw.org/api.php/task_time/TASK_TIME/?track_id=${t}`);
+    }
+
+    getWorkPacks(): Observable<WorkPackJson> {
+        return this.http.get<WorkPackJson>("http://se.bmkw.org/api.php/projects/WORKING_PACKAGE_OVERVIEW")
+    }
+
+    getTasks(): Observable<TaskJson> {
+        return this.http.get<TaskJson>('http://se.bmkw.org/api.php/projects/TASK_OVERVIEW');
     }
 }
