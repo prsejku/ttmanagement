@@ -1,0 +1,33 @@
+<div id="register">
+  <form class="register">
+    <mat-form-field>
+      <input type="text" matInput placeholder="first name" [(ngModel)]="firstname" name="firstname">
+    </mat-form-field>
+    <mat-form-field>
+      <input type="text" matInput placeholder="last name" [(ngModel)]="lastname" name="lastname">
+    </mat-form-field>
+    <mat-form-field>
+      <input type="text" matInput placeholder="username" [(ngModel)]="username" name="username">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="email address" [formControl]="emailCtrl" [(ngModel)]="email" name="email">
+      <mat-error *ngIf="emailCtrl.invalid&&email">{{getMailErrorMessage()}}</mat-error>
+    </mat-form-field><br />
+    <mat-form-field>
+      <input type="password" matInput placeholder="password" [(ngModel)]="pwd" name="pwd">
+    </mat-form-field>
+    <mat-form-field style="margin-bottom: 0px;">
+      <input type="password" matInput placeholder="confirm password" [(ngModel)]="pwdcheck" name="pwdcheck" validateEqual="password">
+    </mat-form-field>
+    <div style="height: 30px;">
+      <p *ngIf="pwd != pwdcheck">Passwords do not match.</p><br>
+    </div>
+    <button mat-raised-button type="submit" (click)="register()" [disabled]="!firstname||!lastname||!username||!email||!pwd||!pwdcheck||emailCtrl.hasError('email')">Register</button>
+    <button mat-raised-button type="submit" (click)="registerClose()">Close</button>
+    <br><br>
+    <div id="registrationSuccessBox" *ngIf="registerService.userCreated">
+      <p style="color: green">User successfully created.</p>
+    </div>
+  </form>
+</div>
+<!-- <mat-spinner class="login" *ngIf="authService.progress"></mat-spinner> -->
