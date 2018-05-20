@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TimerService } from "../timer.service";
-import { Task } from "../../models/task";
+import { Task } from "../../models/Task";
 
 @Component({
   selector: 'app-projects',

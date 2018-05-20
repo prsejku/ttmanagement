@@ -13,6 +13,7 @@ import {MessageService} from './message.service';
 export class RegisterService {
     progress = false;
     redirectUrl: string;
+    userCreated: boolean;
     //select * from :tabelle where :param = :body
 
     constructor(private http: HttpClient, public router: Router, private messageService: MessageService) {}
@@ -26,10 +27,13 @@ export class RegisterService {
         let apipostUrl = `http://se.bmkw.org/apipost.php`;
         this.progress = true;
         let json = JSON.stringify({username: username, firstname: firstname, lastname: lastname, password: pwd,
-            email: email, persontype: 0});
+            email: email, persontype: '0'});
         console.log("POST: " + json);
         return this.http.post(`${apipostUrl}/PERSON/ADD_USER`, json).subscribe(data => {
-            console.log(data);
+            console.log("Ergebnis: " + data);
+            if (data === 1) {
+                this.userCreated = true;
+            }
         });
         //this.log("Successfully added the Project");
         //return res;

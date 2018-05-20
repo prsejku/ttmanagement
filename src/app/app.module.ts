@@ -5,7 +5,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
     MatCardModule, MatCheckboxModule, MatButtonModule, MatMenuModule, MatIconModule,
     MatDatepickerModule, MatToolbarModule, MatFormFieldModule, MatNativeDateModule, MatInputModule, MatRadioModule,
-    MatTableModule, MatDividerModule, MatExpansionModule, MatProgressSpinnerModule, MatSelectModule, MatChipsModule, MatButtonToggleModule
+    MatTableModule, MatDividerModule, MatExpansionModule, MatProgressSpinnerModule, MatSelectModule, MatChipsModule, MatButtonToggleModule,
+    MatDialogModule
 } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -25,6 +26,8 @@ import { AuthService } from "./auth.service";
 import { AuthGuard } from "./auth.guard";
 import { ProjectsComponent } from './projects/projects.component';
 import {TaskService} from './task.service';
+import { RegistrationComponent } from './registration/registration.component';
+import {RegisterService} from './register.service';
 
 
 @NgModule({
@@ -39,6 +42,7 @@ import {TaskService} from './task.service';
     TimerHistoryComponent,
     LoginComponent,
     ProjectsComponent,
+    RegistrationComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,6 +54,7 @@ import {TaskService} from './task.service';
     MatButtonToggleModule,
     MatIconModule,
     MatDatepickerModule,
+    MatDialogModule,
     MatMenuModule,
     MatToolbarModule,
     MatFormFieldModule,
@@ -70,7 +75,8 @@ import {TaskService} from './task.service';
     TaskService,
     MessageService,
     AuthService,
-    AuthGuard
+    AuthGuard,
+    RegisterService
   ],
   bootstrap: [AppComponent]
 })
