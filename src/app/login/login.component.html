@@ -1,4 +1,4 @@
-<div *ngIf="!authService.isLoggedIn">
+<div id="login" *ngIf="!authService.isLoggedIn">
     <form class="login" *ngIf="!authService.progress">
         <mat-form-field>
             <input matInput placeholder="email address" [formControl]="emailCtrl" [(ngModel)]="email" name="email">
@@ -8,7 +8,8 @@
             <input type="password" matInput placeholder="password" [(ngModel)]="pwd" name="pwd">
         </mat-form-field>
         <button mat-raised-button type="submit" (click)="login()" [disabled]="!pwd||!email||emailCtrl.hasError('email')">Log in</button>
-        <mat-checkbox [(ngModel)]="checked" name="stay">Stay logged in?</mat-checkbox>
+        <mat-checkbox [(ngModel)]="checked" name="stay">Stay logged in?</mat-checkbox><br><br><br>
+        <button class="register" mat-raised-button (click)="openDialog()">Register</button>
     </form>
 </div>
 <button class="login" mat-raised-button *ngIf="authService.isLoggedIn" (click)="logout()">Log out</button>
