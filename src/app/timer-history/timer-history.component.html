@@ -7,17 +7,17 @@
             <div>
                 <mat-form-field>
                     <mat-select [(value)]="project" placeholder="Project">
-                       <mat-option>Project</mat-option>
+                       <mat-option [value]="pj.TASK_NR" *ngFor="let pj of taskService.projects" (click)="taskService.getWorkPacks(project)">{{pj.NAME}}</mat-option>
                     </mat-select>
                 </mat-form-field>
                 <mat-form-field>
                     <mat-select [(value)]="workPack" placeholder="Work Package">
-                       <mat-option>Work Package</mat-option>
+                       <mat-option [value]="wp.TASK_NR" *ngFor="let wp of taskService.workPacks" (click)="taskService.getTasks(workPack)">{{wp.NAME}}</mat-option>
                     </mat-select>
                 </mat-form-field>
                 <mat-form-field>
                     <mat-select [(value)]="task" placeholder="Task">
-                       <mat-option>task</mat-option>
+                       <mat-option [value]="t.TASK_NR" *ngFor="let t of taskService.tasks">{{t.NAME}}</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
@@ -32,4 +32,23 @@
             <button mat-mini-fab (click)="submit()"><mat-icon>done</mat-icon></button>
         </mat-expansion-panel>
     </mat-accordion>
+
+    <table border="1" *ngIf="allProjects&&allWorkPacks&&allTasks">
+        <tr>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Description</th>
+            <th>Project</th>
+            <th>Work Package</th>
+            <th>Task</th>
+        </tr>
+        <tr *ngFor="let track of httpService.timeTracks">
+            <td>{{track.START_TIME}}</td>
+            <td>{{track.END_TIME}}</td>
+            <td>{{track.DESCRIPTION}}</td>
+            <td>{{getProject(track.PROJ_ID).NAME}}</td>
+            <td>{{getWorkPack(track.PACK_ID).NAME}}</td>
+            <td>{{getTask(track.TASK_ID).NAME}}</td>
+        </tr>
+    </table>
 </mat-card>

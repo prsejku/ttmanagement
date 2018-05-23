@@ -35,38 +35,17 @@
         </mat-select>
       </mat-form-field>
       <mat-form-field style="max-width:500px">
-        <input matInput placeholder="Name" [(ngModel)]="projectName">
+        <input matInput placeholder="Name" [(ngModel)]="toAdd.NAME">
       </mat-form-field><br />
       <mat-form-field style="width:400px">
-        <textarea matInput placeholder="Description" [(ngModel)]="projectDesc"></textarea>
+        <textarea matInput placeholder="Description" [(ngModel)]="toAdd.DESCRIPTION"></textarea>
       </mat-form-field>
       <button mat-raised-button (click)="addProject();panel.close()" type="submit" style="width:100px"
-              [disabled]="!projectName||projectName.startsWith(' ')">Submit</button>
+              [disabled]="!toAdd.NAME||toAdd.NAME.startsWith(' ')">Submit</button>
     </mat-expansion-panel>
   </mat-accordion>
-    <!--mat-table #table [dataSource]="taskService.workPacks" style="margin-top:15px">
-      <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
-      <mat-row *matRowDef="let proj; columns: columnsToDisplay"></mat-row>
-      <ng-container matColumnDef="name">
-        <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
-        <mat-cell *matCellDef="let pj">{{pj.NAME}}</mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="description">
-        <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
-        <mat-cell *matCellDef="let pj">{{pj.DESCRIPTION}}</mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="delete">
-        <mat-header-cell *matHeaderCellDef>Delete col</mat-header-cell>
-        <mat-cell *matCellDef="let pj"><button mat-icon-button (click)="deleteTask(pj.TASK_NR)"><mat-icon>delete</mat-icon></button></mat-cell>
-      </ng-container>
-    </mat-table-->
-  <ul *ngIf="taskType==='Project'">
-    <li *ngFor="let pj of taskService.projects">{{pj.NAME}}</li>
-  </ul>
-  <ul *ngIf="taskType==='Work Package'">
-    <li *ngFor="let wp of taskService.workPacks">{{wp.NAME}}</li>
-  </ul>
-  <ul *ngIf="taskType==='Task'">
-    <li *ngFor="let t of taskService.tasks">{{t.NAME}}</li>
-  </ul>
+
+  <app-project-table *ngIf="taskType==='Project'"></app-project-table>
+  <app-work-pack-table *ngIf="taskType==='Work Package'"></app-work-pack-table>
+  <app-task-table *ngIf="taskType==='Task'"></app-task-table>
 </mat-card>

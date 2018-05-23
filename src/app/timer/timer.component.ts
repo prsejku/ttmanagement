@@ -3,6 +3,7 @@ import {HttpService} from "../http.service";
 import {AuthService} from "../auth.service";
 import { Task } from "../../models/Task"
 import {TaskService} from '../task.service';
+import {retry} from "rxjs/operators";
 
 @Component({
   selector: 'app-timer',
@@ -100,12 +101,16 @@ export class TimerComponent implements OnInit {
     startDbTimer() {
         this.httpService.startTime(this.curTask.TASK_NR, this.desc).subscribe(b => {
             console.log(b);
+        }, err => {
+            this.running = false;
+            clearInterval(this.interv);
+            this.reset();
         });
     }
 
     stopDbTimer() {
         this.httpService.submitEndTime(new Date(Date.now())).subscribe(b => {
             console.log(b);
-        });
+        }, _ => {this.running = true; this.timer(); });
     }
 }

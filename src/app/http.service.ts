@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import 'rxjs/add/operator/map';
 import { User } from '../models/User';
 import {ProjectJson, Task, TaskJson, WorkPackJson} from '../models/Task';
-import {TaskTimeJson} from '../models/TaskTime';
+import {TaskTime, TaskTimeJson} from '../models/TaskTime';
 
 @Injectable()
 
@@ -26,6 +26,7 @@ export class HttpService {
 
   user: User;
   timeTrackId: number;
+    timeTracks: TaskTime[];
 
   private log(message: string) {
     this.messageService.add('HttpService: ' + message);
@@ -66,7 +67,7 @@ export class HttpService {
         //let time = dtime.toISOString();
         console.log('zeit ' + time);
         let json;
-        if (desc != undefined) {
+        if (desc != undefined && desc != '') {
             const descNew = `'${desc}'`;
             json = JSON.stringify({
                 startdate: time,
@@ -74,6 +75,7 @@ export class HttpService {
                 taskId: TASK_ID,
                 userId: this.user.USER_ID
             });
+            return this.http.post<boolean>(`${this.apipostUrl}/TIMER/START_TIMER_DESC`, json);
         } else {
             json = JSON.stringify ({
                 startdate: time,
@@ -81,6 +83,7 @@ export class HttpService {
                 userId: this.user.USER_ID
             });
         }
+        console.log(json);
         return this.http.post<boolean>(`${this.apipostUrl}/TIMER/START_TIMER`, json);
         //return true;
     }
@@ -111,6 +114,12 @@ export class HttpService {
         const json = JSON.stringify({'user_id': this.user.USER_ID});
         return this.http.post<number>(`${this.apipostUrl}/TIMER/RUNNING_TIME_USER`, json);
         //return this.http.get("http://se.bmkw.org/api.php/timer/RUNNING_TIME_USER/?USER_ID="+this.user.USER_ID);
+    }
+
+    getTimeTracks() {
+        this.http.get<TaskTimeJson>(`${this.apiUrl}/task_time_user/TASK_TIME/?user_id=${this.user.USER_ID}`).subscribe(tt => {
+            this.timeTracks = tt.TASK_TIME;
+        });
     }
 
     /**

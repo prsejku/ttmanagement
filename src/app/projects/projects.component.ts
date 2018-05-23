@@ -30,12 +30,14 @@ export class ProjectsComponent implements OnInit {
     }
 
     addProject() {
-        if (this.toAdd.NAME !== undefined) {
+        if (this.toAdd.NAME != undefined) {
+            console.log(this.taskType);
             switch (this.taskType) {
                 case 'Project':
+                    console.log("case project");
                     this.httpService.addProject(this.toAdd.NAME, this.toAdd.DESCRIPTION).subscribe(b => {
-                        if (b) { this.getProjects(); }
-                    });
+                        if (b) { console.log ("added"); this.getProjects(); }
+                    }, _ => console.log("error"));
                     break;
                 case 'Work Package':
                     this.httpService.addWorkPack(this.toAdd.NAME, this.toAdd.DESCRIPTION, this.selectedProj).subscribe(b => {
@@ -68,6 +70,8 @@ export class ProjectsComponent implements OnInit {
     }
 
     getWorkPacks() {
+
+        this.taskService.workPacks = [];
         if (!isNullOrUndefined(this.selectedProj)) {
             this.taskService.getWorkPacks(this.selectedProj);
         }

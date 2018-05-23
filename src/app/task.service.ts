@@ -23,26 +23,29 @@ export class TaskService {
     }
 
     getWorkPacks(selectedProj: number) {
-      this.workPacks = [];
+      console.log(selectedProj);
+      let wrkPck = [];
         if (!isNullOrUndefined(selectedProj)) {
             this.timerService.getWorkPacks().subscribe(workPacks => {
                 for (const wp of workPacks.WORKING_PACKAGE_OVERVIEW) {
-                    if (wp.PROJ_ID === selectedProj) { this.workPacks.push(wp); }
+                    if (wp.PROJ_ID == selectedProj) { wrkPck.push(wp); }
                 }
+                this.workPacks = wrkPck;
             });
         }
     }
 
     getTasks(selectedWP: number) {
-      this.tasks = [];
+      let tsks = [];
         if (!isNullOrUndefined(selectedWP)) {
             this.timerService.getTasks().subscribe(tasks => {
                 for (const t of tasks.TASK_OVERVIEW) {
-                    if (t.PACK_ID === selectedWP) { this.tasks.push(t); }
+                    if (t.PACK_ID == selectedWP) { tsks.push(t); }
                 }
+                this.tasks = tsks;
             });
+            console.log(this.tasks);
         }
-        console.log(this.tasks);
     }
 
   /*getProjectOf(task: Task): Task {
