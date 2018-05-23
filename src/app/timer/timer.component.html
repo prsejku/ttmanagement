@@ -3,21 +3,22 @@
     <button mat-icon-button [matMenuTriggerFor]="project">PJ</button>
     <mat-menu #project="matMenu">
       <button mat-menu-item *ngIf="!taskService.projects" disabled><mat-spinner [diameter]="40"></mat-spinner></button>
-      <button mat-menu-item *ngFor="let project of taskService.projects" (click)="curProj=project">
+      <button mat-menu-item *ngFor="let project of taskService.projects" (click)="curProj=project;taskService.getWorkPacks(project.TASK_NR)">
         {{project.TASK_NR}} | {{project.NAME}}
       </button>
     </mat-menu>
     <button mat-icon-button [matMenuTriggerFor]="workPack" [disabled]="!curProj">WP</button>
     <mat-menu #workPack="matMenu">
-      <button mat-menu-item *ngFor="let workPack of taskService.workPacks" (click)="curWP=workPack">
+      <button mat-menu-item *ngFor="let workPack of taskService.workPacks" (click)="curWP=workPack;taskService.getTasks(workPack.TASK_NR)">
         {{workPack.TASK_NR}} | {{workPack.NAME}}
       </button>
     </mat-menu>
     <button mat-icon-button [matMenuTriggerFor]="task" [disabled]="!curWP">T</button>
     <mat-menu #task="matMenu">
-      <button mat-menu-item *ngFor="let task of taskService.tasks" (click)="curTask=task">{{task.TASK_NR}} | {{task.NAME}}</button>
+      <button mat-menu-item *ngFor="let task of taskService.tasks" (click)="curTask=task;curTaskName=task.NAME">{{task.TASK_NR}} | {{task.NAME}}</button>
     </mat-menu>
   </span>
+  <!--span>{{curTaskName}}</span-->
   <label>
     <input type="text" placeholder="What are you going to do?" [(ngModel)]="desc" style="width:170px"/>
   </label>

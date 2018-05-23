@@ -21,11 +21,13 @@ export class TimerComponent implements OnInit {
     curProj: Task;
     curWP: Task;
     curTask: Task;
+    curTaskName: string;
     desc: string;
 
     constructor(private httpService: HttpService, private authService: AuthService, private taskService: TaskService) { }
 
     ngOnInit() {
+        this.taskService.getProjects();
         this.loading = true;
         this.httpService.getRunningTimeUser().subscribe(trackID => {
             if (trackID != 0) {
