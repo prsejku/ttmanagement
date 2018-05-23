@@ -43,14 +43,13 @@ export class HttpService {
         let isoEndTime = HttpService.parseTime(endTime);
         if (isoStartTime == null || isoEndTime == null) { this.log('invalid Time!'); }
         const today = new Date().toISOString().slice(0, 10) + ' ';
-        isoStartTime =  today + isoStartTime;
-        isoEndTime = today + isoEndTime;
-        console.log(isoStartTime + ' - ' + isoEndTime);
+        isoStartTime =  "'"+today + isoStartTime+"'";
+        isoEndTime = "'"+today + isoEndTime+"'";
         const json = JSON.stringify(
           {start_time: isoStartTime, end_time: isoEndTime, task_id: TASK_ID, user_id: this.user.USER_ID}
           );
         console.log(json);
-        this.http.post(`${this.apipostUrl}/TIMER/START_TIMER`, json);
+        return this.http.post(`${this.apipostUrl}/TIMER/START_TIMER`, json);
     }
 
     /**

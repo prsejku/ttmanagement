@@ -55,6 +55,9 @@ export class TimerHistoryComponent implements OnInit {
     }
 
     submit(): void {
-        this.httpService.enterTime(this.startTime, this.endTime, this.task);
+        this.httpService.enterTime(this.startTime, this.endTime, this.task).subscribe(b => {
+            console.log(b);
+            this.ngOnInit();
+        });
     }
 }

@@ -27,7 +27,7 @@ export class AuthService {
             this.isLoggedIn = true;
             this.timerService.user = user;
             if (stay) localStorage.setItem('tmg_login', email + ' '+pwd);
-            this.router.navigate(['/dashboard']);
+            this.router.navigate(['/timer-history']);
         });
     }
 
