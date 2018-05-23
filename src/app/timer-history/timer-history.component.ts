@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {TimerService} from "../timer.service";
+import {HttpService} from "../http.service";
 
 @Component({
   selector: 'app-timer-history',
@@ -17,7 +17,7 @@ export class TimerHistoryComponent implements OnInit {
     workPack: number;
     task: number;
 
-  constructor(private timerService: TimerService) { }
+  constructor(private httpService: HttpService) { }
 
   ngOnInit() {
       this.curDate = new Date().toLocaleDateString('en');
@@ -27,6 +27,6 @@ export class TimerHistoryComponent implements OnInit {
   }
 
     submit(): void {
-        this.timerService.enterTime(this.startTime, this.endTime);
+        this.httpService.enterTime(this.startTime, this.endTime, this.task);
     }
 }

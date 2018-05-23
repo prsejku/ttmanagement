@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/delay';
-import {TimerService} from "./timer.service";
+import {HttpService} from "./http.service";
 import {Router} from "@angular/router";
 import {User, UserJson} from "../models/User";
 
@@ -15,7 +15,7 @@ export class AuthService {
     redirectUrl: string;
      //select * from :tabelle where :param = :body
 
-    constructor(private http: HttpClient, private timerService: TimerService, public router: Router) {}
+    constructor(private http: HttpClient, private timerService: HttpService, public router: Router) {}
 
     login(email: string, pwd: string, stay: boolean) {
         let loginUrl = `http://se.bmkw.org/api.php/login/users/?email=${email}&pwd=${pwd}`;

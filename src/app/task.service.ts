@@ -1,28 +1,44 @@
 import { Injectable } from '@angular/core';
-import {TimerService} from './timer.service';
-import { Task } from '../models/Task'
+import {HttpService} from './http.service';
+import { Task } from '../models/Task';
+import {isNullOrUndefined} from 'util';
 
 @Injectable()
 export class TaskService {
 
-  projects: Task[];
-  workPacks: Task[];
-  tasks: Task[];
+  projects: Task[] = [];
+  workPacks: Task[] = [];
+  tasks: Task[] = [];
 
-  constructor(private timerService: TimerService) {  }
+  list: Task[];
 
-  getTasks() {
-      this.timerService.getTasks().subscribe(t => {
-          console.log(t);
-          this.tasks = t.TASK_OVERVIEW;
-      });
-      this.timerService.getProjects().subscribe(p => {
-          this.projects = p.PROJECT_OVERVIEW;
-      });
-      this.timerService.getWorkPacks().subscribe(wp => {
-          this.workPacks = wp.WORKING_PACKAGE_OVERVIEW
-      });
-  }
+  constructor(private httpService: HttpService) {  }
+
+
+
+    getProjects() {
+        this.httpService.getProjects().subscribe(projects => {
+            this.projects = projects.PROJECT_OVERVIEW;
+        });
+    }
+
+    getWorkPacks(selectedProj: number) {
+      this.workPacks = [];
+        this.httpService.getWorkPacks().subscribe(workPacks => {
+            for (const wp of workPacks.WORKING_PACKAGE_OVERVIEW) {
+                if (wp.PROJ_ID === selectedProj) { this.workPacks.push(wp); }
+            }
+            console.log(this.workPacks);
+        });
+    }
+
+    getTasks(selectedWP) {
+        this.httpService.getTasks().subscribe(tasks => {
+            for (const t of tasks.TASK_OVERVIEW) {
+                if (t.PACK_ID === selectedWP) { this.tasks.push(t); }
+            }
+        });
+    }
 
   /*getProjectOf(task: Task): Task {
     if (task.TASK_TYPE == 1) return;
