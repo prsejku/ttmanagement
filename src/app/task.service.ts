@@ -12,32 +12,37 @@ export class TaskService {
 
   list: Task[];
 
-  constructor(private httpService: HttpService) {  }
+  constructor(private timerService: HttpService) {  }
 
 
 
     getProjects() {
-        this.httpService.getProjects().subscribe(projects => {
+        this.timerService.getProjects().subscribe(projects => {
             this.projects = projects.PROJECT_OVERVIEW;
         });
     }
 
     getWorkPacks(selectedProj: number) {
       this.workPacks = [];
-        this.httpService.getWorkPacks().subscribe(workPacks => {
-            for (const wp of workPacks.WORKING_PACKAGE_OVERVIEW) {
-                if (wp.PROJ_ID === selectedProj) { this.workPacks.push(wp); }
-            }
-            console.log(this.workPacks);
-        });
+        if (!isNullOrUndefined(selectedProj)) {
+            this.timerService.getWorkPacks().subscribe(workPacks => {
+                for (const wp of workPacks.WORKING_PACKAGE_OVERVIEW) {
+                    if (wp.PROJ_ID === selectedProj) { this.workPacks.push(wp); }
+                }
+            });
+        }
     }
 
-    getTasks(selectedWP) {
-        this.httpService.getTasks().subscribe(tasks => {
-            for (const t of tasks.TASK_OVERVIEW) {
-                if (t.PACK_ID === selectedWP) { this.tasks.push(t); }
-            }
-        });
+    getTasks(selectedWP: number) {
+      this.tasks = [];
+        if (!isNullOrUndefined(selectedWP)) {
+            this.timerService.getTasks().subscribe(tasks => {
+                for (const t of tasks.TASK_OVERVIEW) {
+                    if (t.PACK_ID === selectedWP) { this.tasks.push(t); }
+                }
+            });
+        }
+        console.log(this.tasks);
     }
 
   /*getProjectOf(task: Task): Task {

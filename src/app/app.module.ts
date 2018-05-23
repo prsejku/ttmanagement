@@ -25,9 +25,6 @@ import { AuthService } from "./auth.service";
 import { AuthGuard } from "./auth.guard";
 import { ProjectsComponent } from './projects/projects.component';
 import {TaskService} from './task.service';
-import { ProjectTableComponent } from './projects/project-table/project-table.component';
-import { WorkPackTableComponent } from './projects/work-pack-table/work-pack-table.component';
-import { TaskTableComponent } from './projects/task-table/task-table.component';
 
 
 @NgModule({
@@ -42,9 +39,6 @@ import { TaskTableComponent } from './projects/task-table/task-table.component';
     TimerHistoryComponent,
     LoginComponent,
     ProjectsComponent,
-    ProjectTableComponent,
-    WorkPackTableComponent,
-    TaskTableComponent,
   ],
   imports: [
     BrowserModule,

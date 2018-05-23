@@ -4,20 +4,18 @@
     <mat-menu #project="matMenu">
       <button mat-menu-item *ngIf="!taskService.projects" disabled><mat-spinner [diameter]="40"></mat-spinner></button>
       <button mat-menu-item *ngFor="let project of taskService.projects" (click)="curProj=project">
-        {{project.NAME}}
+        {{project.TASK_NR}} | {{project.NAME}}
       </button>
     </mat-menu>
     <button mat-icon-button [matMenuTriggerFor]="workPack" [disabled]="!curProj">WP</button>
     <mat-menu #workPack="matMenu">
       <button mat-menu-item *ngFor="let workPack of taskService.workPacks" (click)="curWP=workPack">
-        {{workPack.NAME}}
+        {{workPack.TASK_NR}} | {{workPack.NAME}}
       </button>
     </mat-menu>
     <button mat-icon-button [matMenuTriggerFor]="task" [disabled]="!curWP">T</button>
     <mat-menu #task="matMenu">
-      <button mat-menu-item *ngFor="let task of taskService.tasks" (click)="curTask=task">
-        {{task.TASK_NR}} | {{task.NAME}}
-      </button>
+      <button mat-menu-item *ngFor="let task of taskService.tasks" (click)="curTask=task">{{task.TASK_NR}} | {{task.NAME}}</button>
     </mat-menu>
   </span>
   <label>

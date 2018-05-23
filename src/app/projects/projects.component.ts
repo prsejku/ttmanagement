@@ -12,13 +12,10 @@ import {TaskService} from "../task.service";
 export class ProjectsComponent implements OnInit {
 
     toAdd: Task;
-    projects: Task[] = [];
-    tasks: Task[] = [];
     selectedProj: number;
     selectedWP: number;
     taskType: string;
     columnsToDisplay = ['name', 'description', 'delete'];
-    list: Task[];
     superTask: Task;
 
     constructor(public httpService: HttpService, private taskService: TaskService) {
@@ -29,6 +26,7 @@ export class ProjectsComponent implements OnInit {
         this.taskType = 'Project';
         this.toAdd.DESCRIPTION = ' ';
         this.getProjects();
+        this.taskService.getWorkPacks(2);
     }
 
     addProject() {
@@ -67,7 +65,6 @@ export class ProjectsComponent implements OnInit {
 
     getProjects() {
         this.taskService.getProjects();
-        if (this.taskType === 'Project') { this.list = this.taskService.projects; }
     }
 
     getWorkPacks() {
@@ -77,23 +74,8 @@ export class ProjectsComponent implements OnInit {
     }
 
     getTasks() {
-        if (this.selectedWP) {
-            this.httpService.getTasks().subscribe(tasks => {
-                for (const t of tasks.TASK_OVERVIEW) {
-                    if (t.PROJ_ID === this.selectedProj) { this.tasks.push(t); }
-                }
-                if (this.taskType === 'Task') {
-                    this.list = this.tasks;
-                }
-            });
-        }
-    }
-
-    getOptions() {
-        if (this.taskType === 'Work Package') {
-            this.httpService.getProjects().subscribe(x => this.list = x.PROJECT_OVERVIEW);
-        } else {
-            this.httpService.getWorkPacks().subscribe(x => this.list = x.WORKING_PACKAGE_OVERVIEW);
+        if (!isNullOrUndefined(this.selectedWP)) {
+            this.taskService.getTasks(this.selectedWP);
         }
     }
 
