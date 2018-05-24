@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import {TimerService} from "../timer.service";
+import {HttpService} from "../http.service";
 
 @Component({
   selector: 'app-user-profile',
@@ -8,7 +8,7 @@ import {TimerService} from "../timer.service";
 })
 export class UserProfileComponent implements OnInit {
 
-  constructor(public timerService: TimerService) {}
+  constructor(public timerService: HttpService) {}
 
   firstName: string;
   lastName: string;

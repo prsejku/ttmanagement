@@ -1,0 +1,23 @@
+<!--ul>
+  <li *ngFor="let wp of taskService.workPacks">{{wp.NAME}}</li>
+</ul-->
+<mat-table #table [dataSource]="taskService.workPacks" class="mat-elevation-z8">
+
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+    <mat-cell *matCellDef="let pj">{{pj.NAME}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="description">
+    <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+    <mat-cell *matCellDef="let pj">{{pj.DESCRIPTION}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="delete">
+    <mat-header-cell *matHeaderCellDef>Delete col</mat-header-cell>
+    <mat-cell *matCellDef="let pj"><button mat-icon-button><mat-icon>delete</mat-icon></button></mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="dC"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: dC;"></mat-row>
+</mat-table>

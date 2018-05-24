@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {TimerService} from "../timer.service";
+import {HttpService} from "../http.service";
 import {AuthService} from "../auth.service";
 import { Task } from "../../models/Task"
 import {TaskService} from '../task.service';
+import {retry} from "rxjs/operators";
 
 @Component({
   selector: 'app-timer',
@@ -21,14 +22,17 @@ export class TimerComponent implements OnInit {
     curProj: Task;
     curWP: Task;
     curTask: Task;
+    curTaskName: string;
+    desc: string;
 
-    constructor(private timerService: TimerService, private authService: AuthService, private taskService: TaskService) { }
+    constructor(private httpService: HttpService, private authService: AuthService, private taskService: TaskService) { }
 
     ngOnInit() {
+        this.taskService.getProjects();
         this.loading = true;
-        this.timerService.getRunningTimeUser().subscribe(trackID => {
+        this.httpService.getRunningTimeUser().subscribe(trackID => {
             if (trackID != 0) {
-                this.timerService.getTimeTrack(trackID).subscribe(track => {
+                this.httpService.getTimeTrack(trackID).subscribe(track => {
                     this.loading = false;
                     console.log(track);
                     //Das von JS akzeptierte Datumsformat trennt Datum und Zeit durch 'T',
@@ -51,7 +55,6 @@ export class TimerComponent implements OnInit {
                 this.running = false;
             }
         });
-        this.getTasks();
     }
 
     timer(): void {
@@ -96,18 +99,18 @@ export class TimerComponent implements OnInit {
     }
 
     startDbTimer() {
-        this.timerService.startTime(this.curProj.TASK_NR, this.curWP.TASK_NR, this.curTask.TASK_NR).subscribe(b => {
+        this.httpService.startTime(this.curTask.TASK_NR, this.desc).subscribe(b => {
             console.log(b);
+        }, err => {
+            this.running = false;
+            clearInterval(this.interv);
+            this.reset();
         });
     }
 
     stopDbTimer() {
-        this.timerService.submitEndTime(new Date(Date.now())).subscribe(b => {
+        this.httpService.submitEndTime(new Date(Date.now())).subscribe(b => {
             console.log(b);
-        });
-    }
-
-    getTasks() {
-        this.taskService.getTasks();
+        }, _ => {this.running = true; this.timer(); });
     }
 }

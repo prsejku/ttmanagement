@@ -1,42 +1,51 @@
-<mat-toolbar>
-  <button mat-button style="margin-left:200px" (click)="setTaskType('Project')">Projects</button>
-  <button mat-button (click)="setTaskType('Work Package')">Work Packages</button>
-  <button mat-button (click)="setTaskType('Task')">Tasks</button>
-</mat-toolbar>
+
+  <mat-form-field>
+    <!--Project Dropdown-->
+    <mat-select placeholder="View Work Packages of..." [(value)]="selectedProj">
+      <mat-option value="undefined" (click)="setTaskType('Project')">Go to Project overview</mat-option>
+      <mat-option value="{{project.TASK_NR}}" (click)="setTaskType('Work Package')"
+                  *ngFor="let project of taskService.projects">{{project.NAME}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <!--WorkPack Dropdown-->
+  <mat-form-field *ngIf="selectedProj">
+    <mat-select placeholder="View Tasks of..." [(value)]="selectedWP">
+      <mat-option value="undefined" (click)="setTaskType('Work Package')">Go to Work Package Overview</mat-option>
+      <mat-option value="{{wrkPck.TASK_NR}}" (click)="setTaskType('Task')"
+                  *ngFor="let wrkPck of taskService.workPacks">{{wrkPck.NAME}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!--button mat-button (click)="setTaskType('Work Package')">Work Packages</--button>
+  <button mat-button (click)="setTaskType('Task')">Tasks</button-->
+
 <mat-card class="pjContent">
   <mat-accordion style="margin-bottom:50px;">
-    <mat-expansion-panel>
+    <mat-expansion-panel #panel>
       <mat-expansion-panel-header>
-        <mat-panel-title>Add new&nbsp;{{taskType}}</mat-panel-title>
+        <mat-panel-title>
+          Add new&nbsp;{{taskType}}
+          <span *ngIf="selectedProj && !selectedWP">&nbsp;to {{selectProject(selectedProj).NAME}}</span>
+          <span *ngIf="selectedWP">&nbsp;to {{selectWorkPack(selectedWP).NAME}}</span>
+        </mat-panel-title>
       </mat-expansion-panel-header>
       <mat-form-field *ngIf="taskType=='Work Package'||taskType=='Task'">
         <mat-select placeholder="Part of..." [(value)]="superTask">
-          <mat-option *ngFor="let proj of dropdown" [value]="proj">{{proj.TASK_NR}} | {{proj.NAME}}</mat-option>
+          <mat-option *ngFor="let proj of list" [value]="proj">{{proj.TASK_NR}} | {{proj.NAME}}</mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field style="max-width:500px">
-        <input matInput placeholder="Name" [(ngModel)]="projectName">
+        <input matInput placeholder="Name" [(ngModel)]="toAdd.NAME">
       </mat-form-field><br />
       <mat-form-field style="width:400px">
-        <textarea matInput placeholder="Description" [(ngModel)]="projectDesc"></textarea>
+        <textarea matInput placeholder="Description" [(ngModel)]="toAdd.DESCRIPTION"></textarea>
       </mat-form-field>
-      <button mat-raised-button (click)="addProject()" type="submit" style="width:100px" [disabled]="!projectName||projectName.startsWith(' ')">Submit</button>
+      <button mat-raised-button (click)="addProject();panel.close()" type="submit" style="width:100px"
+              [disabled]="!toAdd.NAME||toAdd.NAME.startsWith(' ')">Submit</button>
     </mat-expansion-panel>
   </mat-accordion>
-    <mat-table #table [dataSource]="projects" style="margin-top:15px">
-      <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
-      <mat-row *matRowDef="let proj; columns: columnsToDisplay"></mat-row>
-      <ng-container matColumnDef="name">
-        <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
-        <mat-cell *matCellDef="let pj">{{pj.NAME}}</mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="description">
-        <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
-        <mat-cell *matCellDef="let pj">{{pj.DESCRIPTION}}</mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="delete">
-        <mat-header-cell *matHeaderCellDef>Delete col</mat-header-cell>
-        <mat-cell *matCellDef="let pj"><button mat-icon-button><mat-icon>delete</mat-icon></button></mat-cell>
-      </ng-container>
-    </mat-table>
+
+  <app-project-table *ngIf="taskType==='Project'"></app-project-table>
+  <app-work-pack-table *ngIf="taskType==='Work Package'"></app-work-pack-table>
+  <app-task-table *ngIf="taskType==='Task'"></app-task-table>
 </mat-card>
