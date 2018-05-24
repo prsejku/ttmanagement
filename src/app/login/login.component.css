@@ -1,7 +1,10 @@
-.login {
+#login {
     margin:auto;
     position:fixed;
     bottom:50%;
     right:50%;
     transform:translate(50%, -50%);
+}
+.register {
+    width: 100%;
 }

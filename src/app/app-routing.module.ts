@@ -6,6 +6,7 @@ import { UserProfileComponent} from "./user-profile/user-profile.component";
 import { ProjectsComponent } from "./projects/projects.component";
 import { LoginComponent} from "./login/login.component";
 import { AuthGuard } from "./auth.guard"
+import {RegistrationComponent} from './registration/registration.component';
 
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'projects', component: ProjectsComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: '', redirectTo: '/dashboard', pathMatch: 'full'},
+  { path: 'register', component: RegistrationComponent },
   { path: '**', redirectTo: '/dashboard', pathMatch: 'full'}
 ];
 

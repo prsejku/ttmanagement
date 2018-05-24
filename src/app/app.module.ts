@@ -5,7 +5,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
     MatCardModule, MatCheckboxModule, MatButtonModule, MatMenuModule, MatIconModule,
     MatDatepickerModule, MatToolbarModule, MatFormFieldModule, MatNativeDateModule, MatInputModule, MatRadioModule,
-    MatTableModule, MatDividerModule, MatExpansionModule, MatProgressSpinnerModule, MatSelectModule, MatChipsModule, MatButtonToggleModule
+    MatTableModule, MatDividerModule, MatExpansionModule, MatProgressSpinnerModule, MatSelectModule, MatChipsModule, MatButtonToggleModule,
+    MatDialogModule
 } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -28,6 +29,8 @@ import {TaskService} from './task.service';
 import { ProjectTableComponent } from './projects/project-table/project-table.component';
 import { WorkPackTableComponent } from './projects/work-pack-table/work-pack-table.component';
 import { TaskTableComponent } from './projects/task-table/task-table.component';
+import { RegistrationComponent } from './registration/registration.component';
+import {RegisterService} from './register.service';
 
 
 @NgModule({
@@ -45,6 +48,7 @@ import { TaskTableComponent } from './projects/task-table/task-table.component';
     ProjectTableComponent,
     WorkPackTableComponent,
     TaskTableComponent,
+    RegistrationComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,6 +60,7 @@ import { TaskTableComponent } from './projects/task-table/task-table.component';
     MatButtonToggleModule,
     MatIconModule,
     MatDatepickerModule,
+    MatDialogModule,
     MatMenuModule,
     MatToolbarModule,
     MatFormFieldModule,
@@ -76,7 +81,8 @@ import { TaskTableComponent } from './projects/task-table/task-table.component';
     TaskService,
     MessageService,
     AuthService,
-    AuthGuard
+    AuthGuard,
+    RegisterService
   ],
   bootstrap: [AppComponent]
 })
