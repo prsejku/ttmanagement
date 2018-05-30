@@ -25,7 +25,7 @@ export class TimerComponent implements OnInit {
     curTaskName: string;
     desc: string;
 
-    constructor(private httpService: HttpService, private authService: AuthService, private taskService: TaskService) { }
+    constructor(private httpService: HttpService, public authService: AuthService, public taskService: TaskService) { }
 
     ngOnInit() {
         this.taskService.getProjects();

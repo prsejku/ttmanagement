@@ -3,6 +3,7 @@ import {HttpService} from '../http.service';
 import {TaskTime} from '../../models/TaskTime';
 import {TaskService} from '../task.service';
 import {Task} from '../../models/Task';
+import {FormControl} from "@angular/forms";
 
 @Component({
   selector: 'app-timer-history',
@@ -11,7 +12,7 @@ import {Task} from '../../models/Task';
 })
 export class TimerHistoryComponent implements OnInit {
 
-    date: Date;
+    date: FormControl;
     curDate: string;
     curTime: string;
     startTime: string;
@@ -27,6 +28,7 @@ export class TimerHistoryComponent implements OnInit {
   constructor(public httpService: HttpService, public taskService: TaskService) { }
 
   ngOnInit() {
+      this.date = new FormControl(new Date());
       this.httpService.getProjects().subscribe(pr => {
           this.allProjects = pr.PROJECT_OVERVIEW;
       });
@@ -56,7 +58,7 @@ export class TimerHistoryComponent implements OnInit {
     }
 
     submit(): void {
-        this.httpService.enterTime(this.startTime, this.endTime, this.task).subscribe(b => {
+        this.httpService.enterTime(this.date.value, this.startTime, this.endTime, this.task).subscribe(b => {
             console.log(b);
             this.ngOnInit();
         });

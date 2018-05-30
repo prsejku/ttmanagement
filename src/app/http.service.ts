@@ -34,19 +34,23 @@ export class HttpService {
 
     /**
      * Ruft via JSON RPC die Oracle-Prozedur "START_TIME(DATE, DATE, INTEGER, INTEGER)" auf.
+     * @param date
      * @param {string} startTime
      * @param {string} endTime
      * @param {number} TASK_ID
      */
-  enterTime(startTime: string, endTime: string, TASK_ID: number) {
+  enterTime(date: Date, startTime: string, endTime: string, TASK_ID: number) {
         let isoStartTime = HttpService.parseTime(startTime);
         let isoEndTime = HttpService.parseTime(endTime);
         if (isoStartTime == null || isoEndTime == null) { this.log('invalid Time!'); }
-        const today = new Date().toISOString().slice(0, 10) + ' ';
-        isoStartTime =  "'"+today + isoStartTime+"'";
-        isoEndTime = "'"+today + isoEndTime+"'";
-        const json = JSON.stringify(
-          {start_time: isoStartTime, end_time: isoEndTime, task_id: TASK_ID, user_id: this.user.USER_ID}
+        const day = date.toISOString().slice(0, 10) + ' ';
+        isoStartTime =  "'" + day + isoStartTime + "'";
+        isoEndTime = "'" + day + isoEndTime + "'";
+        const json = JSON.stringify({
+            start_time: isoStartTime,
+            end_time: isoEndTime,
+            task_id: TASK_ID,
+            user_id: this.user.USER_ID}
           );
         console.log(json);
         return this.http.post(`${this.apipostUrl}/TIMER/START_TIMER`, json);
