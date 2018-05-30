@@ -22,8 +22,9 @@ export class TimerHistoryComponent implements OnInit {
     allProjects: Task[];
     allWorkPacks: Task[];
     allTasks: Task[];
+    dC = ["startTime", "endTime", "desc", "projName", "packName", "taskName"];
 
-  constructor(private httpService: HttpService, private taskService: TaskService) { }
+  constructor(public httpService: HttpService, public taskService: TaskService) { }
 
   ngOnInit() {
       this.httpService.getProjects().subscribe(pr => {
@@ -59,5 +60,16 @@ export class TimerHistoryComponent implements OnInit {
             console.log(b);
             this.ngOnInit();
         });
+    }
+
+    /*formatTime(timeString: string) {
+      let time = new Date(timeString);
+      //if (new Date().getMilliseconds() - time.getMilliseconds() < 24 * 3600000) return time.toLocaleTimeString();
+      //return time.toLocaleString();
+      return Date.now() - time.getMilliseconds();
+    }*/
+
+    formatDesc() {
+
     }
 }

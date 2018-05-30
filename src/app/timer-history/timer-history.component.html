@@ -33,7 +33,7 @@
         </mat-expansion-panel>
     </mat-accordion>
 
-    <table border="1" *ngIf="allProjects&&allWorkPacks&&allTasks">
+    <!--table border="1" *ngIf="allProjects&&allWorkPacks&&allTasks">
         <tr>
             <th>Start Time</th>
             <th>End Time</th>
@@ -50,5 +50,40 @@
             <td>{{getWorkPack(track.PACK_ID).NAME}}</td>
             <td>{{getTask(track.TASK_ID).NAME}}</td>
         </tr>
-    </table>
+    </table-->
+    <mat-table *ngIf="httpService.timeTracks&&allProjects&&allWorkPacks&&allTasks" #table [dataSource]="httpService.timeTracks" matSort class="mat-elevation-z8">
+
+      <ng-container matColumnDef="startTime">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Start Time</mat-header-cell>
+        <mat-cell *matCellDef="let tt">{{tt.START_TIME}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="endTime">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>End Time</mat-header-cell>
+        <mat-cell *matCellDef="let tt">{{tt.END_TIME}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="desc">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>
+        <mat-cell *matCellDef="let tt">{{tt.DESCRIPTION}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="projName">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Project</mat-header-cell>
+        <mat-cell *matCellDef="let tt">{{getProject(tt.PROJ_ID).NAME}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="packName">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Work Package</mat-header-cell>
+        <mat-cell *matCellDef="let tt">{{getWorkPack(tt.PACK_ID).NAME}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="taskName">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Task</mat-header-cell>
+        <mat-cell *matCellDef="let tt">{{getTask(tt.TASK_ID).NAME}}</mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="dC"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: dC;"></mat-row>
+    </mat-table>
 </mat-card>

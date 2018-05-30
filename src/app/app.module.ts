@@ -3,10 +3,26 @@ import { NgModule } from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
-    MatCardModule, MatCheckboxModule, MatButtonModule, MatMenuModule, MatIconModule,
-    MatDatepickerModule, MatToolbarModule, MatFormFieldModule, MatNativeDateModule, MatInputModule, MatRadioModule,
-    MatTableModule, MatDividerModule, MatExpansionModule, MatProgressSpinnerModule, MatSelectModule, MatChipsModule, MatButtonToggleModule,
-    MatDialogModule
+  MatCardModule,
+  MatCheckboxModule,
+  MatButtonModule,
+  MatMenuModule,
+  MatIconModule,
+  MatDatepickerModule,
+  MatToolbarModule,
+  MatFormFieldModule,
+  MatNativeDateModule,
+  MatInputModule,
+  MatRadioModule,
+  MatTableModule,
+  MatDividerModule,
+  MatExpansionModule,
+  MatProgressSpinnerModule,
+  MatSelectModule,
+  MatChipsModule,
+  MatButtonToggleModule,
+  MatDialogModule,
+  MatSortModule
 } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -73,6 +89,7 @@ import {RegisterService} from './register.service';
     MatExpansionModule,
     MatProgressSpinnerModule,
     MatSelectModule,
+    MatSortModule,
     AppRoutingModule,
     HttpClientModule,
   ],

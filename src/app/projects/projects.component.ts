@@ -3,7 +3,6 @@ import {HttpService} from '../http.service';
 import {Task} from '../../models/Task';
 import {isNullOrUndefined} from 'util';
 import {TaskService} from "../task.service";
-import { TimerService } from "../timer.service";
 
 
 @Component({
