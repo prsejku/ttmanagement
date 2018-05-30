@@ -1,1 +1,11 @@
-<router-outlet></router-outlet>
+<mat-sidenav-container>
+  <mat-sidenav mode="side" [opened]="openService.isOpen">
+    <button mat-button routerLink="/timer-history">Timer History</button>
+    <button mat-button routerLink="/profile">Profile</button>
+    <button mat-button routerLink="/projects">Tasks</button>
+    <button mat-button routerLink="/login" (click)="authService.logout()" >Logout</button>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

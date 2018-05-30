@@ -22,7 +22,7 @@ import {
   MatChipsModule,
   MatButtonToggleModule,
   MatDialogModule,
-  MatSortModule
+  MatSortModule, MatSidenavModule
 } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -47,6 +47,7 @@ import { WorkPackTableComponent } from './projects/work-pack-table/work-pack-tab
 import { TaskTableComponent } from './projects/task-table/task-table.component';
 import { RegistrationComponent } from './registration/registration.component';
 import {RegisterService} from './register.service';
+import { OpenService } from './menu/open.service';
 
 
 @NgModule({
@@ -89,6 +90,7 @@ import {RegisterService} from './register.service';
     MatExpansionModule,
     MatProgressSpinnerModule,
     MatSelectModule,
+    MatSidenavModule,
     MatSortModule,
     AppRoutingModule,
     HttpClientModule,
@@ -99,7 +101,8 @@ import {RegisterService} from './register.service';
     MessageService,
     AuthService,
     AuthGuard,
-    RegisterService
+    RegisterService,
+    OpenService
   ],
   bootstrap: [AppComponent]
 })
