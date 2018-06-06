@@ -176,14 +176,30 @@ export class HttpService {
         return this.http.post(`${this.apipostUrl}/ACTIVITY/ADD_TASK`, json);
     }
 
-    archiveTask(taskNr: number, taskType: string): Observable<boolean> {
+    updateTask(task: Task) {
+        if (task.UNTIL_DATE == undefined) { task.UNTIL_DATE = 'null'; }
+        const numStatus = task.STATUS ? 1 : 0;
+        const json = JSON.stringify({
+          projektNr: `${task.TASK_NR}`,
+          name: `'${task.NAME}'`,
+          desc: `'${task.DESCRIPTION}'`,
+          status: `'${numStatus}'`,
+          untilDate: `TO_DATE('${task.UNTIL_DATE}', 'YYYY-MM-DD HH24:MI:SS')`
+        });
+        console.log(json);
+        return this.http.post<boolean>(`${this.apipostUrl}/PROJEKT/UPDATE_PROJ_NAME_DESC`, json);
+    }
+
+    archiveTask(taskNr: number, taskType): Observable<boolean> {
+        console.log('TaskType: ' + taskType);
         const json = JSON.stringify({TASK_NR: taskNr});
         let pack = '';
-        switch (taskType) {
-            case 'Task' || '0': pack = 'ACTIVITY'; break;
-            case 'Project' || '1' : pack = 'PROJEKT'; break;
-            case 'Work Package' || '2' : pack = 'WORKING_PACKAGE'; break;
+        switch (Number.parseInt(taskType)) {
+            case 0: pack = 'ACTIVITY'; break;
+            case 1: pack = 'PROJEKT'; break;
+            case 2: pack = 'WORKING_PACKAGE'; break;
         }
+        console.log('Pack: ' + pack + ' JSON: ' + json);
         return this.http.post<boolean>(`${this.apipostUrl}/${pack}/ARCHIVE_PROJ`, json);
     }
 

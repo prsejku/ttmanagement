@@ -9,9 +9,9 @@
     <tr>
       <td>Status:</td>
       <td>{{status}}&nbsp;&nbsp;
-      <button style="height:25px;line-height:16px;margin:5px" mat-raised-button (click)="data.STATUS=!data.STATUS">
-        <span *ngIf="!data.STATUS">Complete</span>
-        <span *ngIf="data.STATUS">Re-open</span>
+      <button style="height:25px;line-height:16px;margin-bottom:5px;float:right" mat-raised-button (click)="changeStatus()">
+        <span style="line-height:25px;" *ngIf="!data.STATUS">Complete</span>
+        <span style="line-height:25px" *ngIf="data.STATUS">Re-open</span>
         </button>  <br/></td>
     </tr>
     <tr>
@@ -33,6 +33,6 @@
   </form>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-raised-button mat-dialog-close>Cancel</button>
+  <button mat-raised-button [mat-dialog-close]="'null'">Cancel</button>
   <button mat-raised-button [mat-dialog-close]="data">Save</button>
 </mat-dialog-actions>

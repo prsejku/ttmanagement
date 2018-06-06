@@ -18,6 +18,11 @@ export class TaskDetailComponent implements OnInit {
     if (status) { return 'Completed'; } else { return 'Open'; }
   }
 
+  changeStatus() {
+    this.data.STATUS = !this.data.STATUS;
+    this.status = this.resolveStatus(this.data.STATUS);
+  }
+
   formatDate(uglyDate: string): string {
     return uglyDate;
   }

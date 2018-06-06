@@ -7,42 +7,60 @@ import {isNullOrUndefined} from 'util';
 export class TaskService {
 
   projects: Task[] = [];
+  archProjs: Task[] = [];
   workPacks: Task[] = [];
+  archWorkPacks: Task[] = [];
   tasks: Task[] = [];
+  archTasks: Task[] = [];
 
   list: Task[];
 
   constructor(private timerService: HttpService) {  }
 
-
-
     getProjects() {
+      let projs = [];
+      let archProjs = [];
         this.timerService.getProjects().subscribe(projects => {
-            this.projects = projects.PROJECT_OVERVIEW;
+            for (let proj of projects.PROJECT_OVERVIEW) {
+                if (proj.ARCHIVED == 1) { projs.push(proj); }
+                else if (proj.ARCHIVED == 0) { archProjs.push(proj); }
+            }
+            this.projects = projs;
+            this.archProjs = archProjs;
         });
     }
 
     getWorkPacks(selectedProj: number) {
       console.log(selectedProj);
       let wrkPck = [];
+      let archWrkPck = [];
         if (!isNullOrUndefined(selectedProj)) {
             this.timerService.getWorkPacks().subscribe(workPacks => {
                 for (const wp of workPacks.WORKING_PACKAGE_OVERVIEW) {
-                    if (wp.PROJ_ID == selectedProj) { wrkPck.push(wp); }
+                    if (wp.PROJ_ID == selectedProj) {
+                        if (wp.ARCHIVED == 1) { wrkPck.push(wp); }
+                        else if (wp.ARCHIVED == 0) { archWrkPck.push(wp); }
+                    }
                 }
                 this.workPacks = wrkPck;
+                this.archWorkPacks = archWrkPck;
             });
         }
     }
 
     getTasks(selectedWP: number) {
       let tsks = [];
+      let archTsks = [];
         if (!isNullOrUndefined(selectedWP)) {
             this.timerService.getTasks().subscribe(tasks => {
                 for (const t of tasks.TASK_OVERVIEW) {
-                    if (t.PACK_ID == selectedWP) { tsks.push(t); }
+                    if (t.PACK_ID == selectedWP) {
+                      if (t.ARCHIVED == 1) { tsks.push(t); }
+                      else if (t.ARCHIVED == 0) { archTsks.push(t); }
+                    }
                 }
                 this.tasks = tsks;
+                this.archTasks = archTsks;
             });
             console.log(this.tasks);
         }

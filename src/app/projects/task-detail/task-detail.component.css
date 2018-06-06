@@ -2,7 +2,11 @@ tr {
     height: 25px;
 }
 
-label, input {
+td {
+    width:160px;
+}
+
+label, input, form, table {
     width:100%;
 }
 

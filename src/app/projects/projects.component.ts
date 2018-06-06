@@ -27,7 +27,6 @@ export class ProjectsComponent implements OnInit {
         this.taskType = 'Project';
         this.toAdd.DESCRIPTION = ' ';
         this.getProjects();
-        this.taskService.getWorkPacks(2);
     }
 
     addProject() {
@@ -58,12 +57,6 @@ export class ProjectsComponent implements OnInit {
 
             this.toAdd = new Task();
         }
-    }
-
-    deleteTask(taskNr: number) {
-        this.httpService.archiveTask(taskNr, this.taskType).subscribe(b => {
-            if (b) { this.getProjects(); }
-        });
     }
 
     getProjects() {
