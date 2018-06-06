@@ -1,12 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from "rxjs/Observable";
 import { HttpClient } from '@angular/common/http';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/delay';
-import {HttpService} from "./http.service";
-import {Router} from "@angular/router";
-import {User, UserJson} from "../models/User";
+import {HttpService} from './http.service';
+import {Router} from '@angular/router';
+import {User, UserJson} from '../models/User';
 import {MessageService} from './message.service';
 
 @Injectable()
@@ -19,18 +15,18 @@ export class RegisterService {
     constructor(private http: HttpClient, public router: Router, private messageService: MessageService) {}
 
     register(firstname: string, lastname: string, username: string, email: string, pwd: string, pwdcheck: string) {
-        firstname = "'" + firstname + "'";
-        lastname = "'" + lastname + "'";
-        username = "'" + username + "'";
-        email = "'" + email + "'";
-        pwd = "'" + pwd + "'";
-        let apipostUrl = `http://se.bmkw.org/apipost.php`;
+        firstname = '\'' + firstname + '\'';
+        lastname = '\'' + lastname + '\'';
+        username = '\'' + username + '\'';
+        email = '\'' + email + '\'';
+        pwd = '\'' + pwd + '\'';
+        const apipostUrl = `http://se.bmkw.org/apipost.php`;
         this.progress = true;
-        let json = JSON.stringify({username: username, firstname: firstname, lastname: lastname, password: pwd,
+        const json = JSON.stringify({username: username, firstname: firstname, lastname: lastname, password: pwd,
             email: email, persontype: '0'});
-        console.log("POST: " + json);
+        console.log('POST: ' + json);
         return this.http.post(`${apipostUrl}/PERSON/ADD_USER`, json).subscribe(data => {
-            console.log("Ergebnis: " + data);
+            console.log('Ergebnis: ' + data);
             if (data === 1) {
                 this.userCreated = true;
             }

@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 import { MessageService } from './message.service';
 import { HttpClient } from '@angular/common/http';
-import 'rxjs/add/operator/map';
 import { User } from '../models/User';
 import {ProjectJson, Task, TaskJson, WorkPackJson} from '../models/Task';
 import {TaskTime, TaskTimeJson} from '../models/TaskTime';
+import {Observable} from 'rxjs/internal/Observable';
 
 @Injectable()
 
@@ -44,8 +43,8 @@ export class HttpService {
         let isoEndTime = HttpService.parseTime(endTime);
         if (isoStartTime == null || isoEndTime == null) { this.log('invalid Time!'); }
         const day = date.toISOString().slice(0, 10) + ' ';
-        isoStartTime =  "'" + day + isoStartTime + "'";
-        isoEndTime = "'" + day + isoEndTime + "'";
+        isoStartTime =  '\'' + day + isoStartTime + '\'';
+        isoEndTime = '\'' + day + isoEndTime + '\'';
         const json = JSON.stringify({
             start_time: isoStartTime,
             end_time: isoEndTime,
@@ -67,7 +66,6 @@ export class HttpService {
         let time = new Date(Date.now() - offset * 60000).toISOString();
         time = time.replace('T', ' ');
         time = '\'' + time.slice(0, 19) + '\'';
-        //let time = dtime.toISOString();
         console.log('zeit ' + time);
         let json;
         if (desc != undefined && desc != '') {
@@ -88,7 +86,6 @@ export class HttpService {
         }
         console.log(json);
         return this.http.post<boolean>(`${this.apipostUrl}/TIMER/START_TIMER`, json);
-        //return true;
     }
 
     /**
@@ -101,7 +98,6 @@ export class HttpService {
         let time = new Date(Date.now() - offset * 60000).toISOString();
         time = time.replace('T', ' ');
         time = '\'' + time.slice(0, 19) + '\'';
-        //let time = dtime.toISOString();
         console.log('zeit ' + time);
         const json = JSON.stringify({userId: this.user.USER_ID, enddate: time});
         console.log(json);
@@ -116,7 +112,6 @@ export class HttpService {
     getRunningTimeUser(): Observable<number> {
         const json = JSON.stringify({'user_id': this.user.USER_ID});
         return this.http.post<number>(`${this.apipostUrl}/TIMER/RUNNING_TIME_USER`, json);
-        //return this.http.get("http://se.bmkw.org/api.php/timer/RUNNING_TIME_USER/?USER_ID="+this.user.USER_ID);
     }
 
     getTimeTracks() {

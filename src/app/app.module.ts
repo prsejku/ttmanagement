@@ -19,7 +19,6 @@ import {
   MatExpansionModule,
   MatProgressSpinnerModule,
   MatSelectModule,
-  MatChipsModule,
   MatButtonToggleModule,
   MatDialogModule,
   MatSortModule, MatSidenavModule
@@ -32,14 +31,14 @@ import { TimerComponent } from './timer/timer.component';
 import { MenuComponent } from './menu/menu.component';
 import { AppRoutingModule } from './app-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { HttpService } from "./http.service";
-import { MessageService } from "./message.service";
+import { HttpService } from './http.service';
+import { MessageService } from './message.service';
 import { MessagesComponent } from './messages/messages.component';
 import { HeaderComponent } from './header/header.component';
 import { TimerHistoryComponent } from './timer-history/timer-history.component';
 import { LoginComponent } from './login/login.component';
-import { AuthService } from "./auth.service";
-import { AuthGuard } from "./auth.guard";
+import { AuthService } from './auth.service';
+import { AuthGuard } from './auth.guard';
 import { ProjectsComponent } from './projects/projects.component';
 import {TaskService} from './task.service';
 import { ProjectTableComponent } from './projects/project-table/project-table.component';
@@ -48,6 +47,7 @@ import { TaskTableComponent } from './projects/task-table/task-table.component';
 import { RegistrationComponent } from './registration/registration.component';
 import {RegisterService} from './register.service';
 import { OpenService } from './menu/open.service';
+import {Observable} from "rxjs/internal/Observable";
 
 
 @NgModule({
