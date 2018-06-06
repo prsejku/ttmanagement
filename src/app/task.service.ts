@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpService} from './http.service';
-import { Task } from '../models/Task';
+import { Task } from '../models/task';
 import {isNullOrUndefined} from 'util';
 
 @Injectable()

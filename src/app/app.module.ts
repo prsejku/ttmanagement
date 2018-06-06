@@ -43,11 +43,12 @@ import { ProjectsComponent } from './projects/projects.component';
 import {TaskService} from './task.service';
 import { ProjectTableComponent } from './projects/project-table/project-table.component';
 import { WorkPackTableComponent } from './projects/work-pack-table/work-pack-table.component';
-import { TaskTableComponent } from './projects/task-table/task-table.component';
+import {TaskTableComponent} from './projects/task-table/task-table.component';
 import { RegistrationComponent } from './registration/registration.component';
 import {RegisterService} from './register.service';
 import { OpenService } from './menu/open.service';
-import {Observable} from "rxjs/internal/Observable";
+import { TaskDetailComponent } from './projects/task-detail/task-detail.component';
+import {ConfirmationDialogComponent} from "./confirmation-dialog/confirmation-dialog.component";
 
 
 @NgModule({
@@ -66,7 +67,12 @@ import {Observable} from "rxjs/internal/Observable";
     WorkPackTableComponent,
     TaskTableComponent,
     RegistrationComponent,
+    TaskDetailComponent,
+    ConfirmationDialogComponent
   ],
+  entryComponents: [
+    TaskDetailComponent,
+    ConfirmationDialogComponent],
   imports: [
     BrowserModule,
     FormsModule,

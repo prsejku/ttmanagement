@@ -1,0 +1,11 @@
+tr {
+    height: 25px;
+}
+
+label, input {
+    width:100%;
+}
+
+.dateInput {
+    width:70%
+}

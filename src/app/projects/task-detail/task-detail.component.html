@@ -1,0 +1,38 @@
+<mat-dialog-content>
+  <h2 mat-dialog-title>{{data.NAME || uppercase}}</h2>
+  <form>
+  <table style="font-family:Roboto, 'Helvetica Neue', sans-serif">
+    <tr>
+      <td>Name:</td>
+      <td><label><input name="projName" type="text" [(ngModel)]="data.NAME"></label></td>
+    </tr>
+    <tr>
+      <td>Status:</td>
+      <td>{{status}}&nbsp;&nbsp;
+      <button style="height:25px;line-height:16px;margin:5px" mat-raised-button (click)="data.STATUS=!data.STATUS">
+        <span *ngIf="!data.STATUS">Complete</span>
+        <span *ngIf="data.STATUS">Re-open</span>
+        </button>  <br/></td>
+    </tr>
+    <tr>
+      <td>Description:</td>
+        <td><label><textarea type="text" name="desc" [(ngModel)]="data.DESCRIPTION"></textarea></label></td>
+    </tr>
+    <tr>
+      <td>Due Date:</td>
+      <td><label><input class="dateInput" [matDatepicker]="picker" [value]="data.UNTIL_DATE">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker></label></td>
+    </tr>
+    <tr *ngIf="data.STATUS">
+      <td>Completion Date:</td>
+        <td *ngIf="data.COMPLETION_DATE">{{data.COMPLETION_DATE}}</td>
+        <td *ngIf="!data.COMPLETION_DATE">n.a.</td>
+    </tr>
+  </table>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close>Cancel</button>
+  <button mat-raised-button [mat-dialog-close]="data">Save</button>
+</mat-dialog-actions>

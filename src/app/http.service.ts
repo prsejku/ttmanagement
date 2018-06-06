@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MessageService } from './message.service';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../models/User';
-import {ProjectJson, Task, TaskJson, WorkPackJson} from '../models/Task';
+import {ProjectJson, Task, TaskJson, WorkPackJson} from '../models/task';
 import {TaskTime, TaskTimeJson} from '../models/TaskTime';
 import {Observable} from 'rxjs/internal/Observable';
 
@@ -180,9 +180,9 @@ export class HttpService {
         const json = JSON.stringify({TASK_NR: taskNr});
         let pack = '';
         switch (taskType) {
-            case 'Task': pack = 'ACTIVITY'; break;
-            case 'Project': pack = 'PROJEKT'; break;
-            case 'Work Package': pack = 'WORKING_PACKAGE'; break;
+            case 'Task' || '0': pack = 'ACTIVITY'; break;
+            case 'Project' || '1' : pack = 'PROJEKT'; break;
+            case 'Work Package' || '2' : pack = 'WORKING_PACKAGE'; break;
         }
         return this.http.post<boolean>(`${this.apipostUrl}/${pack}/ARCHIVE_PROJ`, json);
     }

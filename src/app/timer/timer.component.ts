@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpService} from "../http.service";
 import {AuthService} from "../auth.service";
-import { Task } from "../../models/Task"
+import { Task } from "../../models/task"
 import {TaskService} from '../task.service';
 import {retry} from "rxjs/operators";
 
