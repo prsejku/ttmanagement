@@ -1,12 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable } from "rxjs/Observable";
 import { HttpClient } from '@angular/common/http';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/delay';
 import {HttpService} from "./http.service";
 import {Router} from "@angular/router";
 import {User, UserJson} from "../models/User";
+import {isNullOrUndefined} from 'util';
 
 @Injectable()
 export class AuthService {
