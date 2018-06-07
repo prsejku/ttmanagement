@@ -32,12 +32,8 @@ import { TaskTableComponent } from './projects/task-table/task-table.component';
 import { RegistrationComponent } from './registration/registration.component';
 import {RegisterService} from './register.service';
 import {OpenService} from './menu/open.service';
-import {ReportingService} from './reporting.service';
 import {TaskDetailComponent} from './projects/task-detail/task-detail.component';
 import {ConfirmationDialogComponent} from './confirmation-dialog/confirmation-dialog.component';
-import { OpenService } from './menu/open.service';
-import { TaskDetailComponent } from './projects/task-detail/task-detail.component';
-import {ConfirmationDialogComponent} from "./confirmation-dialog/confirmation-dialog.component";
 import {ReportingService} from './reporting.service';
 import {ChartsModule} from 'ng2-charts';
 
