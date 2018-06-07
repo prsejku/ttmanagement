@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs/internal/Observable';
 import { MessageService } from './message.service';
 import { HttpClient } from '@angular/common/http';
-import 'rxjs/add/operator/map';
+//import 'rxjs/add/operator/map';
 import { User } from '../models/User';
 import {TaskTime, TaskTimeJson} from '../models/TaskTime';
 
