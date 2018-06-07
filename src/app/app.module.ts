@@ -31,6 +31,8 @@ import { WorkPackTableComponent } from './projects/work-pack-table/work-pack-tab
 import { TaskTableComponent } from './projects/task-table/task-table.component';
 import { RegistrationComponent } from './registration/registration.component';
 import {RegisterService} from './register.service';
+import {ReportingService} from './reporting.service';
+import {ChartsModule} from 'ng2-charts';
 
 
 @NgModule({
@@ -75,6 +77,7 @@ import {RegisterService} from './register.service';
     MatSelectModule,
     AppRoutingModule,
     HttpClientModule,
+    ChartsModule,
   ],
   providers: [
     HttpService,
@@ -82,7 +85,8 @@ import {RegisterService} from './register.service';
     MessageService,
     AuthService,
     AuthGuard,
-    RegisterService
+    RegisterService,
+    ReportingService
   ],
   bootstrap: [AppComponent]
 })
