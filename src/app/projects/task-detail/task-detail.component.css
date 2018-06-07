@@ -1,0 +1,15 @@
+tr {
+    height: 25px;
+}
+
+td {
+    width:160px;
+}
+
+label, input, form, table {
+    width:100%;
+}
+
+.dateInput {
+    width:70%
+}

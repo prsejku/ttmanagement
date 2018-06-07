@@ -6,7 +6,7 @@ import {
     MatCardModule, MatCheckboxModule, MatButtonModule, MatMenuModule, MatIconModule,
     MatDatepickerModule, MatToolbarModule, MatFormFieldModule, MatNativeDateModule, MatInputModule, MatRadioModule,
     MatTableModule, MatDividerModule, MatExpansionModule, MatProgressSpinnerModule, MatSelectModule, MatChipsModule, MatButtonToggleModule,
-    MatDialogModule
+    MatDialogModule, MatSidenavModule, MatSortModule
 } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -31,6 +31,13 @@ import { WorkPackTableComponent } from './projects/work-pack-table/work-pack-tab
 import { TaskTableComponent } from './projects/task-table/task-table.component';
 import { RegistrationComponent } from './registration/registration.component';
 import {RegisterService} from './register.service';
+import {OpenService} from './menu/open.service';
+import {ReportingService} from './reporting.service';
+import {TaskDetailComponent} from './projects/task-detail/task-detail.component';
+import {ConfirmationDialogComponent} from './confirmation-dialog/confirmation-dialog.component';
+import { OpenService } from './menu/open.service';
+import { TaskDetailComponent } from './projects/task-detail/task-detail.component';
+import {ConfirmationDialogComponent} from "./confirmation-dialog/confirmation-dialog.component";
 import {ReportingService} from './reporting.service';
 import {ChartsModule} from 'ng2-charts';
 
@@ -51,7 +58,12 @@ import {ChartsModule} from 'ng2-charts';
     WorkPackTableComponent,
     TaskTableComponent,
     RegistrationComponent,
+    TaskDetailComponent,
+    ConfirmationDialogComponent
   ],
+  entryComponents: [
+    TaskDetailComponent,
+    ConfirmationDialogComponent],
   imports: [
     BrowserModule,
     FormsModule,
@@ -75,6 +87,8 @@ import {ChartsModule} from 'ng2-charts';
     MatExpansionModule,
     MatProgressSpinnerModule,
     MatSelectModule,
+    MatSidenavModule,
+    MatSortModule,
     AppRoutingModule,
     HttpClientModule,
     ChartsModule,
@@ -86,6 +100,7 @@ import {ChartsModule} from 'ng2-charts';
     AuthService,
     AuthGuard,
     RegisterService,
+    OpenService,
     ReportingService
   ],
   bootstrap: [AppComponent]

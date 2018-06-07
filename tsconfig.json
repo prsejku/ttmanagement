@@ -15,5 +15,11 @@
       "es2017",
       "dom"
     ]
-  }
+  },
+
+  "files": [
+    "./src/models/task.ts",
+    "./src/main.ts",
+    "./src/polyfills.ts"
+  ]
 }

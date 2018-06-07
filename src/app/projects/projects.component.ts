@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpService} from '../http.service';
-import {Task} from '../../models/Task';
+import {Task} from '../../models/task';
 import {isNullOrUndefined} from 'util';
 import {TaskService} from "../task.service";
 //import { TimerService } from "../timer.service";
@@ -28,7 +28,6 @@ export class ProjectsComponent implements OnInit {
         this.taskType = 'Project';
         this.toAdd.DESCRIPTION = ' ';
         this.getProjects();
-        this.taskService.getWorkPacks(2);
     }
 
     addProject() {
@@ -59,12 +58,6 @@ export class ProjectsComponent implements OnInit {
 
             this.toAdd = new Task();
         }
-    }
-
-    deleteTask(taskNr: number) {
-        this.httpService.archiveTask(taskNr, this.taskType).subscribe(b => {
-            if (b) { this.getProjects(); }
-        });
     }
 
     getProjects() {

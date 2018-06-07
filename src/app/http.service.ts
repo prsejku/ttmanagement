@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 import { MessageService } from './message.service';
 import { HttpClient } from '@angular/common/http';
-import 'rxjs/add/operator/map';
 import { User } from '../models/User';
-import {ProjectJson, Task, TaskJson, WorkPackJson} from '../models/Task';
+import {ProjectJson, Task, TaskJson, WorkPackJson} from '../models/task';
 import {TaskTime, TaskTimeJson} from '../models/TaskTime';
+import {Observable} from 'rxjs/internal/Observable';
 
 @Injectable()
 
@@ -34,19 +33,23 @@ export class HttpService {
 
     /**
      * Ruft via JSON RPC die Oracle-Prozedur "START_TIME(DATE, DATE, INTEGER, INTEGER)" auf.
+     * @param date
      * @param {string} startTime
      * @param {string} endTime
      * @param {number} TASK_ID
      */
-  enterTime(startTime: string, endTime: string, TASK_ID: number) {
+  enterTime(date: Date, startTime: string, endTime: string, TASK_ID: number) {
         let isoStartTime = HttpService.parseTime(startTime);
         let isoEndTime = HttpService.parseTime(endTime);
         if (isoStartTime == null || isoEndTime == null) { this.log('invalid Time!'); }
-        const today = new Date().toISOString().slice(0, 10) + ' ';
-        isoStartTime =  "'"+today + isoStartTime+"'";
-        isoEndTime = "'"+today + isoEndTime+"'";
-        const json = JSON.stringify(
-          {start_time: isoStartTime, end_time: isoEndTime, task_id: TASK_ID, user_id: this.user.USER_ID}
+        const day = date.toISOString().slice(0, 10) + ' ';
+        isoStartTime =  '\'' + day + isoStartTime + '\'';
+        isoEndTime = '\'' + day + isoEndTime + '\'';
+        const json = JSON.stringify({
+            start_time: isoStartTime,
+            end_time: isoEndTime,
+            task_id: TASK_ID,
+            user_id: this.user.USER_ID}
           );
         console.log(json);
         return this.http.post(`${this.apipostUrl}/TIMER/START_TIMER`, json);
@@ -63,7 +66,6 @@ export class HttpService {
         let time = new Date(Date.now() - offset * 60000).toISOString();
         time = time.replace('T', ' ');
         time = '\'' + time.slice(0, 19) + '\'';
-        //let time = dtime.toISOString();
         console.log('zeit ' + time);
         let json;
         if (desc != undefined && desc != '') {
@@ -84,7 +86,6 @@ export class HttpService {
         }
         console.log(json);
         return this.http.post<boolean>(`${this.apipostUrl}/TIMER/START_TIMER`, json);
-        //return true;
     }
 
     /**
@@ -97,7 +98,6 @@ export class HttpService {
         let time = new Date(Date.now() - offset * 60000).toISOString();
         time = time.replace('T', ' ');
         time = '\'' + time.slice(0, 19) + '\'';
-        //let time = dtime.toISOString();
         console.log('zeit ' + time);
         const json = JSON.stringify({userId: this.user.USER_ID, enddate: time});
         console.log(json);
@@ -112,7 +112,6 @@ export class HttpService {
     getRunningTimeUser(): Observable<number> {
         const json = JSON.stringify({'user_id': this.user.USER_ID});
         return this.http.post<number>(`${this.apipostUrl}/TIMER/RUNNING_TIME_USER`, json);
-        //return this.http.get("http://se.bmkw.org/api.php/timer/RUNNING_TIME_USER/?USER_ID="+this.user.USER_ID);
     }
 
     getTimeTracks() {
@@ -177,14 +176,30 @@ export class HttpService {
         return this.http.post(`${this.apipostUrl}/ACTIVITY/ADD_TASK`, json);
     }
 
-    archiveTask(taskNr: number, taskType: string): Observable<boolean> {
+    updateTask(task: Task) {
+        if (task.UNTIL_DATE == undefined) { task.UNTIL_DATE = 'null'; }
+        const numStatus = task.STATUS ? 1 : 0;
+        const json = JSON.stringify({
+          projektNr: `${task.TASK_NR}`,
+          name: `'${task.NAME}'`,
+          desc: `'${task.DESCRIPTION}'`,
+          status: `'${numStatus}'`,
+          untilDate: `TO_DATE('${task.UNTIL_DATE}', 'YYYY-MM-DD HH24:MI:SS')`
+        });
+        console.log(json);
+        return this.http.post<boolean>(`${this.apipostUrl}/PROJEKT/UPDATE_PROJ_NAME_DESC`, json);
+    }
+
+    archiveTask(taskNr: number, taskType): Observable<boolean> {
+        console.log('TaskType: ' + taskType);
         const json = JSON.stringify({TASK_NR: taskNr});
         let pack = '';
-        switch (taskType) {
-            case 'Task': pack = 'ACTIVITY'; break;
-            case 'Project': pack = 'PROJEKT'; break;
-            case 'Work Package': pack = 'WORKING_PACKAGE'; break;
+        switch (Number.parseInt(taskType)) {
+            case 0: pack = 'ACTIVITY'; break;
+            case 1: pack = 'PROJEKT'; break;
+            case 2: pack = 'WORKING_PACKAGE'; break;
         }
+        console.log('Pack: ' + pack + ' JSON: ' + json);
         return this.http.post<boolean>(`${this.apipostUrl}/${pack}/ARCHIVE_PROJ`, json);
     }
 
