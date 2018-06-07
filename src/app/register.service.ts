@@ -9,8 +9,6 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/delay';
 //import {TimerService} from "./timer.service";
-import {Router} from "@angular/router";
-import {User, UserJson} from "../models/User";
 
 import {MessageService} from './message.service';
 
