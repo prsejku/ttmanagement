@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+//import { Observable } from 'rxjs/Observable';
 import { MessageService } from './message.service';
 import { HttpClient } from '@angular/common/http';
 import 'rxjs/add/operator/map';
 import { User } from '../models/User';
-import {ProjectJson, Task, TaskJson, WorkPackJson} from '../models/Task';
 import {TaskTime, TaskTimeJson} from '../models/TaskTime';
 
 @Injectable()
