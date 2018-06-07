@@ -1,0 +1,22 @@
+#projectChart {
+    width: 50%;
+    //height: 200px !important;
+    display: flex;
+    float: left;
+}
+
+#projectDetail {
+    width: 50%;
+    display: inline;
+    float: left;
+}
+
+#projectDetailFormField {
+    margin: 0 auto;
+
+}
+
+#projectDetailChart {
+    width: 100%;
+    clear: both;
+}
