@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {HttpService} from '../http.service';
 import {TaskTime} from '../../models/TaskTime';
 import {TaskService} from '../task.service';
-import {Task} from '../../models/Task';
+import {Task} from '../../models/task';
+import {FormControl} from "@angular/forms";
 
 @Component({
   selector: 'app-timer-history',
@@ -11,7 +12,7 @@ import {Task} from '../../models/Task';
 })
 export class TimerHistoryComponent implements OnInit {
 
-    date: Date;
+    date: FormControl;
     curDate: string;
     curTime: string;
     startTime: string;
@@ -22,10 +23,12 @@ export class TimerHistoryComponent implements OnInit {
     allProjects: Task[];
     allWorkPacks: Task[];
     allTasks: Task[];
+    dC = ["startTime", "endTime", "desc", "projName", "packName", "taskName"];
 
-  constructor(private httpService: HttpService, private taskService: TaskService) { }
+  constructor(public httpService: HttpService, public taskService: TaskService) { }
 
   ngOnInit() {
+      this.date = new FormControl(new Date());
       this.httpService.getProjects().subscribe(pr => {
           this.allProjects = pr.PROJECT_OVERVIEW;
       });
@@ -55,9 +58,20 @@ export class TimerHistoryComponent implements OnInit {
     }
 
     submit(): void {
-        this.httpService.enterTime(this.startTime, this.endTime, this.task).subscribe(b => {
+        this.httpService.enterTime(this.date.value, this.startTime, this.endTime, this.task).subscribe(b => {
             console.log(b);
             this.ngOnInit();
         });
+    }
+
+    /*formatTime(timeString: string) {
+      let time = new Date(timeString);
+      //if (new Date().getMilliseconds() - time.getMilliseconds() < 24 * 3600000) return time.toLocaleTimeString();
+      //return time.toLocaleString();
+      return Date.now() - time.getMilliseconds();
+    }*/
+
+    formatDesc() {
+
     }
 }

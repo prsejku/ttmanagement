@@ -2,7 +2,7 @@ export class Task {
     TASK_NR: number;​​
     TASK_TYPE: number;​​
     NAME: string;​​
-    STATUS: number;​​
+    STATUS: boolean;​​
     DESCRIPTION: string;​​
     UNTIL_DATE: string;
     COMPLETION_DATE: string;​​

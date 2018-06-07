@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpService} from "../http.service";
 import {AuthService} from "../auth.service";
-import { Task } from "../../models/Task"
+import { Task } from "../../models/task"
 import {TaskService} from '../task.service';
 import {retry} from "rxjs/operators";
 
@@ -25,7 +25,7 @@ export class TimerComponent implements OnInit {
     curTaskName: string;
     desc: string;
 
-    constructor(private httpService: HttpService, private authService: AuthService, private taskService: TaskService) { }
+    constructor(private httpService: HttpService, public authService: AuthService, public taskService: TaskService) { }
 
     ngOnInit() {
         this.taskService.getProjects();
