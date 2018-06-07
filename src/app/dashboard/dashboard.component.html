@@ -1,3 +1,35 @@
-<p>
-  dashboard works!
-</p>
+<!--div style="display: block">
+  <canvas baseChart
+          [data]="projectChartData"
+          [labels]="projectChartLabels"
+          [chartType]="projectChartType"
+          (chartHover)="chartHovered($event)"
+          (chartClick)="chartClicked($event)"></canvas>
+</div> -->
+
+<div id="projectChart" style="" *ngIf="projectLoaded">
+  <canvas baseChart
+          [data]="projectChartData"
+          [labels]="projectChartLabels"
+          [chartType]="projectChartType">
+</canvas>
+</div>
+
+<!--Projects Dropdown-->
+<div id="projectDetail">
+  <mat-form-field id="projectDetailFormField">
+  <mat-select placeholder="View Work Packages of..." [(value)]="selectedProj">
+    <mat-option value="undefined" >Go to Project overview</mat-option>
+    <mat-option value="{{project.TASK_NR}}" (click)="this.getProjectDetailReport(this.httpService.user.USER_ID, project.TASK_NR)"
+                *ngFor="let project of taskService.projects">{{project.NAME}}</mat-option>
+  </mat-select>
+  </mat-form-field>
+
+  <div id="projectDetailChart" style="" *ngIf="projectDetailLoaded">
+    <canvas baseChart
+            [data]="projectDetailChartData"
+            [labels]="projectDetailChartLabels"
+            [chartType]="projectDetailChartType">
+    </canvas>
+  </div>
+</div>

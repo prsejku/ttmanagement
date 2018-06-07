@@ -25,7 +25,7 @@ export class WorkPackJson {
 }
 
 export class TaskJson {
-    TASK_OVERVIEW: Task[]
+    TASK_OVERVIEW: Task[];
 }
 
 export class ProjectJson {
