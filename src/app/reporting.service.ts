@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Observable} from 'rxjs/internal/Observable';
+import {Observable} from 'rxjs/Observable';
 import { MessageService } from './message.service';
 import { HttpClient } from '@angular/common/http';
 //import 'rxjs/add/operator/map';
@@ -38,6 +38,10 @@ export class ReportingService {
 
     getProjectsDetailPerson(userId: number, projId: number): Observable<string> {
         return this.http.get<string>(this.apiUrl + '/report_projectsDetailPerson/report/?user_id=' + userId + '&project_id=' + projId);
+    }
+
+    getWorkingPackageDetailPerson(userId: number, workPackId: number): Observable<string> {
+        return this.http.get<string>(this.apiUrl + '/report_workingPackageDetailPerson/report/?user_id=' + userId + '&project_id=' + workPackId);
     }
 
 }

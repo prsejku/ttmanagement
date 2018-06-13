@@ -8,7 +8,7 @@ import {User, UserJson} from '../models/User';
 //import 'rxjs/add/observable/of';
 //import 'rxjs/add/operator/do';
 //import 'rxjs/add/operator/delay';
-import {Observable} from 'rxjs/internal/Observable';
+import {Observable} from 'rxjs/Observable';
 //import {TimerService} from "./timer.service";
 
 import {MessageService} from './message.service';

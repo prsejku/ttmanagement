@@ -4,7 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { User } from '../models/User';
 import {ProjectJson, Task, TaskJson, WorkPackJson} from '../models/task';
 import {TaskTime, TaskTimeJson} from '../models/TaskTime';
-import {Observable} from 'rxjs/internal/Observable';
+import {Observable} from 'rxjs/Observable';
+//import {Observable} from 'rxjs/internal/Observable';
 
 @Injectable()
 

@@ -18,14 +18,22 @@ export class DashboardComponent implements OnInit {
   /* Variables for projectChart */
   projectChartLabels: string[] = [];
   projectChartData: number[] = [];
-  projectChartType: string = 'pie';
-  projectLoaded: boolean = false;
+  projectChartType = 'pie';
+  projectLoaded = false;
 
   /* Variables for projectDetailChart */
   projectDetailChartLabels: string[] = [];
   projectDetailChartData: number[] = [];
-  projectDetailChartType: string = 'pie';
-  projectDetailLoaded: boolean = false;
+  projectDetailChartType = 'pie';
+  projectDetailLoaded = false;
+
+    /* Variables for workingPackageDetailChart */
+  workingPackageDetailChartLabels: string[] = [];
+  workingPackageDetailChartData: number[] = [];
+  workingPackageDetailChartType = 'pie';
+  workingPackageDetailLoaded = false;
+  workingPackageProjectSelected = false;
+  selectedProj2 = false;
 
   constructor(private reportingService: ReportingService, private httpService: HttpService, private taskService: TaskService) { }
 
@@ -54,7 +62,7 @@ export class DashboardComponent implements OnInit {
                 //console.log(project);
                 for (const i of project['report']) {
                     this.projectDetailChartLabels.push(i['PACK_DESC'] + " (h)");
-                    this.projectDetailChartData.push(Math.round(i['TIME_SEC']/3600));
+                    this.projectDetailChartData.push(Math.round(i['TIME_SEC'] / 3600));
                 }
                 //console.log(this.projectDetailChartData);
                 this.projectDetailLoaded = true;
@@ -62,8 +70,25 @@ export class DashboardComponent implements OnInit {
         }
     }
 
+    getWorkingPackageDetailReport(userId: number, workPackId: number) {
+        this.workingPackageDetailChartLabels = [];
+        this.workingPackageDetailChartData = [];
+        this.workingPackageDetailLoaded = false;
+        if (!isNullOrUndefined(userId)) {
+            this.reportingService.getWorkingPackageDetailPerson(userId, workPackId).subscribe(workPack => {
+                // console.log(project);
+                for (const i of workPack['report']) {
+                    this.workingPackageDetailChartLabels.push(i['NAME'] + " (h)");
+                    this.workingPackageDetailChartData.push(Math.round(i['SEC'] / 3600));
+                }
+                // console.log(this.projectDetailChartData);
+                this.workingPackageDetailLoaded = true;
+            });
+        }
+    }
+
     setProjectId(projId: number) {
-      //this.currProjId = projId;
+      // this.currProjId = projId;
     }
 
     /*
