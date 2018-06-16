@@ -1,4 +1,4 @@
-import { TestBed, inject } from '@angular/core/testing';
+import {TestBed, inject, fakeAsync} from '@angular/core/testing';
 
 import { AuthService } from './auth.service';
 import {HttpClient} from "@angular/common/http";
@@ -71,6 +71,68 @@ describe('AuthService', () => {
       expect(authService.isLoggedIn).toBe(true);
   });
 
+  it('should set LocalStorage if stay is true', () => {
+      //Arrange
+      let email = "v.auberger@aon.at";
+      let pwd = "test123";
+      let stay = true;
+      let response = {
+          users: [
+              {
+                  FIRSTNAME: "Verena",
+                  LASTNAME: "Auberger",
+                  MAIL: "v.auberger@aon.at",
+                  PERSON_TYPE: "0",
+                  PW: "test123",
+                  USERNAME: "Verena_A",
+                  USER_ID: "3",
+                  WORKSPACE: "1"
+              }
+          ]
+      };
+
+      httpClientSpy.get.and.callFake(() => {
+          return Observable.from([response]);
+      });
+
+      //Act
+      authService.login(email, pwd, stay);
+
+      //Assert
+      expect(localStorage.hasOwnProperty('tmg_login')).toBeTruthy();
+  });
+
+  it('should not set LocalStorage if stay is false', () => {
+      //Arrange
+      let email = "v.auberger@aon.at";
+      let pwd = "test123";
+      let stay = false;
+      let response = {
+          users: [
+              {
+                  FIRSTNAME: "Verena",
+                  LASTNAME: "Auberger",
+                  MAIL: "v.auberger@aon.at",
+                  PERSON_TYPE: "0",
+                  PW: "test123",
+                  USERNAME: "Verena_A",
+                  USER_ID: "3",
+                  WORKSPACE: "1"
+              }
+          ]
+      };
+
+      httpClientSpy.get.and.callFake(() => {
+          return Observable.from([response]);
+      });
+
+      //Act
+      authService.login(email, pwd, stay);
+
+      //Assert
+      expect(localStorage.hasOwnProperty('tmg_login')).toBeFalsy();
+});
+
   it ('should set attribut isLoggedIn to false after logout()-method', () => {
     //Arrange
     authService.isLoggedIn = true;
@@ -83,27 +145,7 @@ describe('AuthService', () => {
     expect(timerServiceSpy.user).toBeNull();
   });
 
-  /*it ('should set timerService.user to null after logout()-method', () => {
-    //Arrange
-    let user = [{
-        USER_ID: 1,
-        USERNAME: "verenau",
-        FIRSTNAME: "Verena",
-        LASTNAME: "Auberger",
-        PW: "test123",
-        PERSON_TYPE: 0,
-        MAIL: "v.auberger@aon.at"
-    }];
-    timerServiceSpy.getUser(null);
-
-    //Act
-    authService.logout();
-
-    //Assert
-    expect(timerServiceSpy).toBeNull();
-  });*/
-
-  it('should set localStorage to null after the logout()-method', () => {
+  it('should remove login-item in LocalStorage after the logout()-method', () => {
       //Arrange
       let email = "v.aubergerger@aon.at";
       let pwd = "test123";
@@ -115,6 +157,4 @@ describe('AuthService', () => {
       //Assert
       expect(localStorage.hasOwnProperty('tmg_login')).toBeFalsy();
   });
-
-
 });

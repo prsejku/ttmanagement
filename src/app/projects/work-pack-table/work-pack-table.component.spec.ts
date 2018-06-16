@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WorkPackTableComponent } from './work-pack-table.component';
 
-describe('WorkPackTableComponent', () => {
+xdescribe('WorkPackTableComponent', () => {
   let component: WorkPackTableComponent;
   let fixture: ComponentFixture<WorkPackTableComponent>;
 
