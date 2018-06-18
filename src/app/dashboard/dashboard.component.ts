@@ -27,13 +27,21 @@ export class DashboardComponent implements OnInit {
   projectDetailChartType = 'pie';
   projectDetailLoaded = false;
 
-    /* Variables for workingPackageDetailChart */
+  /* Variables for workingPackageDetailChart */
   workingPackageDetailChartLabels: string[] = [];
   workingPackageDetailChartData: number[] = [];
   workingPackageDetailChartType = 'pie';
   workingPackageDetailLoaded = false;
   workingPackageProjectSelected = false;
   selectedProj2 = false;
+
+  /* Variables for tasksDetailChart */
+  tasksDetailChartLabels: string[] = ['Aufgabe 1', 'Aufgabe 2'];
+  tasksDetailChartDatasetsSoll: number[] = [122, 155];
+  tasksDetailChartDatasetsIst: number[] = [120, 155];
+  tasksDetailChartType = 'horizontalBar';
+  tasksDetailChartLoaded = false;
+  tasksProjectSelected = false;
 
   constructor(private reportingService: ReportingService, private httpService: HttpService, private taskService: TaskService) { }
 
@@ -83,6 +91,23 @@ export class DashboardComponent implements OnInit {
                 }
                 // console.log(this.projectDetailChartData);
                 this.workingPackageDetailLoaded = true;
+            });
+        }
+    }
+
+    getTasksDetailChartReport(userId: number, workPackId: number) {
+        this.tasksDetailChartLabels = [];
+        this.tasksDetailChartDatasetsSoll = [];
+        this.tasksDetailChartDatasetsIst = [];
+        this.tasksDetailChartLoaded = false;
+        if(!isNullOrUndefined(userId)) {
+            this.reportingService.getTasksDetailChart(userId, workPackId).subscribe(workPack => {
+                for (const i of workPack['report']) {
+                    this.tasksDetailChartLabels.push(i['NAME'] + " (h)");
+                    this.tasksDetailChartDatasetsSoll.push(Math.round(i['SOLL_TIME'] / 3600));
+                    this.tasksDetailChartDatasetsIst.push(Math.round(i['IST_TIME'] / 3600));
+                }
+                this.tasksDetailChartLoaded = true;
             });
         }
     }

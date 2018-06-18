@@ -44,4 +44,8 @@ export class ReportingService {
         return this.http.get<string>(this.apiUrl + '/report_workingPackageDetailPerson/report/?user_id=' + userId + '&project_id=' + workPackId);
     }
 
+    getTasksDetailChart(userId: number, workPackId: number): Observable<string> {
+        return this.http.get<string>(this.apiUrl + '/report_tasksDetailChart/report/?user_id=' + userId + '&project_id=' + workPackId);
+    }
+
 }

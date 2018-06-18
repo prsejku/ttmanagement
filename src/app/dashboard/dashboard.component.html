@@ -7,85 +7,135 @@
           (chartClick)="chartClicked($event)"></canvas>
 </div> -->
 
-<div id="welcome">
-  <h3>Welcome to the reports page. Here you can find some reports of your project.</h3>
-</div>
+<div id="container">
 
-<div id="row1">
-    <div id="row1col1">
-        <p>Actual tracked time of the sub-projects:</p>
-        <!-- 1.1 -->
-        <div id="projectChart" style="" *ngIf="projectLoaded">
-          <canvas baseChart
-                  [data]="projectChartData"
-                  [labels]="projectChartLabels"
-                  [chartType]="projectChartType">
-          </canvas>
+    <div id="welcome">
+      <h3>Welcome to the reports page. Here you can find some reports of your project.</h3>
+    </div>
+
+    <div id="row1">
+        <div id="row1col1">
+            <p>Actual tracked time of the sub-projects:</p>
+            <!-- 1.1 -->
+            <div id="projectChart" style="" *ngIf="projectLoaded">
+              <canvas baseChart
+                      [data]="projectChartData"
+                      [labels]="projectChartLabels"
+                      [chartType]="projectChartType">
+              </canvas>
+            </div>
+        </div>
+
+        <!--Projects Dropdown for 2.2-->
+        <div id="row1col2">
+          <div id="row1col2row1">
+              <div id="row1col2row1col1">
+                <p>Actual tracked time of the working packages. Please select a sub-project:</p>
+              </div>
+              <div id="row1col2row1col2">
+                <mat-form-field id="projectDetailFormField">
+                    <mat-select placeholder="View Work Packages of..." [(value)]="selectedProj">
+                        <mat-option value="undefined" (click)="this.projectDetailLoaded = false;">Go to Project overview</mat-option>
+                        <mat-option value="{{project.TASK_NR}}" (click)="this.getProjectDetailReport(this.httpService.user.USER_ID, project.TASK_NR)"
+                                    *ngFor="let project of taskService.projects">{{project.NAME}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+              </div>
+          </div>
+
+            <!-- diagram for 2.2-->
+          <div id="projectDetailChart" style="" *ngIf="projectDetailLoaded">
+            <canvas baseChart
+                    [data]="projectDetailChartData"
+                    [labels]="projectDetailChartLabels"
+                    [chartType]="projectDetailChartType">
+            </canvas>
+          </div>
         </div>
     </div>
 
-    <!--Projects Dropdown for 2.2-->
-    <div id="row1col2">
-      <div id="row1col2row1">
-          <div id="row1col2row1col1">
-            <p>Actual tracked time of the working packages. Please select a sub-project:</p>
-          </div>
-          <div id="row1col2row1col2">
-            <mat-form-field id="projectDetailFormField">
-                <mat-select placeholder="View Work Packages of..." [(value)]="selectedProj">
-                    <mat-option value="undefined" >Go to Project overview</mat-option>
-                    <mat-option value="{{project.TASK_NR}}" (click)="this.getProjectDetailReport(this.httpService.user.USER_ID, project.TASK_NR)"
-                                *ngFor="let project of taskService.projects">{{project.NAME}}</mat-option>
-                </mat-select>
-            </mat-form-field>
-          </div>
-      </div>
-
-        <!-- diagram for 2.2-->
-      <div id="projectDetailChart" style="" *ngIf="projectDetailLoaded">
-        <canvas baseChart
-                [data]="projectDetailChartData"
-                [labels]="projectDetailChartLabels"
-                [chartType]="projectDetailChartType">
-        </canvas>
-      </div>
-    </div>
-</div>
-
-<!-- 1.2 will be realised in the "Gantt-Diagram"; 2.1 won't be realised beacause there is no sense behind -->
+    <!-- 1.2 will be realised in the "Gantt-Diagram"; 2.1 won't be realised beacause there is no sense behind -->
 
 
-<div id="row2">
-    <div id="row2col1">
-        <!-- 3.1 -->
+    <div id="row2">
+        <div id="row2col1">
+            <!-- 3.1 -->
+            <!--working package dropdown -->
+            <!-- select sub project -->
+            <div id="workingPackageDetail">
+                Actual tracked time of the working packages. Please select a sub-project:<br><br>
+                <mat-form-field id="workingPackageDetailFormField">
+                    <mat-select placeholder="View Work Packages of..." [(value)]="selectedProj2">
+                        <mat-option value="undefined" (click)="this.selectedProj2 = false; this.workingPackageDetailLoaded = false;">Go to Project overview</mat-option>
+                        <mat-option value="{{project.TASK_NR}}" (click)="this.workingPackageProjectSelected = true;taskService.getWorkPacks(project.TASK_NR);"
+                            *ngFor="let project of taskService.projects">{{project.NAME}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <!-- select working package -->
+                <mat-form-field id ="workingPackageDetailFormField2" *ngIf="selectedProj2">
+                    <mat-select placeholder="View Tasks of..." [(value)]="selectedWP">
+                        <mat-option value="undefined" (click)="this.workingPackageDetailLoaded = false;">Go to Work Package Overview</mat-option>
+                        <mat-option value="{{wrkPck.TASK_NR}}" (click)="this.getWorkingPackageDetailReport(this.httpService.user.USER_ID, wrkPck.TASK_NR)"
+                            *ngFor="let wrkPck of taskService.workPacks">{{wrkPck.NAME}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <!-- diagram for 3.1-->
+                <div id="workingPackageDetailChart" style="" *ngIf="workingPackageDetailLoaded">
+                    <canvas baseChart
+                        [data]="workingPackageDetailChartData"
+                        [labels]="workingPackageDetailChartLabels"
+                        [chartType]="workingPackageDetailChartType">
+                    </canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- HARDCODED
+        <div id="row2col2">
+            <div id="tasksDetailChart">
+               <canvas baseChart
+                        [datasets]="[{label: 'Soll-Zeit', data: [133,344,544]}, {label: 'Ist-Zeit', data: [233, 150, 544]}]"
+                        [labels]="['Aufgabe 1', 'Aufgabe 2', 'Aufgabe 3']"
+                        [chartType]="'bar'">
+                </canvas>
+            </div>
+        </div>
+        -->
+
+        <!-- 4.1 -->
         <!--working package dropdown -->
         <!-- select sub project -->
-        <div id="workingPackageDetail">
-            Actual tracked time of the working packages. Please select a sub-project:<br><br>
-            <mat-form-field id="workingPackageDetailFormField">
-                <mat-select placeholder="View Work Packages of..." [(value)]="selectedProj2">
-                    <mat-option value="undefined" (click)="this.workingPackageProjectSelected = false;">Go to Project overview</mat-option>
-                    <mat-option value="{{project.TASK_NR}}" (click)="this.workingPackageProjectSelected = true;taskService.getWorkPacks(project.TASK_NR);"
-                        *ngFor="let project of taskService.projects">{{project.NAME}}</mat-option>
-                </mat-select>
-            </mat-form-field>
+        <div id="row2col2">
+            <div id="tasksDetail">
+                Actual tracked time compared to target time of tasks. Please select a sub-project:<br><br>
+                <mat-form-field id="tasksDetailFormField">
+                    <mat-select placeholder="View Work Packages of..." [(value)]="selectedProj3">
+                        <mat-option value="undefined" (click)="this.selectedProj3 = false; this.tasksDetailChartLoaded = false;">Go to Project overview</mat-option>
+                        <mat-option value="{{project.TASK_NR}}" (click)="this.tasksProjectSelected = true;taskService.getWorkPacks(project.TASK_NR);"
+                                    *ngFor="let project of taskService.projects">{{project.NAME}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
 
-            <!-- select working package -->
-            <mat-form-field id ="workingPackageDetailFormField2" *ngIf="selectedProj2">
-                <mat-select placeholder="View Tasks of..." [(value)]="selectedWP">
-                    <mat-option value="undefined" (click)="undefined">Go to Work Package Overview</mat-option>
-                    <mat-option value="{{wrkPck.TASK_NR}}" (click)="this.getWorkingPackageDetailReport(this.httpService.user.USER_ID, wrkPck.TASK_NR)"
-                        *ngFor="let wrkPck of taskService.workPacks">{{wrkPck.NAME}}</mat-option>
-                </mat-select>
-            </mat-form-field>
+                <!-- select working package -->
+                <mat-form-field id ="tasksPackageDetailFormField2" *ngIf="selectedProj3">
+                    <mat-select placeholder="View Tasks of..." [(value)]="selectedWP2">
+                        <mat-option value="undefined" (click)="this.tasksDetailChartLoaded = false;">Go to Work Package Overview</mat-option>
+                        <mat-option value="{{wrkPck.TASK_NR}}" (click)="this.getTasksDetailChartReport(this.httpService.user.USER_ID, wrkPck.TASK_NR)"
+                                    *ngFor="let wrkPck of taskService.workPacks">{{wrkPck.NAME}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
 
-            <!-- diagram for 3.1-->
-            <div id="workingPackageDetailChart" style="" *ngIf="workingPackageDetailLoaded">
-                <canvas baseChart
-                    [data]="workingPackageDetailChartData"
-                    [labels]="workingPackageDetailChartLabels"
-                    [chartType]="workingPackageDetailChartType">
-                </canvas>
+                <!-- Diagram for 4.1 -->
+                <div id="tasksDetailChart" *ngIf="tasksDetailChartLoaded">
+                    <canvas baseChart
+                            [datasets]="[{label: 'Soll-Zeit', data: tasksDetailChartDatasetsSoll}, {label: 'Ist-Zeit', data: tasksDetailChartDatasetsIst}]"
+                            [labels]="tasksDetailChartLabels"
+                            [chartType]="tasksDetailChartType"
+                            [options]="{scales: {xAxes: [{ticks:{beginAtZero: true}}]}}">
+                    </canvas>
+                </div>
             </div>
         </div>
     </div>

@@ -1,7 +1,13 @@
+/* Container */
+
+#container {
+    overflow-y: hidden;
+    overflow-x: scroll;
+}
+
 /* Header */
 #welcome {
     margin-top: 5px;
-    //margin-bottom: 20px;
     text-align: center;
 }
 
@@ -9,6 +15,8 @@
 
 #row1 {
     margin-top: 20px;
+    /* needed for setting to block layout and the right width */
+    overflow: hidden;
 }
 
 /* Row 1 Col 1 */
@@ -16,67 +24,53 @@
 #row1col1 {
     float: left;
     width: 50%;
+    //background-color: #f4f4f4;
 }
 
 #projectChart {
+    /* set margin-top because there is no dropdown */
     margin-top: 65.5px;
-    //width: 100%;
-    //height: 200px !important;
-    //display: flex;
-    //float: left;
 }
 
 /* Row 1 Col 2 */
 
 #row1col2 {
     width: 50%;
-    //display: inline;
     float: left;
-}
-
-#row1col2row1 {
-
-}
-
-#row1col2row1col1 {
-
+    //background-color: #f4f4f4;
 }
 
 #row1col2row1col2 {
+    /* set text-align for dropdown */
     text-align: center;
-}
-
-#projectDetailFormField {
-    //margin: 0 auto;
-    //text-align: center;
-}
-
-#projectDetailChart {
-    //width: 100%;
-    //clear: both;
 }
 
 /* Row 2 */
 
 #row2 {
-
+    clear: both;
+    margin-top: 70px;
+    /* needed for setting to block layout and the right width */
+    overflow: hidden;
+    min-height: 500px;
 }
 
 /* Row 2 Col 1 */
 
-
-
-#workingPackageDetail {
-    clear: both;
-    padding-top: 50px;
+#row2col1 {
+    float: left;
     width: 50%;
+    //background-color: #f4f4f4;
 }
 
 #workingPackageDetailFormField {
-    //float: left;
     margin-right: 10px;
 }
 
-#workingPackageDetailFormField2 {
+/* Row 2 Col 2 */
 
+#row2col2 {
+    width: 50%;
+    float: left;
+    //background-color: #f4f4f4;
 }
