@@ -1,25 +1,26 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TaskTableComponent } from './task-table.component';
+import {TaskService} from "../../task.service";
 
-xdescribe('TaskTableComponent', () => {
-  let component: TaskTableComponent;
-  let fixture: ComponentFixture<TaskTableComponent>;
+describe('TaskTableComponent', () => {
+    let component: TaskTableComponent;
+    let taskServiceSpy: jasmine.SpyObj<TaskService>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ TaskTableComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(() => {
+        const taskSpy = jasmine.createSpyObj('TaskService', ['getProjects']);
+        TestBed.configureTestingModule({
+            providers: [
+                TaskTableComponent,
+                {provide: TaskService, useValue: taskSpy}
+            ]});
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(TaskTableComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+        component = TestBed.get(TaskTableComponent);
+        taskServiceSpy = TestBed.get(TaskService);
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+        expect(taskServiceSpy).toBeTruthy();
+    });
 });
