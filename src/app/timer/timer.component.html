@@ -24,12 +24,12 @@
   </label>
   <span>{{displayedTime}}</span>
   <button mat-mini-fab
-                (click)="onSelect()"
+                (click)="playButton()"
                 *ngIf="!running"
                 [disabled]="!curProj||!curWP||!curTask">
     <mat-icon>play_arrow</mat-icon></button>
   <button mat-mini-fab
-                (click)="onSelect()"
+                (click)="playButton()"
                 *ngIf="running">
     <mat-icon>pause</mat-icon></button>
   <button mat-mini-fab
