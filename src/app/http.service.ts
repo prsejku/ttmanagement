@@ -17,7 +17,8 @@ import {Observable} from 'rxjs/Observable';
  */
 export class HttpService {
 
-  constructor(private http: HttpClient, private messageService: MessageService) { }
+  constructor(private http: HttpClient,
+              private messageService: MessageService) { }
 
   url = 'http://se.bmkw.org';
   apiUrl = `${this.url}/api.php`;
@@ -26,7 +27,7 @@ export class HttpService {
 
   user: User;
   timeTrackId: number;
-    timeTracks: TaskTime[];
+    timeTracks = [];
 
   private log(message: string) {
     this.messageService.add('HttpService: ' + message);
@@ -37,9 +38,10 @@ export class HttpService {
      * @param date
      * @param {string} startTime
      * @param {string} endTime
+     * @param desc
      * @param {number} TASK_ID
      */
-  enterTime(date: Date, startTime: string, endTime: string, TASK_ID: number) {
+  enterTime(date: Date, startTime: string, endTime: string, desc: string, TASK_ID: number) {
         let isoStartTime = HttpService.parseTime(startTime);
         let isoEndTime = HttpService.parseTime(endTime);
         if (isoStartTime == null || isoEndTime == null) { this.log('invalid Time!'); }
@@ -49,6 +51,7 @@ export class HttpService {
         const json = JSON.stringify({
             start_time: isoStartTime,
             end_time: isoEndTime,
+            desc: '\'' + desc + '\'',
             task_id: TASK_ID,
             user_id: this.user.USER_ID}
           );
@@ -116,8 +119,49 @@ export class HttpService {
     }
 
     getTimeTracks() {
-        this.http.get<TaskTimeJson>(`${this.apiUrl}/task_time_user/TASK_TIME/?user_id=${this.user.USER_ID}`).subscribe(tt => {
-            this.timeTracks = tt.TASK_TIME;
+        this.getProjects().subscribe(p => {
+            let projects = p.PROJECT_OVERVIEW;
+            this.getWorkPacks().subscribe(w => {
+                let workPacks = w.WORKING_PACKAGE_OVERVIEW;
+                this.getTasks().subscribe(t => {
+                    let tasks = t.TASK_OVERVIEW;
+                    this.http.get<TaskTimeJson>(`${this.apiUrl}/task_time_user/TASK_TIME/?user_id=${this.user.USER_ID}`).subscribe(tt => {
+                        let tracksPlus = [];
+                        for (let entry of tt.TASK_TIME) {
+                            let taskName: string;
+                            let wpName: string;
+                            let projName: string;
+                            for (let task of tasks) {
+                                if (entry.TASK_ID == task.TASK_NR) {
+                                    taskName = task.NAME;
+                                    break;
+                                }
+                            }
+                            for (let wp of workPacks) {
+                                if (entry.PACK_ID == wp.TASK_NR) {
+                                    wpName = wp.NAME;
+                                    break;
+                                }
+                            }
+                            for (let proj of projects) {
+                                if (entry.PROJ_ID == proj.TASK_NR) {
+                                    projName = proj.NAME;
+                                    break;
+                                }
+                            }
+                            tracksPlus.push({
+                                START_TIME: entry.START_TIME,
+                                END_TIME: entry.END_TIME,
+                                DESCRIPTION: entry.DESCRIPTION,
+                                PROJECT_NAME: projName,
+                                WORK_PACK_NAME: wpName,
+                                TASK_NAME: taskName
+                            });
+                        }
+                        this.timeTracks = tracksPlus;
+                    });
+                });
+            });
         });
     }
 
@@ -178,14 +222,13 @@ export class HttpService {
     }
 
     updateTask(task: Task) {
-        if (task.UNTIL_DATE == undefined) { task.UNTIL_DATE = 'null'; }
         const numStatus = task.STATUS ? 1 : 0;
         const json = JSON.stringify({
           projektNr: `${task.TASK_NR}`,
           name: `'${task.NAME}'`,
           desc: `'${task.DESCRIPTION}'`,
           status: `'${numStatus}'`,
-          untilDate: `TO_DATE('${task.UNTIL_DATE}', 'YYYY-MM-DD HH24:MI:SS')`
+          untilDate: task.UNTIL_DATE == undefined ? 'null' : `TO_DATE('${task.UNTIL_DATE}', 'YYYY-MM-DD HH24:MI:SS')`
         });
         console.log(json);
         return this.http.post<boolean>(`${this.apipostUrl}/PROJEKT/UPDATE_PROJ_NAME_DESC`, json);
