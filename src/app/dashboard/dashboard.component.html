@@ -66,8 +66,8 @@
                 Actual tracked time of the working packages. Please select a sub-project:<br><br>
                 <mat-form-field id="workingPackageDetailFormField">
                     <mat-select placeholder="View Work Packages of..." [(value)]="selectedProj2">
-                        <mat-option value="undefined" (click)="this.selectedProj2 = false; this.workingPackageDetailLoaded = false;">Go to Project overview</mat-option>
-                        <mat-option value="{{project.TASK_NR}}" (click)="this.workingPackageProjectSelected = true;taskService.getWorkPacks(project.TASK_NR);"
+                        <mat-option value="undefined" (click)="selectedProj2 = false; workingPackageDetailLoaded = false;">Go to Project overview</mat-option>
+                        <mat-option value="{{project.TASK_NR}}" (click)="workingPackageProjectSelected = true;taskService.getWorkPacks(project.TASK_NR);"
                             *ngFor="let project of taskService.projects">{{project.NAME}}</mat-option>
                     </mat-select>
                 </mat-form-field>

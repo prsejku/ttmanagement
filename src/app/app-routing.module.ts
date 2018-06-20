@@ -7,9 +7,11 @@ import { ProjectsComponent } from "./projects/projects.component";
 import { LoginComponent} from "./login/login.component";
 import { AuthGuard } from "./auth.guard"
 import {RegistrationComponent} from './registration/registration.component';
+import {ProjectReportComponent} from './project-report/project-report.component';
 
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
+  { path: 'project-report', component: ProjectReportComponent, canActivate: [AuthGuard]},
   { path: 'timer-history', component: TimerHistoryComponent, canActivate: [AuthGuard]},
   { path: 'profile', component: UserProfileComponent, canActivate: [AuthGuard] },
   { path: 'projects', component: ProjectsComponent, canActivate: [AuthGuard] },
