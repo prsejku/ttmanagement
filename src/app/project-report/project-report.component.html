@@ -1,3 +1,18 @@
 <p>
   project-report works!
 </p>
+
+
+<p> {{ tasks.size }} </p>
+<p> {{ subprojects.has(4) }}</p>
+<p> {{ subprojects.get(4) }}</p>
+
+<div *ngIf="loaded">
+    <!-- <p *ngFor="let key of Array.from(tasks.keys())">{{key}} </p> -->
+    <span *ngFor="let keySubproject of subprojectsArray"> {{keySubproject}}, {{subprojects.get(keySubproject)}}, {{taskNames.get(keySubproject)}}<br>
+        <span *ngFor="let keyWorkpack of workpacksArray"><span *ngIf="workpacks.get(keyWorkpack) == keySubproject" style="margin-left: 15px;"> {{keyWorkpack}}, {{workpacks.get(keyWorkpack)}}, {{taskNames.get(keyWorkpack)}}<br></span>
+            <span *ngFor="let keyTask of tasksArray"><span *ngIf="tasks.get(keyTask) == keyWorkpack && workpacks.get(keyWorkpack) == keySubproject" style="margin-left: 25px;"> {{keyTask}}, {{tasks.get(keyTask)}}, {{taskNames.get(keyTask)}}<br></span>
+            </span>
+        </span>
+    </span>
+</div>

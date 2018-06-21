@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 
 import {Router} from '@angular/router';
 import {User, UserJson} from '../models/User';
-
 import {MessageService} from './message.service';
 
 @Injectable()

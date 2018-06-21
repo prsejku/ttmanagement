@@ -37,6 +37,8 @@ import {ConfirmationDialogComponent} from './confirmation-dialog/confirmation-di
 import {ReportingService} from './reporting.service';
 import {ChartsModule} from 'ng2-charts';
 import { ProjectReportComponent } from './project-report/project-report.component';
+import { ExportComponent } from './export/export.component';
+import { KeysPipe } from './pipes/keys';
 
 
 @NgModule({
@@ -57,7 +59,9 @@ import { ProjectReportComponent } from './project-report/project-report.componen
     RegistrationComponent,
     TaskDetailComponent,
     ConfirmationDialogComponent,
-    ProjectReportComponent
+    ProjectReportComponent,
+    ExportComponent,
+    KeysPipe
   ],
   entryComponents: [
     TaskDetailComponent,

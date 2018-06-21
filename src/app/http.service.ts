@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { User } from '../models/User';
 import {ProjectJson, Task, TaskJson, WorkPackJson} from '../models/task';
 import {TaskTime, TaskTimeJson} from '../models/TaskTime';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs/internal/Observable';
 //import {Observable} from 'rxjs/internal/Observable';
 
 @Injectable()
@@ -290,6 +290,11 @@ export class HttpService {
     getTasks(): Observable<TaskJson> {
         return this.http.get<TaskJson>('http://se.bmkw.org/api.php/projects/TASK_OVERVIEW');
     }
+
+    getProjectReportElements(): Observable<String> {
+        return this.http.get<string>(this.apiUrl + '/report_projectReport/report/');
+    }
+
 
     /*getSubProjects(): Observable<TaskJson> {
         return this.http.get<TaskJson>(`http://se.bmkw.org/api.php/projects/SUB_PROJECT_OVERVIEW`);
