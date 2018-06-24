@@ -5,31 +5,40 @@ import { HttpService} from '../http.service';
 import { ProjectsComponent } from './projects.component';
 import {Task} from "../../models/Task";
 import {Observable} from "rxjs/Observable";
+import {MessageService} from "../message.service";
+import {HttpClient} from "@angular/common/http";
+import {User} from "../../models/User";
 
 describe('ProjectsComponent', () => {
   let component: ProjectsComponent;
   let httpService: HttpService;
   let taskService: TaskService;
+  let httpClientSpy: jasmine.SpyObj<HttpClient>;
 
   beforeEach((() => {
-      const spyHttpService = jasmine.createSpyObj('HttpService', ['addProject', 'archiveTask']);
+      //const spyHttpService = jasmine.createSpyObj('HttpService', ['addProject(string,string)', 'archiveTask', 'startTime']);
       const spyTaskService = jasmine.createSpyObj('TaskService', ['getProjects', 'getWorkPacks', 'getTasks']);
+      const spyHttppClient = jasmine.createSpyObj('HttpClient', ['post', 'get']);
       TestBed.configureTestingModule({
       providers: [
           ProjectsComponent,
-          { provide: HttpService, useValue: spyHttpService},
-          { provide: TaskService, useValue: spyTaskService}
+          //no spy on the HttpService
+          { provide: HttpService, useValue: new HttpService(spyHttppClient,new MessageService())},
+          { provide: TaskService, useValue: spyTaskService},
+          { provide: HttpClient, useValue: spyHttppClient}
       ]
     });
     component = TestBed.get(ProjectsComponent);
     httpService = TestBed.get(HttpService);
     taskService = TestBed.get(TaskService);
+    httpClientSpy = TestBed.get(HttpClient);
   }));
 
   it('should create', () => {
     expect(taskService).toBeTruthy();
     expect(httpService).toBeTruthy();
     expect(component).toBeTruthy();
+    expect(httpClientSpy).toBeTruthy();
   });
 
   //ngOnInit
@@ -130,26 +139,44 @@ describe('ProjectsComponent', () => {
     });
 
    //deleteTask
-   xit('should archive the task and call method getProjects() of taskService-Spy', () => {
-       //Act
+   it('should archive the task and call method getProjects() of taskService-Spy', () => {
+       //Arrange
        component.taskType = 'Project';
+       const toAdd = new Task();
+       toAdd.TASK_NR = 2;
+       component.toAdd = toAdd;
+
+       let returnvalue = true;
+
+       //Spy auf HTTP-Client.post, which is called in the HttpService Archive-method
+       httpClientSpy.post.and.callFake(() => {
+           return Observable.from([returnvalue]);
+       });
+
+       //Act
        component.deleteTask(2);
        //Assert
-       expect(httpService.archiveTask).toHaveBeenCalled();
+       expect(httpClientSpy.post).toHaveBeenCalled();
+       expect(taskService.getProjects).toHaveBeenCalled();
    });
 
-   xit('should call httpService-Spy to add a Project and taskService-Spy to get Projects, if taskType equals Project', () => {
+   //httpClientSpy to Server => taskServiceSpy gets all Project (Update)
+   it('should call httpClient-Spy and taskService-Spy to get Projects, if taskType equals Project', () => {
        //Arrange
-       component.ngOnInit();
        component.taskType = 'Project';
-       component.toAdd.NAME = 'Neues Projekt';
-       component.toAdd.DESCRIPTION = ' ';
+       const toAdd = new Task();
+       toAdd.NAME = 'Neues Projekt';
+       toAdd.DESCRIPTION = 'SpyTestProjekt1';
+       component.toAdd = toAdd;
+       const user = new User();
+       user.USER_ID = 1;
+       httpService.user = user;
 
        const projects: Task[] = [
            {
                TASK_NR: 1,
                TASK_TYPE:0,
-               NAME: undefined,
+               NAME: 'Neues Projekt',
                STATUS: 1,
                DESCRIPTION: 'SpyTestProjekt1',
                UNTIL_DATE: '14.05.2019',
@@ -159,13 +186,94 @@ describe('ProjectsComponent', () => {
                ARCHIVED: 1,
            }
        ];
+       //Spy auf HTTP-Client.post, which is called in the HttpService
+       httpClientSpy.post.and.callFake(() => {
+           return Observable.from([projects]);
+       });
 
        //Act
        component.addProject();
 
        //Assert
-       expect(httpService.addProject).toHaveBeenCalled();
-       //expect(component.getProjects).toHaveBeenCalled();
-       //expect(taskService.getProjects).toHaveBeenCalled();
+       expect(httpClientSpy.post).toHaveBeenCalled();
+       expect(taskService.getProjects).toHaveBeenCalled();
+   });
+
+   //httpClientSpy to Server => taskServiceSpy gets WorkPacks (Update)
+   it('should call httpClient-Spy and taskService-Spy to get WorkPacks, if taskType equals Work Package', () => {
+       //Arrange
+       component.taskType = 'Work Package';
+       const toAdd = new Task();
+       toAdd.NAME = 'Neues Work Package';
+       toAdd.DESCRIPTION = 'SpyTestWorkPackage';
+       component.toAdd = toAdd;
+       //WorkPackages with the PROJ_ID = 1
+       component.selectedProj = 1;
+
+
+       const workPackages: Task[] = [
+           {
+               TASK_NR: 2,
+               TASK_TYPE:1,
+               NAME: 'Neues Work Package',
+               STATUS: 1,
+               DESCRIPTION: 'SpyTestWorkPackage',
+               UNTIL_DATE: '14.05.2019',
+               COMPLETION_DATE: '10.05.2018',
+               PROJ_ID: 1,
+               PACK_ID: null,
+               ARCHIVED: 1,
+           }
+       ];
+       //Spy auf HTTP-Client.post, which is called in the HttpService
+       httpClientSpy.post.and.callFake(() => {
+           return Observable.from([workPackages]);
+       });
+
+       //Act
+       component.addProject();
+
+       //Assert
+       expect(httpClientSpy.post).toHaveBeenCalled();
+       expect(taskService.getWorkPacks).toHaveBeenCalled();
+   });
+
+   //httpClientSpy to Server => taskServiceSpy gets all Tasks (Update)
+   it('should call httpClient-Spy and taskService-Spy to get Tasks, if taskType equals Task', () => {
+       //Arrange
+       component.taskType = 'Task';
+       const toAdd = new Task();
+       toAdd.NAME = 'Neuer Task';
+       toAdd.DESCRIPTION = 'SpyTestTasks';
+       component.toAdd = toAdd;
+       //WorkPackages with the PACK_ID = 1
+       component.selectedWP = 1;
+
+
+       const tasks: Task[] = [
+           {
+               TASK_NR: 3,
+               TASK_TYPE:2,
+               NAME: 'Neuer Task',
+               STATUS: 1,
+               DESCRIPTION: 'SpyTestTasks',
+               UNTIL_DATE: '14.05.2019',
+               COMPLETION_DATE: '10.05.2018',
+               PROJ_ID: 1,
+               PACK_ID: 1,
+               ARCHIVED: 1,
+           }
+       ];
+       //Spy auf HTTP-Client.post, which is called in the HttpService
+       httpClientSpy.post.and.callFake(() => {
+           return Observable.from([tasks]);
+       });
+
+       //Act
+       component.addProject();
+
+       //Assert
+       expect(httpClientSpy.post).toHaveBeenCalled();
+       expect(taskService.getTasks).toHaveBeenCalled();
    });
 });

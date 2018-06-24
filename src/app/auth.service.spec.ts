@@ -107,6 +107,8 @@ describe('AuthService', () => {
       let email = "v.auberger@aon.at";
       let pwd = "test123";
       let stay = false;
+      //Make sure the Storage is empty
+      localStorage.clear();
       let response = {
           users: [
               {
@@ -149,6 +151,9 @@ describe('AuthService', () => {
       //Arrange
       let email = "v.aubergerger@aon.at";
       let pwd = "test123";
+      //Make sure the Storage is empty
+      localStorage.clear()
+      //Set LocalStorage
       localStorage.setItem('tmg_login', email + ' '+pwd);
 
       //Act

@@ -38,6 +38,7 @@ export class ProjectsComponent implements OnInit {
                 case 'Project':
                     console.log("case project");
                     this.httpService.addProject(this.toAdd.NAME, this.toAdd.DESCRIPTION).subscribe(b => {
+                        console.log(b);
                         if (b) { console.log ("added"); this.getProjects(); }
                     }, _ => console.log("error"));
                     break;

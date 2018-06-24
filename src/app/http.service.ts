@@ -24,6 +24,7 @@ export class HttpService {
   apipostUrl = `${this.url}/apipost.php`;
   getProjectsUrl = 'http://se.bmkw.org/api.php/projects';
 
+
   //GETTER und SETTER FOR THIS USER?
    getUser () {
        return this.user;
