@@ -39,6 +39,7 @@ import {ChartsModule} from 'ng2-charts';
 import { ProjectReportComponent } from './project-report/project-report.component';
 import { ExportComponent } from './export/export.component';
 import { KeysPipe } from './pipes/keys';
+import { GraphvisDirective } from './graphvis.directive';
 
 
 @NgModule({
@@ -61,7 +62,8 @@ import { KeysPipe } from './pipes/keys';
     ConfirmationDialogComponent,
     ProjectReportComponent,
     ExportComponent,
-    KeysPipe
+    KeysPipe,
+    GraphvisDirective,
   ],
   entryComponents: [
     TaskDetailComponent,
