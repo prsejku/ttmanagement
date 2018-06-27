@@ -1,31 +1,60 @@
-import { TestBed, async, inject } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
 import { AuthGuard } from './auth.guard';
 import {AuthService} from "./auth.service";
 import {Router} from "@angular/router";
 
-xdescribe('AuthGuard', () => {
-  let loggedInGuard : AuthGuard;
-  let authService: AuthService;
-  let router = {
-      navigate: jasmine.createSpy('navigate')
-  }
+describe('AuthGuard', () => {
+  let component : AuthGuard;
+  let authServiceSpy: jasmine.SpyObj<AuthService>;
+  let router: jasmine.SpyObj<Router>;
+
+
   beforeEach(() => {
+    const authSpy = jasmine.createSpyObj('AuthService', ['login', 'getIsLoggedInStatus']);
+    const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
     TestBed.configureTestingModule({
-      providers: [AuthGuard, AuthService,
-          {provide: Router, useValue: router}
+        providers: [
+            AuthGuard,
+            {provide: AuthService, useValue: authSpy},
+            {provide: Router, useValue: routerSpy}
       ]
     });
-    loggedInGuard = TestBed.get(AuthGuard);
-    authService = TestBed.get(AuthService);
+
+    component = TestBed.get(AuthGuard);
+    authServiceSpy = TestBed.get(AuthService);
+    router = TestBed.get(Router);
   });
 
-  it("be able to hit route when user is logged in", () => {
-    authService.isLoggedIn = true;
-    expect(loggedInGuard.canActivate).toBe(true);
+  it('should create', () => {
+    expect(component).toBeTruthy();
+    expect(authServiceSpy).toBeTruthy();
+    expect(router).toBeTruthy();
   });
 
-  it('should ...', inject([AuthGuard], (guard: AuthGuard) => {
-    expect(guard).toBeTruthy();
-  }));
+  it('should set the right redirectUrl in the AuthService', () => {
+    //Arrange
+    const url = 'www.trackMyGoody.com';
+    authServiceSpy.getIsLoggedInStatus.and.returnValue(true);
+
+    //Act
+   component.checkLogin(url);
+
+   //Assert
+   expect(authServiceSpy.redirectUrl).toBe('www.trackMyGoody.com');
+  });
+
+  it('should call method navigate of the RouteSpy', () => {
+    //Arrange
+    const url = 'www.trackMyGoody.com';
+    authServiceSpy.getIsLoggedInStatus.and.returnValue(false);
+
+    //Act
+    component.checkLogin(url);
+
+    //Assert
+    expect(router.navigate).toHaveBeenCalled();
+  });
 });
+
+

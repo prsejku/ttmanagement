@@ -1,25 +1,46 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { RegistrationComponent } from './registration.component';
+import { RegisterService } from "../register.service";
+import { Router } from "@angular/router";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
 
-xdescribe('RegistrationComponent', () => {
-  let component: RegistrationComponent;
-  let fixture: ComponentFixture<RegistrationComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ RegistrationComponent ]
-    })
-    .compileComponents();
-  }));
+describe('RegistrationComponent', () => {
+    let component: RegistrationComponent;
+    let registerServiceSpy: jasmine.SpyObj<RegisterService>;
+    let routerSpy: jasmine.SpyObj<Router>;
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(RegistrationComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        const registerSpy = jasmine.createSpyObj('RegisterService', ['register']);
+        const routSpy = jasmine.createSpyObj('Router', ['navigate']);
+        TestBed.configureTestingModule({
+            providers: [
+                RegistrationComponent,
+                {provide: RegisterService, useValue: registerSpy},
+                {provide: Router, useValue: routSpy},
+                {provide: MatDialogRef, useValue: {}},
+                {provide: MAT_DIALOG_DATA, useValue: []}
+            ]
+        });
+        //Inject both the service-to-test and its (spy) dependencies
+        component = TestBed.get(RegistrationComponent);
+        registerServiceSpy = TestBed.get(RegisterService);
+        routerSpy = TestBed.get(Router);
+    });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+    expect(registerServiceSpy).toBeTruthy();
+    expect(routerSpy).toBeTruthy();
   });
+
+  it('RegisterService-Spy should call the method register', () => {
+    //Act
+    component.register();
+    //Assert
+    expect(registerServiceSpy.register).toHaveBeenCalled();
+    });
+
+
 });

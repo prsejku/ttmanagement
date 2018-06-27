@@ -1,10 +1,9 @@
-import {TestBed, inject, fakeAsync, tick} from '@angular/core/testing';
+import {TestBed, fakeAsync, tick} from '@angular/core/testing';
 
 import { HttpService } from './http.service';
 import {MessageService} from "./message.service";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
-import {User} from "../models/User";
 
 describe('HttpService', () => {
     let httpService: HttpService;
@@ -32,6 +31,17 @@ describe('HttpService', () => {
         expect(messageServiceSpy).toBeTruthy();
         expect(httpClientSpy).toBeTruthy();
     });
+
+    //Test, if fakeAsync works or not
+    it('fakeAsync works', fakeAsync(() => {
+        let promise = new Promise((resolve) => {
+            setTimeout(resolve, 10)
+        });
+        let done = false;
+        promise.then(() => done = true);
+        tick(50);
+        expect(done).toBeTruthy();
+    }));
 
     //parseTime()
     it('should return null, if the input string is not valid (input string to long)', () => {

@@ -33,7 +33,19 @@ describe('TaskService', () => {
     expect(httpServiceSpy).toBeTruthy();
   });
 
-  //getProjects()
+  //Test, if fakeAsync works or not
+  it('fakeAsync works', fakeAsync(() => {
+      let promise = new Promise((resolve) => {
+          setTimeout(resolve, 10)
+      });
+      let done = false;
+      promise.then(() => done = true);
+      tick(50);
+      expect(done).toBeTruthy();
+  }));
+
+
+    //getProjects()
   it('should set project property with the items returned', fakeAsync(() => {
       //Arrange Setup
       const projects = {

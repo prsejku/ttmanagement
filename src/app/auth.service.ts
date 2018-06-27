@@ -17,6 +17,10 @@ export class AuthService {
 
     constructor(private http: HttpClient, private timerService: HttpService, public router: Router) {}
 
+    getIsLoggedInStatus () {
+        return this.isLoggedIn;
+    };
+
     login(email: string, pwd: string, stay: boolean) {
         let loginUrl = `http://se.bmkw.org/api.php/login/users/?email=${email}&pwd=${pwd}`;
         this.progress = true;
