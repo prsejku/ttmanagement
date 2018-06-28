@@ -47,51 +47,6 @@ describe('TimerComponent', () => {
   });
 
 
-  xit('should check ngOnInit', () => {
-      //Arrange
-      //User for the HTTP-Service
-      const user = new User();
-      user.USER_ID = 1;
-      httpService.user = user;
-
-      //this is the user, which has a running_time
-      let number = 4;
-
-      let taskTime = {
-          TASK_TIME:
-              [
-                  {
-                      TRACK_ID: 4,
-                      START_TIME: "14:25:30",
-                      END_TIME: "16:24:25",
-                      PROJ_ID: 1,
-                      PACK_ID: 2,
-                      TASK_ID: 1,
-                      DIFF_IN_SEC: 405
-                  }
-              ]
-      };
-
-      //Spy auf HTTP-Client.post, which is called in the HttpService getRunningTimeUser-method
-      httpClientSpy.post.and.callFake(() => {
-          return Observable.from([number]);
-      });
-
-      //Spy auf HTTP-Client.get, which is called in the HttpService getTimeTrack-method
-      httpClientSpy.post.and.callFake(() => {
-          return Observable.from([taskTime]);
-      });
-
-      //IM TIMER COMPONENT IST DIE getTimeTrack(TRACK_ID = undefined)
-
-      //Act
-      component.ngOnInit();
-
-      //Assert
-      expect(httpClientSpy.post).toHaveBeenCalled();
-      expect(httpClientSpy.get).toHaveBeenCalled();
-  });
-
   //timer()
   it('should set Property running and Property interv', () => {
       //Arrange
