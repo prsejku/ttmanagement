@@ -26,6 +26,15 @@ export class HttpService {
   apipostUrl = `${this.url}/apipost.php`;
   getProjectsUrl = 'http://se.bmkw.org/api.php/projects';
 
+
+   getUser () {
+       return this.user;
+   };
+
+   setUser(user: User) {
+       this.user = user;
+   };
+
   user: User;
   timeTrackId: number;
   timeTracks = [];
@@ -264,12 +273,14 @@ export class HttpService {
             if (arr.length > 3) { return null; }
             const sek = Number.parseInt(arr[2]);
             if (sek > 59 || sek < 0 || isNaN(sek)) { return null; }
-            finalTime = ':' + sek;
+            if (sek < 10) { finalTime = ':' + '0' + sek; }
+            else {finalTime = ':' + sek; }
         } else { finalTime = ':00'; }
         if (arr.length >= 2) {
             const min = Number.parseInt(arr[1]);
             if (min < 0 || min > 59 || isNaN(min)) { return null; }
-            finalTime = ':' + min + finalTime;
+            if (min < 10) { finalTime = ':' + '0' + min + finalTime; }
+            else {finalTime = ':' + min + finalTime;}
         } else { finalTime = ':00' + finalTime; }
             if (arr.length >= 1) {
                 const hr = Number.parseInt(arr[0]);
