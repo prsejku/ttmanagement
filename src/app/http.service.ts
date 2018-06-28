@@ -33,18 +33,18 @@ export class HttpService {
   }
 
     /**
-     * Ruft via JSON RPC die Oracle-Prozedur "START_TIME(DATE, DATE, INTEGER, INTEGER)" auf.
-     * @param date
+     * Ruft via JSON Remote Procedure Call die Oracle-Prozedur "START_TIME(DATE, DATE, INTEGER, INTEGER)" auf.
+     * @param selectedDate
      * @param {string} startTime
      * @param {string} endTime
      * @param desc
      * @param {number} TASK_ID
      */
-  enterTime(date: Date, startTime: string, endTime: string, desc: string, TASK_ID: number) {
+  enterTime(selectedDate: Date, startTime: string, endTime: string, desc: string, TASK_ID: number) {
         let isoStartTime = HttpService.parseTime(startTime);
         let isoEndTime = HttpService.parseTime(endTime);
         if (isoStartTime == null || isoEndTime == null) { this.log('invalid Time!'); }
-        const day = date.toISOString().slice(0, 10) + ' ';
+        const day = selectedDate.toISOString().slice(0, 10) + ' ';
         isoStartTime =  '\'' + day + isoStartTime + '\'';
         isoEndTime = '\'' + day + isoEndTime + '\'';
         const json = JSON.stringify({
@@ -119,38 +119,46 @@ export class HttpService {
 
     getTimeTracks() {
         this.getProjects().subscribe(p => {
-            let projects = p.PROJECT_OVERVIEW;
+            const projects = p.PROJECT_OVERVIEW;
             this.getWorkPacks().subscribe(w => {
-                let workPacks = w.WORKING_PACKAGE_OVERVIEW;
+                const workPacks = w.WORKING_PACKAGE_OVERVIEW;
                 this.getTasks().subscribe(t => {
-                    let tasks = t.TASK_OVERVIEW;
+                    const tasks = t.TASK_OVERVIEW;
                     this.http.get<TaskTimeJson>(`${this.apiUrl}/task_time_user/TASK_TIME/?user_id=${this.user.USER_ID}`).subscribe(tt => {
-                        let tracksPlus = [];
-                        for (let entry of tt.TASK_TIME) {
+                        const tracksPlus = [];
+                        for (const entry of tt.TASK_TIME) {
                             let taskName: string;
                             let wpName: string;
                             let projName: string;
-                            for (let task of tasks) {
+                            for (const task of tasks) {
                                 if (entry.TASK_ID == task.TASK_NR) {
                                     taskName = task.NAME;
                                     break;
                                 }
                             }
-                            for (let wp of workPacks) {
+                            for (const wp of workPacks) {
                                 if (entry.PACK_ID == wp.TASK_NR) {
                                     wpName = wp.NAME;
                                     break;
                                 }
                             }
-                            for (let proj of projects) {
+                            for (const proj of projects) {
                                 if (entry.PROJ_ID == proj.TASK_NR) {
                                     projName = proj.NAME;
                                     break;
                                 }
                             }
+                            const startDate = new Date(entry.START_TIME);
+                            const endDate = new Date(entry.END_TIME);
+                            const startTime = startDate.toLocaleTimeString();
+                            const endTime = endDate.toLocaleTimeString();
+                            const duration = new Date(endDate.getTime() - startDate.getTime() + startDate.getTimezoneOffset() * 60000).toLocaleTimeString();
                             tracksPlus.push({
-                                START_TIME: entry.START_TIME,
-                                END_TIME: entry.END_TIME,
+                                TRACK_ID: entry.TRACK_ID,
+                                DATE: new Date(entry.START_TIME).toLocaleDateString(),
+                                START_TIME: startTime,
+                                END_TIME: endTime,
+                                DURATION: duration,
                                 DESCRIPTION: entry.DESCRIPTION,
                                 PROJECT_NAME: projName,
                                 WORK_PACK_NAME: wpName,
@@ -162,6 +170,10 @@ export class HttpService {
                 });
             });
         });
+    }
+
+    deleteTimeTrack(id: number) {
+        this.http.post(`${this.apipostUrl}/TIMER/DELETE_TIME_TRACK`, `{"TRACK_ID":"${id}"}`);
     }
 
     /**
@@ -258,12 +270,14 @@ export class HttpService {
     static parseTime(input: string): string {
         let finalTime = '';
         const arr = input.split(':');
+        // Prüfung, ob Sekunden angegeben wurden
         if (arr.length >= 3) {
             if (arr.length > 3) { return null; }
             const sek = Number.parseInt(arr[2]);
             if (sek > 59 || sek < 0 || isNaN(sek)) { return null; }
             finalTime = ':' + sek;
         } else { finalTime = ':00'; }
+        // Prüfung, ob Minuten angegeben wurden
         if (arr.length >= 2) {
             const min = Number.parseInt(arr[1]);
             if (min < 0 || min > 59 || isNaN(min)) { return null; }

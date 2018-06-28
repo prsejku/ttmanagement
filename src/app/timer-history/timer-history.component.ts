@@ -4,6 +4,8 @@ import {TaskTime} from '../../models/TaskTime';
 import {TaskService} from '../task.service';
 import {Task} from '../../models/task';
 import {FormControl} from "@angular/forms";
+import {MatDialog, MatDialogRef} from "@angular/material";
+import {TimeTrackDetailComponent} from "./time-track-detail/time-track-detail.component";
 
 @Component({
   selector: 'app-timer-history',
@@ -24,9 +26,11 @@ export class TimerHistoryComponent implements OnInit {
     allProjects: Task[];
     allWorkPacks: Task[];
     allTasks: Task[];
-    dC = ["startTime", "endTime", "desc", "projName", "packName", "taskName"];
+    dC = ["id", "date", "duration", "task"];
 
-  constructor(public httpService: HttpService, public taskService: TaskService) { }
+  constructor(public httpService: HttpService,
+              public taskService: TaskService,
+              public dialog: MatDialog) { }
 
   ngOnInit() {
       this.date = new FormControl(new Date());
@@ -63,6 +67,14 @@ export class TimerHistoryComponent implements OnInit {
             console.log(b);
             this.ngOnInit();
         });
+    }
+
+    openDialog(timeTrack) {
+      console.log(timeTrack.TRACK_ID);
+      const dialogRef = this.dialog.open(TimeTrackDetailComponent, {data: timeTrack});
+      dialogRef.afterClosed().subscribe(x => {
+       // if (x) { this.httpService.deleteTimeTrack(timeTrack.TRACK_ID); }
+      });
     }
 
     /*formatTime(timeString: string) {

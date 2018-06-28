@@ -1,0 +1,37 @@
+<mat-dialog-content class="mat-body-1">
+  <h1 mat-dialog-title>Time Track no.&nbsp;{{data.TRACK_ID}}</h1>
+  <table>
+    <tr>
+      <td>Date:</td>
+      <td>{{data.DATE}}</td>
+    </tr>
+    <tr>
+      <td>Time:</td>
+      <td>{{data.START_TIME}}&nbsp;-&nbsp;{{data.END_TIME}}</td>
+    </tr>
+    <tr>
+      <td>Duration:</td>
+      <td>{{data.DURATION}}</td>
+    </tr>
+    <tr>
+      <td>Description:</td>
+      <td>{{data.DESCRIPTION}}</td>
+    </tr>
+    <tr>
+      <td>Project:</td>
+      <td>{{data.PROJECT_NAME}}</td>
+    </tr>
+    <tr>
+      <td>Work Package:</td>
+      <td>{{data.WORK_PACK_NAME}}</td>
+    </tr>
+    <tr>
+      <td>Task:</td>
+      <td>{{data.TASK_NAME}}</td>
+    </tr>
+  </table>
+  <mat-dialog-actions>
+    <button mat-raised-button [mat-dialog-close]="false">Close</button>
+    <button mat-raised-button [mat-dialog-close]="true">Delete</button>
+  </mat-dialog-actions>
+</mat-dialog-content>
