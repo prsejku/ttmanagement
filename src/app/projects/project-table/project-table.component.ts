@@ -36,7 +36,7 @@ export class ProjectTableComponent implements OnInit {
           if (typeof x == 'object') {
             this.httpService.updateTask(x).subscribe(b => {
               if (b) { this.log('Project updated'); }
-          }, _ => {this.log('Could not update project'); }); }
+          }/*, _ => {this.log('Could not update project'); }*/); }
       });
   }
 

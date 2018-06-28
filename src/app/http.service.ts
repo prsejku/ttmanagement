@@ -248,16 +248,22 @@ export class HttpService {
     }
 
     updateTask(task: Task): Observable<boolean> {
-        const numStatus = task.STATUS ? 1 : 0;
+        const numStatus = '\'' + (task.STATUS ? 1 : 0) + '\'';
         const json = JSON.stringify({
           projektNr: `${task.TASK_NR}`,
           name: `'${task.NAME}'`,
           desc: `'${task.DESCRIPTION}'`,
-          status: `'${numStatus}'`,
-          untilDate: task.UNTIL_DATE == undefined ? 'null' : `TO_DATE('${task.UNTIL_DATE}', 'YYYY-MM-DD HH24:MI:SS')`
         });
-        console.log(json);
-        return this.http.post<boolean>(`${this.apipostUrl}/PROJEKT/UPDATE_PROJ_NAME_DESC`, json);
+        if (task.TASK_TYPE == 1) {
+            this.http.post(`${this.apipostUrl}/PROJEKT/SET_STATUS`, `{"id: "${task.TASK_NR}", "status": "${numStatus}"}`);
+            return this.http.post<boolean>(`${this.apipostUrl}/PROJEKT/UPDATE_PROJ_NAME_DESC`, json);
+        } else if (task.TASK_TYPE == 0) {
+            this.http.post(`${this.apipostUrl}/ACTIVITY/SET_STATUS`, `{"id: "${task.TASK_NR}", "status": "${numStatus}"}`);
+            return this.http.post<boolean>(`${this.apipostUrl}/ACTIVITY/UPDATE_PROJ_NAME_DESC`, json);
+        } else if (task.TASK_TYPE == 2) {
+            this.http.post(`${this.apipostUrl}/WORKING_PACKAGE/SET_STATUS`, `{id: ${task.TASK_NR}, status: ${numStatus}}`);
+            return this.http.post<boolean>(`${this.apipostUrl}/WORKING_PACKAGE/UPDATE_PROJ_NAME_DESC`, json);
+        }
     }
 
     archiveTask(taskNr: number, taskType): Observable<boolean> {
