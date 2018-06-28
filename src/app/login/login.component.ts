@@ -27,15 +27,15 @@ export class LoginComponent implements OnInit {
       const credentials = locStorVal.split(' ');
       //this.authService.login(credentials[0], credentials[1]);
       this.email = credentials[0];
-      this.pwd = credentials[1];
+      this.pwd = credentials[2];
       this.login();
     }
   }
 
   login() {
     this.authService.login(this.email, this.pwd, this.checked);
-    this.email = undefined;
-    this.pwd = undefined;
+    // this.email = undefined;
+    // this.pwd = undefined;
   }
 
   logout() {

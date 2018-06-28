@@ -1,25 +1,27 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {TestBed } from '@angular/core/testing';
 
 import { UserProfileComponent } from './user-profile.component';
+import {HttpService} from "../http.service";
 
 describe('UserProfileComponent', () => {
   let component: UserProfileComponent;
-  let fixture: ComponentFixture<UserProfileComponent>;
+  let timerServiceSyp: jasmine.SpyObj<HttpService>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ UserProfileComponent ]
-    })
-    .compileComponents();
-  }));
+   beforeEach(() => {
+       const timerSyp = jasmine.createSpyObj('HttpService', ['enterTime']);
+       TestBed.configureTestingModule({
+           providers: [
+               UserProfileComponent,
+               {provide: HttpService, useValue: timerSyp}
+           ]
+       });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(UserProfileComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+       component = TestBed.get(UserProfileComponent);
+       timerServiceSyp = TestBed.get(HttpService);
+   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+    expect(timerServiceSyp).toBeTruthy();
   });
 });
