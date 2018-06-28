@@ -1,5 +1,6 @@
 
 export class ProjectReport {
+    STATUS: number;
     PROJ_ID: number;
     PACK_ID: number;
     TASK_NR: number;

@@ -1,8 +1,9 @@
 /* Container */
 
-#container {
+.mat-body {
     overflow-y: hidden;
     overflow-x: scroll;
+    margin: 15px;
 }
 
 /* Header */
