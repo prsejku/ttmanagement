@@ -9,6 +9,8 @@ import {MessageService} from "../message.service";
 import {HttpClient} from "@angular/common/http";
 import {User} from "../../models/User";
 
+import 'rxjs/add/observable/from';
+
 describe('ProjectsComponent', () => {
   let component: ProjectsComponent;
   let httpService: HttpService;
@@ -55,7 +57,6 @@ describe('ProjectsComponent', () => {
       expect(component.taskType).toBe('Project');
       expect(component.toAdd.DESCRIPTION).toBe(' ');
       expect(taskService.getProjects).toHaveBeenCalled();
-      expect(taskService.getWorkPacks).toHaveBeenCalled();
    });
 
    //addProject()

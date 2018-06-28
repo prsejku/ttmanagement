@@ -4,6 +4,7 @@ import { TimerHistoryComponent } from './timer-history.component';
 import {HttpService} from "../http.service";
 import {TaskService} from "../task.service";
 import {Observable} from "rxjs/Observable";
+import {} from 'jasmine';
 
 describe('TimerHistoryComponent', () => {
   let component: TimerHistoryComponent;
@@ -38,14 +39,14 @@ describe('TimerHistoryComponent', () => {
               [
                   {
                       TASK_NR: 1,
-                      TASK_TYPE: 2,
+                      TASK_TYPE: 1,
                       NAME: "Testen1 getWorkPacks()",
                       STATUS: true,
                       DESCRIPTION: "Erstes Work-Package",
                       UNTIL_DATE: "2018-03-14",
                       COMPLETION_DATE: "2018-04-15",
                       PROJ_ID: 1,
-                      PACK_ID: 2,
+                      PACK_ID: null,
                       ARCHIVED: 1
                   }
               ]
@@ -56,7 +57,7 @@ describe('TimerHistoryComponent', () => {
           WORKING_PACKAGE_OVERVIEW:
               [
                   {
-                      TASK_NR: 1,
+                      TASK_NR: 2,
                       TASK_TYPE: 2,
                       NAME: "Testen1 getWorkPacks()",
                       STATUS: true,
@@ -73,8 +74,8 @@ describe('TimerHistoryComponent', () => {
           TASK_OVERVIEW:
               [
                   {
-                      TASK_NR: 1,
-                      TASK_TYPE: 2,
+                      TASK_NR: 3,
+                      TASK_TYPE: 0,
                       NAME: "Testen1 getWorkPacks()",
                       STATUS: true,
                       DESCRIPTION: "Erstes Work-Package",
@@ -103,6 +104,7 @@ describe('TimerHistoryComponent', () => {
       });
 
       //setInterval
+      jasmine.clock().uninstall();
       jasmine.clock().install();
       component.ngOnInit();
       jasmine.clock().tick(2001); //enough that your interval gets tripped
