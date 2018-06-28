@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {HttpService} from './http.service';
-import {Router} from '@angular/router';
-import {User, UserJson} from '../models/User';
+import {HttpService} from "./http.service";
+import {Router} from "@angular/router";
+import {User, UserJson} from "../models/User";
 import {isNullOrUndefined} from 'util';
 import {MessageService} from "./message.service";
 
@@ -11,12 +11,16 @@ export class AuthService {
     isLoggedIn = false;
     progress = false;
     redirectUrl: string;
-     // select * from :tabelle where :param = :body
+     //select * from :tabelle where :param = :body
 
     constructor(private http: HttpClient, private timerService: HttpService, public router: Router, public messageService: MessageService) {}
 
+    getIsLoggedInStatus () {
+        return this.isLoggedIn;
+    };
+
     login(email: string, pwd: string, stay: boolean) {
-        const loginUrl = `http://se.bmkw.org/api.php/login/users/?email=${email}&pwd=${pwd}`;
+        let loginUrl = `http://se.bmkw.org/api.php/login/users/?email=${email}&pwd=${pwd}`;
         this.progress = true;
         this.http.get<UserJson>(loginUrl).subscribe(response => {
             try {

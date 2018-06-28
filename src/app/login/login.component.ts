@@ -33,8 +33,8 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.authService.login(this.email, this.pwd, this.checked);
-    this.email = undefined;
-    this.pwd = undefined;
+    // this.email = undefined;
+    // this.pwd = undefined;
   }
 
   logout() {

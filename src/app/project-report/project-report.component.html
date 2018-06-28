@@ -1,0 +1,32 @@
+<link href="//cdnjs.cloudflare.com/ajax/libs/vis/4.15.0/vis.css" rel="stylesheet" type="text/css" />
+<script src="//cdnjs.cloudflare.com/ajax/libs/vis/4.15.0/vis.js"></script>
+<p>
+  project-report works!
+</p>
+
+
+
+
+
+<!-- dev output
+<p> {{ tasks.size }} </p>
+<p> {{ subprojects.has(4) }}</p>
+<p> {{ subprojects.get(4) }}</p>
+
+<div *ngIf="loaded">
+    <span *ngFor="let keySubproject of subprojectsArray"> {{keySubproject}}, {{subprojects.get(keySubproject).TASK_NR}}, {{subprojects.get(keySubproject).NAME}}<br>
+        <span *ngFor="let keyWorkpack of workpacksArray"><span *ngIf="workpacks.get(keyWorkpack).PROJ_ID == keySubproject" style="margin-left: 15px;"> {{keyWorkpack}}, {{workpacks.get(keyWorkpack).PROJ_ID}}, {{workpacks.get(keyWorkpack).NAME}}<br></span>
+            <span *ngFor="let keyTask of tasksArray"><span *ngIf="tasks.get(keyTask).PACK_ID == keyWorkpack && workpacks.get(keyWorkpack).PROJ_ID == keySubproject" style="margin-left: 25px;"> {{keyTask}}, {{tasks.get(keyTask).PACK_ID}}, {{tasks.get(keyTask).NAME}}<br></span>
+            </span>
+        </span>
+    </span>
+</div>
+
+-->
+
+
+<!-- <div id="mynetwork"></div> -->
+<br><br>
+ <div [appGraphVis]="graphData" class="graph-container" *ngIf="loaded"></div>
+
+

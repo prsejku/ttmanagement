@@ -36,7 +36,6 @@ export class ProjectsComponent implements OnInit {
 
     addProject() {
         if (this.toAdd.NAME != undefined) {
-            console.log(this.taskType);
             switch (this.taskType) {
                 case 'Project':
                     this.httpService.addProject(this.toAdd.NAME, this.toAdd.DESCRIPTION).subscribe(b => {

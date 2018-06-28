@@ -5,3 +5,12 @@
     margin:0;
     padding:0;
 }
+
+body {
+    /* remove vertical scrollbar */
+    overflow-x: hidden;
+}
+
+/**
+    For Progress Bars in "Project Report"
+ */

@@ -5,6 +5,8 @@ import { User } from '../models/User';
 import {ProjectJson, Task, TaskJson, WorkPackJson} from '../models/task';
 import {TaskTime, TaskTimeJson} from '../models/TaskTime';
 import {Observable} from 'rxjs/internal/Observable';
+import {ProjectReport, ProjectReportJson} from '../models/ProjectReport';
+//import {Observable} from 'rxjs/internal/Observable';
 
 @Injectable()
 
@@ -23,6 +25,15 @@ export class HttpService {
   apiUrl = `${this.url}/api.php`;
   apipostUrl = `${this.url}/apipost.php`;
   getProjectsUrl = 'http://se.bmkw.org/api.php/projects';
+
+
+   getUser () {
+       return this.user;
+   };
+
+   setUser(user: User) {
+       this.user = user;
+   };
 
   user: User;
   timeTrackId: number;
@@ -296,13 +307,15 @@ export class HttpService {
             if (arr.length > 3) { return null; }
             const sek = Number.parseInt(arr[2]);
             if (sek > 59 || sek < 0 || isNaN(sek)) { return null; }
-            finalTime = ':' + sek;
+            if (sek < 10) { finalTime = ':' + '0' + sek; }
+            else {finalTime = ':' + sek; }
         } else { finalTime = ':00'; }
         // Prüfung, ob Minuten angegeben wurden
         if (arr.length >= 2) {
             const min = Number.parseInt(arr[1]);
             if (min < 0 || min > 59 || isNaN(min)) { return null; }
-            finalTime = ':' + min + finalTime;
+            if (min < 10) { finalTime = ':' + '0' + min + finalTime; }
+            else {finalTime = ':' + min + finalTime;}
         } else { finalTime = ':00' + finalTime; }
             if (arr.length >= 1) {
                 const hr = Number.parseInt(arr[0]);
@@ -324,6 +337,15 @@ export class HttpService {
     getTasks(): Observable<TaskJson> {
         return this.http.get<TaskJson>('http://se.bmkw.org/api.php/projects/TASK_OVERVIEW');
     }
+
+    /*getProjectReportElements(): Observable<String> {
+        return this.http.get<string>(this.apiUrl + '/report_projectReport/report/');
+    }*/
+
+    getProjectReportElements(): Observable<ProjectReportJson> {
+        return this.http.get<ProjectReportJson>(this.apiUrl + '/report_projectReport/report/');
+    }
+
 
     /*getSubProjects(): Observable<TaskJson> {
         return this.http.get<TaskJson>(`http://se.bmkw.org/api.php/projects/SUB_PROJECT_OVERVIEW`);

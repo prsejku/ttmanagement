@@ -1,25 +1,34 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { MenuComponent } from './menu.component';
+import {HttpClient} from "@angular/common/http";
+import {OpenService} from "./open.service";
+import {MessageService} from "../message.service";
+import {AuthService} from "../auth.service";
+
 
 describe('MenuComponent', () => {
   let component: MenuComponent;
-  let fixture: ComponentFixture<MenuComponent>;
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ MenuComponent ]
-    })
-    .compileComponents();
-  }));
+  let openServiceSpy: jasmine.SpyObj<OpenService>;
+  let authServiceSpy: jasmine.SpyObj<AuthService>;
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MenuComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    const openSpy = jasmine.createSpyObj('OpenService', ['toggle']);
+    const authSpy = jasmine.createSpyObj('AuthService', ['login']);
+    TestBed.configureTestingModule({
+        providers: [
+            MenuComponent,
+            {provide: OpenService, useValue: openSpy},
+            {provide: AuthService, useValue: authSpy}
+        ]});
+    component = TestBed.get(MenuComponent);
+    openServiceSpy = TestBed.get(OpenService);
+    authServiceSpy = TestBed.get(AuthService);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+    expect(openServiceSpy).toBeTruthy();
+    expect(authServiceSpy).toBeTruthy();
   });
 });
