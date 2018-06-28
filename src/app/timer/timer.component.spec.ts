@@ -4,10 +4,8 @@ import { TimerComponent } from './timer.component';
 import {HttpService} from "../http.service";
 import {TaskService} from "../task.service";
 import {AuthService} from "../auth.service";
-import {Observable} from "rxjs/Observable";
 import {HttpClient} from "@angular/common/http";
 import {MessageService} from "../message.service";
-import {User} from "../../models/User";
 
 describe('TimerComponent', () => {
   let component: TimerComponent;

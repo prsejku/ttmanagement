@@ -1,9 +1,12 @@
 import {TestBed, fakeAsync, tick} from '@angular/core/testing';
+import {} from 'jasmine';
 
 import { HttpService } from './http.service';
 import {MessageService} from "./message.service";
 import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs/Observable";
+
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/from';
 
 describe('HttpService', () => {
     let httpService: HttpService;
@@ -144,46 +147,6 @@ describe('HttpService', () => {
         expect(output4).toEqual('01:02:05');
     });
 
-    //getTimeTracks()
-    it('should set timeTracks property with the items returned', fakeAsync(() => {
-        //Arrange Setup - Constant, which our spy will deliver
-        const taskTime = {
-            TASK_TIME:
-                [
-                    {
-                        TRACK_ID: 1,
-                        START_TIME: "14:25:30",
-                        END_TIME: "16:24:25",
-                        PROJ_ID: 1,
-                        PACK_ID: 2,
-                        TASK_ID: 1,
-                        DIFF_IN_SEC: 405
-                    }
-
-                ]
-        };
-
-        httpClientSpy.get.and.callFake(() => {
-            return Observable.from([taskTime]);
-        });
-
-        httpService.user = {
-            USER_ID: 1,
-            USERNAME: "verenau",
-            FIRSTNAME: "Verena",
-            LASTNAME: "Auberger",
-            PW: "test123",
-            PERSON_TYPE: 1,
-            MAIL: "v.auberger@aon.at"
-        };
-
-        //Act-calling the methode/function
-        httpService.getTimeTracks();
-        tick();
-
-        //Assert-Check and report whether the test passed or failed
-        expect(httpService.timeTracks).toEqual(taskTime.TASK_TIME);
-    }));
 
     //getTimeTrack()
         it('should return TIME-TRACKS from a specific TIME_ID', fakeAsync(() => {
