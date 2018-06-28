@@ -25,7 +25,6 @@ export class HttpService {
   getProjectsUrl = 'http://se.bmkw.org/api.php/projects';
 
 
-  //GETTER und SETTER FOR THIS USER?
    getUser () {
        return this.user;
    };
@@ -55,7 +54,6 @@ export class HttpService {
         const today = new Date().toISOString().slice(0, 10) + ' ';
         isoStartTime =  "'"+today + isoStartTime+"'";
         isoEndTime = "'"+today + isoEndTime+"'";
-        //Test to build the const JSON?
         const json = JSON.stringify(
           {start_time: isoStartTime, end_time: isoEndTime, task_id: TASK_ID, user_id: this.user.USER_ID}
           );
