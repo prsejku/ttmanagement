@@ -35,7 +35,7 @@ export class AuthService {
                     localStorage.setItem('tmg_login', email + ' ' + pwd);
                 }
                 console.log(this.redirectUrl);
-                this.router.navigate(['/timer-history']);
+                this.router.navigate(['/dashboard']);
             } catch (e) {
                 this.log("An error occured");
                 this.progress = false;

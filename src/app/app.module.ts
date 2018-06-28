@@ -64,7 +64,7 @@ import { GraphvisDirective } from './graphvis.directive';
     TaskDetailComponent,
     ConfirmationDialogComponent,
     TimeTrackDetailComponent,
-    SaveDialogComponent
+    SaveDialogComponent,
     ProjectReportComponent,
     ExportComponent,
     KeysPipe,
