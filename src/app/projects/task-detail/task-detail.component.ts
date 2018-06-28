@@ -14,12 +14,12 @@ export class TaskDetailComponent implements OnInit {
 
   status: string;
 
-  resolveStatus(status: boolean): string {
-    if (status) { return 'Completed'; } else { return 'Open'; }
+  resolveStatus(status: number): string {
+    if (status == 1) { return 'Completed'; } else { return 'Open'; }
   }
 
   changeStatus() {
-    this.data.STATUS = !this.data.STATUS;
+    if (this.data.STATUS == 1) this.data.STATUS = 0; else this.data.STATUS = 1;
     this.status = this.resolveStatus(this.data.STATUS);
   }
 
@@ -28,6 +28,7 @@ export class TaskDetailComponent implements OnInit {
   }
 
     ngOnInit(): void {
+    console.log("status: "+this.data.STATUS);
       this.status = this.resolveStatus(this.data.STATUS);
     }
 }

@@ -4,6 +4,7 @@ import {AuthService} from '../auth.service';
 import { Task } from '../../models/task';
 import {TaskService} from '../task.service';
 import {retry} from 'rxjs/operators';
+import {MessageService} from "../message.service";
 
 @Component({
   selector: 'app-timer',
@@ -25,7 +26,10 @@ export class TimerComponent implements OnInit {
     curTaskName: string;
     desc: string;
 
-    constructor(private httpService: HttpService, public authService: AuthService, public taskService: TaskService) { }
+    constructor(private httpService: HttpService,
+                public authService: AuthService,
+                public taskService: TaskService,
+                private messageService: MessageService) { }
 
     ngOnInit() {
         this.taskService.getProjects();
@@ -55,6 +59,10 @@ export class TimerComponent implements OnInit {
                 this.running = false;
             }
         });
+    }
+
+    log(m: string) {
+        this.messageService.add(m);
     }
 
     timer(): void {
@@ -114,6 +122,7 @@ export class TimerComponent implements OnInit {
         this.httpService.startTime(this.curTask.TASK_NR, this.desc).subscribe(b => {
             console.log(b);
         }, err => {
+            this.log('Could not start timer');
             this.running = false;
             clearInterval(this.interv);
             this.reset();
@@ -127,6 +136,6 @@ export class TimerComponent implements OnInit {
     stopDbTimer() {
         this.httpService.submitEndTime(new Date(Date.now())).subscribe(b => {
             console.log(b);
-        }, _ => {this.running = true; this.timer(); });
+        }, _ => {this.running = true; this.timer(); this.log('Could not stop timer'); });
     }
 }

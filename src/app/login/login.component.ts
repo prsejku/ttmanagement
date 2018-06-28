@@ -25,7 +25,6 @@ export class LoginComponent implements OnInit {
     const locStorVal = localStorage.getItem('tmg_login');
     if (locStorVal != null && locStorVal != undefined) {
       const credentials = locStorVal.split(' ');
-      //this.authService.login(credentials[0], credentials[1]);
       this.email = credentials[0];
       this.pwd = credentials[1];
       this.login();

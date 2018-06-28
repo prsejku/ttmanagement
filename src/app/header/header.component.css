@@ -1,4 +1,7 @@
 app-timer {
     margin-left:auto;
-    width:450px;
+}
+
+#tmg {
+    padding-left:15px;
 }

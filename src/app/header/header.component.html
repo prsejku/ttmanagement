@@ -1,10 +1,5 @@
 <mat-toolbar *ngIf="authService.isLoggedIn" color="primary">
-  <button mat-button routerLink="/dashboard">Dashboard</button>
-  <button mat-button routerLink="/project-report">Project Report</button>
-  <button mat-button routerLink="/timer-history">Timer History</button>
-  <button mat-button routerLink="/profile">Profile</button>
-  <button mat-button routerLink="/projects">Tasks</button>
-  <button mat-button routerLink="/export">Export</button>
-  <button mat-button routerLink="/login" (click)="authService.logout()" >Logout</button>
+  <button mat-icon-button (click)="openService.toggle()"><mat-icon>menu</mat-icon></button>
+  <span id="tmg">TrackMyGoody</span>
   <app-timer class="timer"></app-timer>
 </mat-toolbar>

@@ -6,6 +6,7 @@ import {isNullOrUndefined} from 'util';
 import {ConfirmationDialogComponent} from '../../confirmation-dialog/confirmation-dialog.component';
 import {MatDialog} from '@angular/material';
 import {HttpService} from '../../http.service';
+import {MessageService} from "../../message.service";
 
 @Component({
   selector: 'app-project-table',
@@ -18,9 +19,14 @@ export class ProjectTableComponent implements OnInit {
 
   constructor(public taskService: TaskService,
               public dialog: MatDialog,
-              public httpService: HttpService) { }
+              public httpService: HttpService,
+              private messageService: MessageService) { }
 
   ngOnInit() {
+  }
+
+  private log(m: string) {
+      this.messageService.add(m);
   }
 
   openDetailDialog(task: Task) {
@@ -29,8 +35,8 @@ export class ProjectTableComponent implements OnInit {
       dialogRef.afterClosed().subscribe(x => {
           if (typeof x == 'object') {
             this.httpService.updateTask(x).subscribe(b => {
-              if (b) { console.log('Projekt upgedatet!'); }
-          }); } else { console.log('canceled'); }
+              if (b) { this.log('Project updated'); }
+          }/*, _ => {this.log('Could not update project'); }*/); }
       });
   }
 
@@ -40,7 +46,7 @@ export class ProjectTableComponent implements OnInit {
       dialogRef.afterClosed().subscribe(x => {
         if (x) { this.httpService.archiveTask(taskID, taskType).subscribe(b => {
           if (b) {
-            console.log('Projekt gelöscht!');
+            this.log('Project deleted');
             this.taskService.getProjects(); }
         }); }
       });

@@ -10,19 +10,13 @@
       <td>Status:</td>
       <td>{{status}}&nbsp;&nbsp;
       <button style="height:25px;line-height:16px;margin-bottom:5px;float:right" mat-raised-button (click)="changeStatus()">
-        <span style="line-height:25px;" *ngIf="!data.STATUS">Complete</span>
-        <span style="line-height:25px" *ngIf="data.STATUS">Re-open</span>
+        <span style="line-height:25px;" *ngIf="data.STATUS==0">Complete</span>
+        <span style="line-height:25px" *ngIf="data.STATUS==1">Re-open</span>
         </button>  <br/></td>
     </tr>
     <tr>
       <td>Description:</td>
         <td><label><textarea type="text" name="desc" [(ngModel)]="data.DESCRIPTION"></textarea></label></td>
-    </tr>
-    <tr>
-      <td>Due Date:</td>
-      <td><label><input class="dateInput" [matDatepicker]="picker" [value]="data.UNTIL_DATE">
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker></label></td>
     </tr>
     <tr *ngIf="data.STATUS">
       <td>Completion Date:</td>

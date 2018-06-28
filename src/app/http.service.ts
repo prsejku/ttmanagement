@@ -39,23 +39,36 @@ export class HttpService {
   timeTrackId: number;
   timeTracks = [];
 
+  static parseSeconds(arg: number): string {
+    let sec = arg % 60;
+    arg -= sec;
+    arg = arg / 60;
+    let min = '' + arg % 60;
+    arg -= arg % 60;
+    arg = arg / 60;
+    if (min.length == 1) { min = '0' + min; }
+    const hr = '' + arg;
+    sec = sec % 60;
+    return hr + ':' + min + ':' + (sec < 10 ? '0' + sec : '' + sec);
+  }
+
   private log(message: string) {
-    this.messageService.add('HttpService: ' + message);
+    this.messageService.add(message);
   }
 
     /**
-     * Ruft via JSON RPC die Oracle-Prozedur "START_TIME(DATE, DATE, INTEGER, INTEGER)" auf.
-     * @param date
+     * Ruft via JSON Remote Procedure Call die Oracle-Prozedur "START_TIME(DATE, DATE, INTEGER, INTEGER)" auf.
+     * @param selectedDate
      * @param {string} startTime
      * @param {string} endTime
      * @param desc
      * @param {number} TASK_ID
      */
-  enterTime(date: Date, startTime: string, endTime: string, desc: string, TASK_ID: number) {
+  enterTime(selectedDate: Date, startTime: string, endTime: string, desc: string, TASK_ID: number) {
         let isoStartTime = HttpService.parseTime(startTime);
         let isoEndTime = HttpService.parseTime(endTime);
         if (isoStartTime == null || isoEndTime == null) { this.log('invalid Time!'); }
-        const day = date.toISOString().slice(0, 10) + ' ';
+        const day = selectedDate.toISOString().slice(0, 10) + ' ';
         isoStartTime =  '\'' + day + isoStartTime + '\'';
         isoEndTime = '\'' + day + isoEndTime + '\'';
         const json = JSON.stringify({
@@ -130,38 +143,46 @@ export class HttpService {
 
     getTimeTracks() {
         this.getProjects().subscribe(p => {
-            let projects = p.PROJECT_OVERVIEW;
+            const projects = p.PROJECT_OVERVIEW;
             this.getWorkPacks().subscribe(w => {
-                let workPacks = w.WORKING_PACKAGE_OVERVIEW;
+                const workPacks = w.WORKING_PACKAGE_OVERVIEW;
                 this.getTasks().subscribe(t => {
-                    let tasks = t.TASK_OVERVIEW;
+                    const tasks = t.TASK_OVERVIEW;
                     this.http.get<TaskTimeJson>(`${this.apiUrl}/task_time_user/TASK_TIME/?user_id=${this.user.USER_ID}`).subscribe(tt => {
-                        let tracksPlus = [];
-                        for (let entry of tt.TASK_TIME) {
+                        const tracksPlus = [];
+                        for (const entry of tt.TASK_TIME) {
                             let taskName: string;
                             let wpName: string;
                             let projName: string;
-                            for (let task of tasks) {
+                            for (const task of tasks) {
                                 if (entry.TASK_ID == task.TASK_NR) {
                                     taskName = task.NAME;
                                     break;
                                 }
                             }
-                            for (let wp of workPacks) {
+                            for (const wp of workPacks) {
                                 if (entry.PACK_ID == wp.TASK_NR) {
                                     wpName = wp.NAME;
                                     break;
                                 }
                             }
-                            for (let proj of projects) {
+                            for (const proj of projects) {
                                 if (entry.PROJ_ID == proj.TASK_NR) {
                                     projName = proj.NAME;
                                     break;
                                 }
                             }
+                            const startDate = new Date(entry.START_TIME);
+                            const endDate = new Date(entry.END_TIME);
+                            const startTime = startDate.toLocaleTimeString();
+                            const endTime = endDate.toLocaleTimeString();
+                            const duration = HttpService.parseSeconds(entry.DIFF_IN_SEC);
                             tracksPlus.push({
-                                START_TIME: entry.START_TIME,
-                                END_TIME: entry.END_TIME,
+                                TRACK_ID: entry.TRACK_ID,
+                                DATE: new Date(entry.START_TIME).toLocaleDateString(),
+                                START_TIME: startTime,
+                                END_TIME: endTime,
+                                DURATION: duration,
                                 DESCRIPTION: entry.DESCRIPTION,
                                 PROJECT_NAME: projName,
                                 WORK_PACK_NAME: wpName,
@@ -173,6 +194,10 @@ export class HttpService {
                 });
             });
         });
+    }
+
+    deleteTimeTrack(id: number): Observable<boolean> {
+        return this.http.post<boolean>(`${this.apipostUrl}/TIMER/TIME_DELETE`, `{"TRACK_ID":"${id}"}`);
     }
 
     /**
@@ -191,15 +216,17 @@ export class HttpService {
         return res;
     }
 
-    /*addSubProject(projectName: string, projectDesc: string, superTask: number): Observable<Object> {
-        let name = "'"+projectName+"'";
-        let desc = "'"+projectDesc+"'";
-        let json = JSON.stringify({name: name, desc: desc, super_task: superTask});
-        console.log("POST: "+json);
-        let res = this.http.post(`${this.apipostUrl}/SUBPROJECT/ADD_SUBPROJECT`, json);
-        this.log("Successfully added the Project");
-        return res;
-    }*/
+    updateUser(user: User): Observable<boolean> {
+        const json = JSON.stringify({
+            USER_ID: user.USER_ID,
+            USERNAME: '\'' + user.USERNAME + '\'',
+            FIRSTNAME: '\'' + user.FIRSTNAME + '\'',
+            LASTNAME: '\'' + user.LASTNAME + '\'',
+            PW: '\'' + user.PW + '\'',
+            MAIL: '\'' + user.MAIL + '\'',
+            PERSON_TYPE: '\'' + user.PERSON_TYPE + '\''});
+        return this.http.post<boolean>(`${this.apipostUrl}/PERSON/UPDATE_USER`, json);
+    }
 
     /**
      * Führt via JSON RPC die Oracle-Prozedur "ADD_WORKPACK(VARCHAR2, VARCHAR2, INTEGER) aus und fügt der Datenbank ein Arbeitspaket hinzu.
@@ -231,17 +258,23 @@ export class HttpService {
         return this.http.post(`${this.apipostUrl}/ACTIVITY/ADD_TASK`, json);
     }
 
-    updateTask(task: Task) {
-        const numStatus = task.STATUS ? 1 : 0;
+    updateTask(task: Task): Observable<boolean> {
+        const numStatus = '\'' + (task.STATUS ? 1 : 0) + '\'';
         const json = JSON.stringify({
           projektNr: `${task.TASK_NR}`,
           name: `'${task.NAME}'`,
           desc: `'${task.DESCRIPTION}'`,
-          status: `'${numStatus}'`,
-          untilDate: task.UNTIL_DATE == undefined ? 'null' : `TO_DATE('${task.UNTIL_DATE}', 'YYYY-MM-DD HH24:MI:SS')`
         });
-        console.log(json);
-        return this.http.post<boolean>(`${this.apipostUrl}/PROJEKT/UPDATE_PROJ_NAME_DESC`, json);
+        if (task.TASK_TYPE == 1) {
+            this.http.post(`${this.apipostUrl}/PROJEKT/SET_STATUS`, `{"id: "${task.TASK_NR}", "status": "${numStatus}"}`);
+            return this.http.post<boolean>(`${this.apipostUrl}/PROJEKT/UPDATE_PROJ_NAME_DESC`, json);
+        } else if (task.TASK_TYPE == 0) {
+            this.http.post(`${this.apipostUrl}/ACTIVITY/SET_STATUS`, `{"id: "${task.TASK_NR}", "status": "${numStatus}"}`);
+            return this.http.post<boolean>(`${this.apipostUrl}/ACTIVITY/UPDATE_PROJ_NAME_DESC`, json);
+        } else if (task.TASK_TYPE == 2) {
+            this.http.post(`${this.apipostUrl}/WORKING_PACKAGE/SET_STATUS`, `{id: ${task.TASK_NR}, status: ${numStatus}}`);
+            return this.http.post<boolean>(`${this.apipostUrl}/WORKING_PACKAGE/UPDATE_PROJ_NAME_DESC`, json);
+        }
     }
 
     archiveTask(taskNr: number, taskType): Observable<boolean> {
@@ -269,6 +302,7 @@ export class HttpService {
     static parseTime(input: string): string {
         let finalTime = '';
         const arr = input.split(':');
+        // Prüfung, ob Sekunden angegeben wurden
         if (arr.length >= 3) {
             if (arr.length > 3) { return null; }
             const sek = Number.parseInt(arr[2]);
@@ -276,6 +310,7 @@ export class HttpService {
             if (sek < 10) { finalTime = ':' + '0' + sek; }
             else {finalTime = ':' + sek; }
         } else { finalTime = ':00'; }
+        // Prüfung, ob Minuten angegeben wurden
         if (arr.length >= 2) {
             const min = Number.parseInt(arr[1]);
             if (min < 0 || min > 59 || isNaN(min)) { return null; }
