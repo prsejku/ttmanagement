@@ -43,6 +43,7 @@ export class TaskService {
                     }
                 }
                 this.workPacks = wrkPck;
+                this.list = wrkPck;
                 this.archWorkPacks = archWrkPck;
             });
         }
@@ -60,6 +61,7 @@ export class TaskService {
                     }
                 }
                 this.tasks = tsks;
+                this.list = tsks;
                 this.archTasks = archTsks;
             });
             console.log(this.tasks);

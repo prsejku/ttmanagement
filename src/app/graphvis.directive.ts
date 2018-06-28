@@ -10,8 +10,6 @@ export class GraphvisDirective {
     constructor(private el: ElementRef) {}
 
     @Input() set appGraphVis(graphData: DataSet<any>){
-        console.log('graph data ', graphData);
-        //let options = {};
         let options = {
             /*
                 um den Ordering-Bug von vis.js zu umgehen, wird hier eine eigene Sortierung implementiert

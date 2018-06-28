@@ -69,16 +69,12 @@ export class ProjectReportComponent implements OnInit {
               else return 0;
           });
 
-
-          //var groups = new DataSet = {};
           var groups = new DataSet<any>();
           var items = new DataSet<any>();
           let oid: number = 0;
 
           for (let keySubproject of this.subprojectsArray) {
               // Project
-              console.log("trefferproj: " + keySubproject + " " + this.subprojects.get(keySubproject).PROJ_ID + " " +
-                  this.subprojects.get(keySubproject).TASK_NR + " " + this.subprojects.get(keySubproject).NAME);
               groups.add({id: this.subprojects.get(keySubproject).TASK_NR, content: this.subprojects.get(keySubproject).NAME,
                   orderId: ++oid, className: 'timeline-subprojects'});
               let startDatum: Date;

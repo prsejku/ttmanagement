@@ -15,14 +15,11 @@ export class ExportComponent implements OnInit {
   ngOnInit() {
     this.httpService.getExportJson(this.httpService.user.USER_ID).subscribe(s => {
       this.jsonString = s;
-      this.jsonString["DATA"][0]["hallo"] = "jawoll";
-      console.log(this.jsonString["DATA"]);
-      //console.log(this.jsonString);
+      this.jsonString["DATA"].forEach(st => {
+        st["TRACKED_TIME"] = HttpService.parseSeconds(st["DIFF_IN_SEC"]);
+        delete st["DIFF_IN_SEC"];
+      });
     });
-    //console.log(this.jsonString);
-
-    //let arr = JSON.parse(this.jsonString);
-    //console.log(arr);
   }
 
 }
