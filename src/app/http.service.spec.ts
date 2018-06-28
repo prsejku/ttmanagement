@@ -193,11 +193,13 @@ describe('HttpService', () => {
                     [
                         {
                             TRACK_ID: 1,
-                            START_TIME: "14:25:30",
-                            END_TIME: "16:24:25",
+                            START_TIME: "2018-03-08 14:25:30",
+                            END_TIME: "2018-03-08 16:24:25",
+                            DESCRIPTION: "Ein Test",
                             PROJ_ID: 1,
                             PACK_ID: 2,
                             TASK_ID: 1,
+                            USER_ID: 1,
                             DIFF_IN_SEC: 405
                         },
                     ]
@@ -224,24 +226,12 @@ describe('HttpService', () => {
                         TASK_NR: 1,
                         TASK_TYPE: 2,
                         NAME: "Testen1 getWorkPacks()",
-                        STATUS: 1,
+                        STATUS: true,
                         DESCRIPTION: "Erstes Work-Package",
-                        UNTIL_DATE: "14.05.2019",
-                        COMPLETION_DATE: "14.06.2018",
+                        UNTIL_DATE: "2018-03-14",
+                        COMPLETION_DATE: "2018-04-15",
                         PROJ_ID: 1,
-                        PACK_ID: null,
-                        ARCHIVED: 1
-                    },
-                    {
-                        TASK_NR: 2,
-                        TASK_TYPE: 2,
-                        NAME: "Testen2 getWorkPacks()",
-                        STATUS: 1,
-                        DESCRIPTION: "Zweites Work-Package",
-                        UNTIL_DATE: "14.05.2019",
-                        COMPLETION_DATE: "14.06.2018",
-                        PROJ_ID: 1,
-                        PACK_ID: null,
+                        PACK_ID: 2,
                         ARCHIVED: 1
                     }
                 ]
@@ -267,26 +257,14 @@ describe('HttpService', () => {
                 [
                     {
                         TASK_NR: 1,
-                        TASK_TYPE: 0,
-                        NAME: "Testen1 getTasks()",
-                        STATUS: 1,
-                        DESCRIPTION: "Erster Task",
-                        UNTIL_DATE: "14.05.2019",
-                        COMPLETION_DATE: "25.07.2018",
+                        TASK_TYPE: 2,
+                        NAME: "Testen1 getWorkPacks()",
+                        STATUS: true,
+                        DESCRIPTION: "Erstes Work-Package",
+                        UNTIL_DATE: "2018-03-14",
+                        COMPLETION_DATE: "2018-04-15",
                         PROJ_ID: 1,
-                        PACK_ID:2,
-                        ARCHIVED: 1
-                    },
-                    {
-                        TASK_NR: 2,
-                        TASK_TYPE: 0,
-                        NAME: "Testen2 getTasks()",
-                        STATUS: 1,
-                        DESCRIPTION: "Zweiter Task",
-                        UNTIL_DATE: "24.05.2018",
-                        COMPLETION_DATE: "14.05.2018",
-                        PROJ_ID: 1,
-                        PACK_ID:2,
+                        PACK_ID: 2,
                         ARCHIVED: 1
                     }
                 ]

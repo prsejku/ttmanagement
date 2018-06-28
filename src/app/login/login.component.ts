@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
       const credentials = locStorVal.split(' ');
       //this.authService.login(credentials[0], credentials[1]);
       this.email = credentials[0];
-      this.pwd = credentials[2];
+      this.pwd = credentials[1];
       this.login();
     }
   }
