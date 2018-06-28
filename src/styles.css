@@ -11,6 +11,22 @@ body {
     overflow-x: hidden;
 }
 
-/**
-    For Progress Bars in "Project Report"
+/*
+ * Styles fuer die ProjectReport Component (Gruppenstyles)
  */
+
+.vis-label.timeline-subprojects {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.vis-label.timeline-workpacks {
+    padding-left: 15px;
+    font-style: italic;
+}
+
+.vis-label.timeline-tasks {
+    padding-left: 30px;
+}
+
+

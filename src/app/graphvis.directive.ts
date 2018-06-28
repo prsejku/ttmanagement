@@ -11,7 +11,16 @@ export class GraphvisDirective {
 
     @Input() set appGraphVis(graphData: DataSet<any>){
         console.log('graph data ', graphData);
-        let options = {};
+        //let options = {};
+        let options = {
+            /*
+                um den Ordering-Bug von vis.js zu umgehen, wird hier eine eigene Sortierung implementiert
+             */
+            groupOrder: function (a, b) {
+                return a.orderId - b.orderId;
+            },
+            editable: true
+        };
 
         var timeline = new Timeline(this.el.nativeElement, graphData["items"], graphData["groups"], options);
 

@@ -1,5 +1,13 @@
 .graph-container {
-    height: 25em;
+    //height: 25em;
+    height: 100%;
     widows: 100%;
 }
 
+#project-report {
+    margin: 10px;
+}
+
+/*
+    CSS-Styles fuer die Timeline siehe in der globalen styles.css
+ */

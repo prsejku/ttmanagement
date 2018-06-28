@@ -338,12 +338,12 @@ export class HttpService {
         return this.http.get<TaskJson>('http://se.bmkw.org/api.php/projects/TASK_OVERVIEW');
     }
 
-    /*getProjectReportElements(): Observable<String> {
-        return this.http.get<string>(this.apiUrl + '/report_projectReport/report/');
-    }*/
-
     getProjectReportElements(): Observable<ProjectReportJson> {
         return this.http.get<ProjectReportJson>(this.apiUrl + '/report_projectReport/report/');
+    }
+
+    getExportJson(user: number): Observable<JSON> {
+        return this.http.get<JSON>(this.apiUrl + '/export/DATA/?user_id=' + user);
     }
 
 
