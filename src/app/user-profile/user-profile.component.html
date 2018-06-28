@@ -12,25 +12,21 @@
         <div class ="second-item">
             <form class="personal-date-form">
             <mat-form-field class="example-full-width">
-              <input matInput placeholder="First Name" value="{{timerService.user.FIRSTNAME}}" disabled = "disabled">
+              <input matInput placeholder="First Name" name="firstname" [(ngModel)]="updatedUser.FIRSTNAME">
             </mat-form-field>
             <mat-form-field class="example-full-width">
-              <input matInput placeholder="Last Name" value="{{timerService.user.LASTNAME}}" disabled = "disabled">
+              <input matInput placeholder="Last Name" name="lastname" [(ngModel)]="updatedUser.LASTNAME">
             </mat-form-field>
             <mat-form-field class="example-full-width">
-              <input matInput placeholder="Email" value="{{timerService.user.MAIL}}" disabled = "disabled">
+              <input matInput placeholder="Email" name="mail" [(ngModel)]="updatedUser.MAIL">
             </mat-form-field>
             <mat-form-field class="example-full-width">
-                <input matInput placeholder="User Name" value="{{timerService.user.USERNAME}}" disabled = "disabled">
+                <input matInput placeholder="User Name" name="username" [(ngModel)]="updatedUser.USERNAME">
             </mat-form-field>
+            <button mat-raised-button (click)="ngOnInit()">Discard</button>
+            <button mat-raised-button (click)="openSaveDialog()">Save</button>
             </form>
             <br>
-          <!--mat-radio-group class="gender-radio-group" [(ngModel)]="myGender">
-            <mat-radio-button class="gender-radio-button" value="female">Female</mat-radio-button>
-            <mat-radio-button class="gender-radio-button" value="male">Male</mat-radio-button>
-            <mat-radio-button class="gender-radio-button" value="other">Other</mat-radio-button>
-          </mat-radio-group>
-          <div style="margin-top: 10px">Gender: {{myGender}}</div-->
         </div>
       </mat-card-content>
     </mat-card>

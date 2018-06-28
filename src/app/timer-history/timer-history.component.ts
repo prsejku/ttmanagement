@@ -6,6 +6,7 @@ import {Task} from '../../models/task';
 import {FormControl} from "@angular/forms";
 import {MatDialog, MatDialogRef} from "@angular/material";
 import {TimeTrackDetailComponent} from "./time-track-detail/time-track-detail.component";
+import {MessageService} from "../message.service";
 
 @Component({
   selector: 'app-timer-history',
@@ -30,7 +31,8 @@ export class TimerHistoryComponent implements OnInit {
 
   constructor(public httpService: HttpService,
               public taskService: TaskService,
-              public dialog: MatDialog) { }
+              public dialog: MatDialog,
+              private messageService: MessageService) { }
 
   ngOnInit() {
       this.date = new FormControl(new Date());
@@ -50,6 +52,10 @@ export class TimerHistoryComponent implements OnInit {
       }, 100);
   }
 
+  private log(m: string) {
+      this.messageService.add(m);
+  }
+
     getProject(id: number) {
       return Task.get(this.allProjects, id);
     }
@@ -64,23 +70,16 @@ export class TimerHistoryComponent implements OnInit {
 
     submit(): void {
         this.httpService.enterTime(this.date.value, this.startTime, this.endTime, this.description, this.task).subscribe(b => {
-            console.log(b);
-            this.ngOnInit();
-        });
+            if (b) { this.log('Successfully entered time'); this.ngOnInit(); }
+        }, _ => { this.log('Could not submit time entry'); });
     }
 
     openDialog(timeTrack) {
-      console.log(timeTrack.TRACK_ID);
       const dialogRef = this.dialog.open(TimeTrackDetailComponent, {data: timeTrack});
       dialogRef.afterClosed().subscribe(x => {
-       // if (x) { this.httpService.deleteTimeTrack(timeTrack.TRACK_ID); }
+        if (x) { this.httpService.deleteTimeTrack(timeTrack.TRACK_ID).subscribe(b => {
+            if (b) { this.log('Successfully deleted the entry'); this.ngOnInit(); }
+        }, _ => { this.log('Could not delete the entry'); }); }
       });
     }
-
-    /*formatTime(timeString: string) {
-      let time = new Date(timeString);
-      //if (new Date().getMilliseconds() - time.getMilliseconds() < 24 * 3600000) return time.toLocaleTimeString();
-      //return time.toLocaleString();
-      return Date.now() - time.getMilliseconds();
-    }*/
 }

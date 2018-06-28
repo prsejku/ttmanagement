@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {HttpService} from '../http.service';
 import {Task} from '../../models/task';
 import {isNullOrUndefined} from 'util';
-import {TaskService} from "../task.service";
-//import { TimerService } from "../timer.service";
+import {TaskService} from '../task.service';
+import {MessageService} from '../message.service';
 
 
 @Component({
@@ -20,7 +20,7 @@ export class ProjectsComponent implements OnInit {
     columnsToDisplay = ['name', 'description', 'delete'];
     superTask: Task;
 
-    constructor(public httpService: HttpService, private taskService: TaskService) {
+    constructor(public httpService: HttpService, private taskService: TaskService, private messageService: MessageService) {
     }
 
     ngOnInit() {
@@ -30,30 +30,29 @@ export class ProjectsComponent implements OnInit {
         this.getProjects();
     }
 
+    private log(m: string) {
+        this.messageService.add(m);
+    }
+
     addProject() {
         if (this.toAdd.NAME != undefined) {
             console.log(this.taskType);
             switch (this.taskType) {
                 case 'Project':
-                    console.log("case project");
                     this.httpService.addProject(this.toAdd.NAME, this.toAdd.DESCRIPTION).subscribe(b => {
-                        if (b) { console.log ("added"); this.getProjects(); }
-                    }, _ => console.log("error"));
+                        if (b) { this.log('Successfully added the project'); this.getProjects(); }
+                    }, _ => this.log('Could not add the project'));
                     break;
                 case 'Work Package':
                     this.httpService.addWorkPack(this.toAdd.NAME, this.toAdd.DESCRIPTION, this.selectedProj).subscribe(b => {
-                        if (b) { this.getWorkPacks(); }
-                    });
+                        if (b) { this.messageService.add('Successfully added the Work Package'); this.getWorkPacks(); }
+                    }, _ => { this.log('Could not add the Work Package'); });
                     break;
                 case 'Task':
                     this.httpService.addTask(this.toAdd.NAME, this.toAdd.DESCRIPTION, this.selectedWP).subscribe(b => {
-                        if (b) { this.getTasks(); }
-                    });
+                        if (b) { this.log('Successfully added the Task'); this.getTasks(); }
+                    }, _ => { this.log('Could not add the task'); });
                     break;
-                /*case "Sub-Project":
-                    this.httpService.addSubProject(this.toAdd.NAME, this.toAdd.DESCRIPTION, this.toAdd.PROJ_ID).subscribe(b => {
-                        if (b) this.getProjects();
-                    });*/
             }
 
             this.toAdd = new Task();

@@ -30,8 +30,6 @@ img {
     width: 100%;
 }
 
-.gender-radio-group {
-    display: inline-flex;
-    flex-direction: column;
-    clear: both;
+button {
+    margin:5px;
 }

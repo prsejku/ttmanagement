@@ -50,6 +50,7 @@ import { OpenService } from './menu/open.service';
 import { TaskDetailComponent } from './projects/task-detail/task-detail.component';
 import {ConfirmationDialogComponent} from "./confirmation-dialog/confirmation-dialog.component";
 import { TimeTrackDetailComponent } from './timer-history/time-track-detail/time-track-detail.component';
+import { SaveDialogComponent } from './save-dialog/save-dialog.component';
 
 
 @NgModule({
@@ -70,11 +71,13 @@ import { TimeTrackDetailComponent } from './timer-history/time-track-detail/time
     RegistrationComponent,
     TaskDetailComponent,
     ConfirmationDialogComponent,
-    TimeTrackDetailComponent
+    TimeTrackDetailComponent,
+    SaveDialogComponent
   ],
   entryComponents: [
     TaskDetailComponent,
     ConfirmationDialogComponent,
+    SaveDialogComponent,
     TimeTrackDetailComponent],
   imports: [
     BrowserModule,

@@ -26,10 +26,23 @@ export class HttpService {
 
   user: User;
   timeTrackId: number;
-    timeTracks = [];
+  timeTracks = [];
+
+  static parseSeconds(arg: number): string {
+    let sec = arg % 60;
+    arg -= sec;
+    arg = arg / 60;
+    let min = '' + arg % 60;
+    arg -= arg % 60;
+    arg = arg / 60;
+    if (min.length == 1) { min = '0' + min; }
+    const hr = '' + arg;
+    sec = sec % 60;
+    return hr + ':' + min + ':' + (sec < 10 ? '0' + sec : '' + sec);
+  }
 
   private log(message: string) {
-    this.messageService.add('HttpService: ' + message);
+    this.messageService.add(message);
   }
 
     /**
@@ -152,7 +165,7 @@ export class HttpService {
                             const endDate = new Date(entry.END_TIME);
                             const startTime = startDate.toLocaleTimeString();
                             const endTime = endDate.toLocaleTimeString();
-                            const duration = new Date(endDate.getTime() - startDate.getTime() + startDate.getTimezoneOffset() * 60000).toLocaleTimeString();
+                            const duration = HttpService.parseSeconds(entry.DIFF_IN_SEC);
                             tracksPlus.push({
                                 TRACK_ID: entry.TRACK_ID,
                                 DATE: new Date(entry.START_TIME).toLocaleDateString(),
@@ -172,8 +185,8 @@ export class HttpService {
         });
     }
 
-    deleteTimeTrack(id: number) {
-        this.http.post(`${this.apipostUrl}/TIMER/DELETE_TIME_TRACK`, `{"TRACK_ID":"${id}"}`);
+    deleteTimeTrack(id: number): Observable<boolean> {
+        return this.http.post<boolean>(`${this.apipostUrl}/TIMER/TIME_DELETE`, `{"TRACK_ID":"${id}"}`);
     }
 
     /**
@@ -192,15 +205,17 @@ export class HttpService {
         return res;
     }
 
-    /*addSubProject(projectName: string, projectDesc: string, superTask: number): Observable<Object> {
-        let name = "'"+projectName+"'";
-        let desc = "'"+projectDesc+"'";
-        let json = JSON.stringify({name: name, desc: desc, super_task: superTask});
-        console.log("POST: "+json);
-        let res = this.http.post(`${this.apipostUrl}/SUBPROJECT/ADD_SUBPROJECT`, json);
-        this.log("Successfully added the Project");
-        return res;
-    }*/
+    updateUser(user: User): Observable<boolean> {
+        const json = JSON.stringify({
+            USER_ID: user.USER_ID,
+            USERNAME: '\'' + user.USERNAME + '\'',
+            FIRSTNAME: '\'' + user.FIRSTNAME + '\'',
+            LASTNAME: '\'' + user.LASTNAME + '\'',
+            PW: '\'' + user.PW + '\'',
+            MAIL: '\'' + user.MAIL + '\'',
+            PERSON_TYPE: '\'' + user.PERSON_TYPE + '\''});
+        return this.http.post<boolean>(`${this.apipostUrl}/PERSON/UPDATE_USER`, json);
+    }
 
     /**
      * Führt via JSON RPC die Oracle-Prozedur "ADD_WORKPACK(VARCHAR2, VARCHAR2, INTEGER) aus und fügt der Datenbank ein Arbeitspaket hinzu.
@@ -232,7 +247,7 @@ export class HttpService {
         return this.http.post(`${this.apipostUrl}/ACTIVITY/ADD_TASK`, json);
     }
 
-    updateTask(task: Task) {
+    updateTask(task: Task): Observable<boolean> {
         const numStatus = task.STATUS ? 1 : 0;
         const json = JSON.stringify({
           projektNr: `${task.TASK_NR}`,
