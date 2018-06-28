@@ -53,15 +53,15 @@ describe('TaskService', () => {
               [
                   {
                       TASK_NR: 1,
-                      TASK_TYPE: 1,
-                      NAME: "Projektmanagement",
-                      STATUS: 0,
-                      DESCRIPTION: "Dokumentation,Qualit\u00e4t,Planung",
-                      UNTIL_DATE: "1-1-18",
-                      ARCHIVED: 0,
-                      PROJ_ID: 2,
-                      PACK_ID: 3,
-                      COMPLETION_DATE: "1-1-16",
+                      TASK_TYPE: 2,
+                      NAME: "Testen1 getWorkPacks()",
+                      STATUS: true,
+                      DESCRIPTION: "Erstes Work-Package",
+                      UNTIL_DATE: "2018-03-14",
+                      COMPLETION_DATE: "2018-04-15",
+                      PROJ_ID: 1,
+                      PACK_ID: 2,
+                      ARCHIVED: 1
                   }
               ]
       };
@@ -88,26 +88,14 @@ describe('TaskService', () => {
                   {
                       TASK_NR: 1,
                       TASK_TYPE: 2,
-                      NAME: "Testen Working Package",
-                      STATUS: 0,
-                      DESCRIPTION: "Dokumentation,Qualit\u00e4t,Planung",
-                      UNTIL_DATE: "1-1-18",
-                      ARCHIVED: 0,
+                      NAME: "Testen1 getWorkPacks()",
+                      STATUS: true,
+                      DESCRIPTION: "Erstes Work-Package",
+                      UNTIL_DATE: "2018-03-14",
+                      COMPLETION_DATE: "2018-04-15",
                       PROJ_ID: 1,
-                      PACK_ID: null,
-                      COMPLETION_DATE: "1-1-16",
-                  },
-                  {
-                      TASK_NR: 2,
-                      TASK_TYPE: 2,
-                      NAME: "Testen Working Package1",
-                      STATUS: 0,
-                      DESCRIPTION: "Dokumentation,Qualit\u00e4t,Planung",
-                      UNTIL_DATE: "1-1-18",
-                      ARCHIVED: 1,
-                      PROJ_ID: 3,
-                      PACK_ID: null,
-                      COMPLETION_DATE: "1-1-16",
+                      PACK_ID: 2,
+                      ARCHIVED: 1
                   }
               ]
       };
@@ -119,14 +107,14 @@ describe('TaskService', () => {
                   {
                       TASK_NR: 1,
                       TASK_TYPE: 2,
-                      NAME: "Testen Working Package",
-                      STATUS: 0,
-                      DESCRIPTION: "Dokumentation,Qualit\u00e4t,Planung",
-                      UNTIL_DATE: "1-1-18",
-                      ARCHIVED: 0,
+                      NAME: "Testen1 getWorkPacks()",
+                      STATUS: true,
+                      DESCRIPTION: "Erstes Work-Package",
+                      UNTIL_DATE: "2018-03-14",
+                      COMPLETION_DATE: "2018-04-15",
                       PROJ_ID: 1,
-                      PACK_ID: null,
-                      COMPLETION_DATE: "1-1-16",
+                      PACK_ID: 2,
+                      ARCHIVED: 1
                   }
               ]
       };
@@ -151,14 +139,14 @@ describe('TaskService', () => {
                 {
                     TASK_NR: 1,
                     TASK_TYPE: 2,
-                    NAME: "Testen Working Package",
-                    STATUS: 0,
-                    DESCRIPTION: "Dokumentation,Qualit\u00e4t,Planung",
-                    UNTIL_DATE: "1-1-18",
-                    ARCHIVED: 0,
+                    NAME: "Testen1 getWorkPacks()",
+                    STATUS: true,
+                    DESCRIPTION: "Erstes Work-Package",
+                    UNTIL_DATE: "2018-03-14",
+                    COMPLETION_DATE: "2018-04-15",
                     PROJ_ID: 1,
-                    PACK_ID: null,
-                    COMPLETION_DATE: "1-1-16",
+                    PACK_ID: 2,
+                    ARCHIVED: 1
                 }
             ]
      };
@@ -184,27 +172,15 @@ describe('TaskService', () => {
             [
                 {
                     TASK_NR: 1,
-                    TASK_TYPE: 0,
-                    NAME: "Testen Tasks",
-                    STATUS: 0,
-                    DESCRIPTION: "Task des WorkPacks NR. 3",
-                    UNTIL_DATE: "1-1-18",
-                    ARCHIVED: 0,
+                    TASK_TYPE: 2,
+                    NAME: "Testen1 getWorkPacks()",
+                    STATUS: true,
+                    DESCRIPTION: "Erstes Work-Package",
+                    UNTIL_DATE: "2018-03-14",
+                    COMPLETION_DATE: "2018-04-15",
                     PROJ_ID: 1,
-                    PACK_ID: 3,
-                    COMPLETION_DATE: "1-1-16",
-                },
-                {
-                    TASK_NR: 2,
-                    TASK_TYPE: 0,
-                    NAME: "Testen Task1",
-                    STATUS: 0,
-                    DESCRIPTION: "Task des WorkPacks NR. 4",
-                    UNTIL_DATE: "1-1-18",
-                    ARCHIVED: 1,
-                    PROJ_ID: 1,
-                    PACK_ID: 4,
-                    COMPLETION_DATE: "1-1-16",
+                    PACK_ID: 2,
+                    ARCHIVED: 1
                 }
             ]
      };
@@ -215,15 +191,15 @@ describe('TaskService', () => {
             [
                 {
                     TASK_NR: 1,
-                    TASK_TYPE: 0,
-                    NAME: "Testen Tasks",
-                    STATUS: 0,
-                    DESCRIPTION: "Task des WorkPacks NR. 3",
-                    UNTIL_DATE: "1-1-18",
-                    ARCHIVED: 0,
+                    TASK_TYPE: 2,
+                    NAME: "Testen1 getWorkPacks()",
+                    STATUS: true,
+                    DESCRIPTION: "Erstes Work-Package",
+                    UNTIL_DATE: "2018-03-14",
+                    COMPLETION_DATE: "2018-04-15",
                     PROJ_ID: 1,
-                    PACK_ID: 3,
-                    COMPLETION_DATE: "1-1-16",
+                    PACK_ID: 2,
+                    ARCHIVED: 1
                 }
             ]
      };
@@ -232,7 +208,7 @@ describe('TaskService', () => {
      });
 
      //Act-calling the methode/function
-     masterService.getTasks(3);
+     masterService.getTasks(2);
      tick();
 
      //Assert-Check and report whether the test passed or failed
@@ -248,15 +224,15 @@ describe('TaskService', () => {
             [
                 {
                     TASK_NR: 1,
-                    TASK_TYPE: 0,
-                    NAME: "Testen TASK with undefined PACK_ID",
-                    STATUS: 0,
-                    DESCRIPTION: "PACK_ID = 0",
-                    UNTIL_DATE: "1-1-18",
-                    ARCHIVED: 0,
+                    TASK_TYPE: 2,
+                    NAME: "Testen1 getWorkPacks()",
+                    STATUS: true,
+                    DESCRIPTION: "Erstes Work-Package",
+                    UNTIL_DATE: "2018-03-14",
+                    COMPLETION_DATE: "2018-04-15",
                     PROJ_ID: 1,
-                    PACK_ID: null,
-                    COMPLETION_DATE: "1-1-16",
+                    PACK_ID: 2,
+                    ARCHIVED: 1
                 }
             ]
     };

@@ -1,16 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import {HttpService} from './http.service';
 import {Router} from '@angular/router';
 import {User, UserJson} from '../models/User';
-
-//import 'rxjs/add/observable/of';
-//import 'rxjs/add/operator/do';
-//import 'rxjs/add/operator/delay';
-import {Observable} from 'rxjs/internal/Observable';
-//import {TimerService} from "./timer.service";
-
 import {MessageService} from './message.service';
 
 @Injectable()
@@ -18,7 +10,7 @@ export class RegisterService {
     progress = false;
     redirectUrl: string;
     userCreated: boolean;
-    //select * from :tabelle where :param = :body
+    // select * from :tabelle where :param = :body
 
     constructor(private http: HttpClient, public router: Router, private messageService: MessageService) {}
 
@@ -39,9 +31,9 @@ export class RegisterService {
                 this.userCreated = true;
             }
         });
-        //this.log("Successfully added the Project");
-        //return res;
-        //this.router.navigate(['/login']);
+        // this.log("Successfully added the Project");
+        // return res;
+        // this.router.navigate(['/login']);
     }
 
     private log(message: string) {

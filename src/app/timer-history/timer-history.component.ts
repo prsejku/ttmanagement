@@ -13,6 +13,7 @@ import {FormControl} from "@angular/forms";
 export class TimerHistoryComponent implements OnInit {
 
     date: FormControl;
+    description: string;
     curDate: string;
     curTime: string;
     startTime: string;
@@ -58,7 +59,7 @@ export class TimerHistoryComponent implements OnInit {
     }
 
     submit(): void {
-        this.httpService.enterTime(this.date.value, this.startTime, this.endTime, this.task).subscribe(b => {
+        this.httpService.enterTime(this.date.value, this.startTime, this.endTime, this.description, this.task).subscribe(b => {
             console.log(b);
             this.ngOnInit();
         });
@@ -70,8 +71,4 @@ export class TimerHistoryComponent implements OnInit {
       //return time.toLocaleString();
       return Date.now() - time.getMilliseconds();
     }*/
-
-    formatDesc() {
-
-    }
 }

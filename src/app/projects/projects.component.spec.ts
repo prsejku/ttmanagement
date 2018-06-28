@@ -9,6 +9,8 @@ import {MessageService} from "../message.service";
 import {HttpClient} from "@angular/common/http";
 import {User} from "../../models/User";
 
+import 'rxjs/add/observable/from';
+
 describe('ProjectsComponent', () => {
   let component: ProjectsComponent;
   let httpService: HttpService;
@@ -55,7 +57,6 @@ describe('ProjectsComponent', () => {
       expect(component.taskType).toBe('Project');
       expect(component.toAdd.DESCRIPTION).toBe(' ');
       expect(taskService.getProjects).toHaveBeenCalled();
-      expect(taskService.getWorkPacks).toHaveBeenCalled();
    });
 
    //addProject()
@@ -138,27 +139,6 @@ describe('ProjectsComponent', () => {
         expect(taskService.getTasks).toHaveBeenCalled();
     });
 
-   //deleteTask
-   it('should archive the task and call method getProjects() of taskService-Spy', () => {
-       //Arrange
-       component.taskType = 'Project';
-       const toAdd = new Task();
-       toAdd.TASK_NR = 2;
-       component.toAdd = toAdd;
-
-       let returnvalue = true;
-
-       //Spy auf HTTP-Client.post, which is called in the HttpService Archive-method
-       httpClientSpy.post.and.callFake(() => {
-           return Observable.from([returnvalue]);
-       });
-
-       //Act
-       component.deleteTask(2);
-       //Assert
-       expect(httpClientSpy.post).toHaveBeenCalled();
-       expect(taskService.getProjects).toHaveBeenCalled();
-   });
 
    //httpClientSpy to Server => taskServiceSpy gets all Project (Update)
    it('should call httpClient-Spy and taskService-Spy to get Projects, if taskType equals Project', () => {
@@ -175,15 +155,15 @@ describe('ProjectsComponent', () => {
        const projects: Task[] = [
            {
                TASK_NR: 1,
-               TASK_TYPE:0,
-               NAME: 'Neues Projekt',
-               STATUS: 1,
-               DESCRIPTION: 'SpyTestProjekt1',
-               UNTIL_DATE: '14.05.2019',
-               COMPLETION_DATE: '10.05.2018',
-               PROJ_ID: null,
-               PACK_ID: null,
-               ARCHIVED: 1,
+               TASK_TYPE: 2,
+               NAME: "Testen1 getWorkPacks()",
+               STATUS: true,
+               DESCRIPTION: "Erstes Work-Package",
+               UNTIL_DATE: "2018-03-14",
+               COMPLETION_DATE: "2018-04-15",
+               PROJ_ID: 1,
+               PACK_ID: 2,
+               ARCHIVED: 1
            }
        ];
        //Spy auf HTTP-Client.post, which is called in the HttpService
@@ -213,16 +193,16 @@ describe('ProjectsComponent', () => {
 
        const workPackages: Task[] = [
            {
-               TASK_NR: 2,
-               TASK_TYPE:1,
-               NAME: 'Neues Work Package',
-               STATUS: 1,
-               DESCRIPTION: 'SpyTestWorkPackage',
-               UNTIL_DATE: '14.05.2019',
-               COMPLETION_DATE: '10.05.2018',
+               TASK_NR: 1,
+               TASK_TYPE: 2,
+               NAME: "Testen1 getWorkPacks()",
+               STATUS: true,
+               DESCRIPTION: "Erstes Work-Package",
+               UNTIL_DATE: "2018-03-14",
+               COMPLETION_DATE: "2018-04-15",
                PROJ_ID: 1,
-               PACK_ID: null,
-               ARCHIVED: 1,
+               PACK_ID: 2,
+               ARCHIVED: 1
            }
        ];
        //Spy auf HTTP-Client.post, which is called in the HttpService
@@ -252,16 +232,16 @@ describe('ProjectsComponent', () => {
 
        const tasks: Task[] = [
            {
-               TASK_NR: 3,
-               TASK_TYPE:2,
-               NAME: 'Neuer Task',
-               STATUS: 1,
-               DESCRIPTION: 'SpyTestTasks',
-               UNTIL_DATE: '14.05.2019',
-               COMPLETION_DATE: '10.05.2018',
+               TASK_NR: 1,
+               TASK_TYPE: 2,
+               NAME: "Testen1 getWorkPacks()",
+               STATUS: true,
+               DESCRIPTION: "Erstes Work-Package",
+               UNTIL_DATE: "2018-03-14",
+               COMPLETION_DATE: "2018-04-15",
                PROJ_ID: 1,
-               PACK_ID: 1,
-               ARCHIVED: 1,
+               PACK_ID: 2,
+               ARCHIVED: 1
            }
        ];
        //Spy auf HTTP-Client.post, which is called in the HttpService

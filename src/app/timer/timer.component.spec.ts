@@ -4,10 +4,8 @@ import { TimerComponent } from './timer.component';
 import {HttpService} from "../http.service";
 import {TaskService} from "../task.service";
 import {AuthService} from "../auth.service";
-import {Observable} from "rxjs/Observable";
 import {HttpClient} from "@angular/common/http";
 import {MessageService} from "../message.service";
-import {User} from "../../models/User";
 
 describe('TimerComponent', () => {
   let component: TimerComponent;
@@ -69,64 +67,6 @@ describe('TimerComponent', () => {
       component.increment();
       //Assert
       expect(component.displayedTime).toBe('4:07:04');
-  });
-
-
-  //onSelect()
-  it('should start timer if running Property equals false',() => {
-      //Arrange
-      component.running = false;
-      component.curTask = {
-          TASK_NR: 1,
-          TASK_TYPE: 0,
-          NAME: "Testen TimerComponent",
-          STATUS: 1,
-          DESCRIPTION: "StartTimer",
-          UNTIL_DATE: "14.05.2019",
-          COMPLETION_DATE: "25.07.2018",
-          PROJ_ID: 1,
-          PACK_ID:2,
-          ARCHIVED: 1
-      };
-      component.desc = 'Description';
-      let returnvalue = true;
-      //User for httpService
-      const user = new User();
-      user.USER_ID = 1;
-      httpService.user = user;
-
-      //Spy auf HTTP-Client.post, which is called in the HttpService startTime-method
-      httpClientSpy.post.and.callFake(() => {
-          return Observable.from([returnvalue]);
-      });
-
-      //Act
-      component.onSelect();
-      //Assert
-      expect(httpService.user.USER_ID).toBe(1);
-      expect(httpClientSpy.post).toHaveBeenCalled();
-  });
-
-  //onSelect()
-  it('should stop timer if running property equals true', () => {
-      component.running = true;
-      let returnvalue = true;
-
-      //User for httpService
-      const user = new User();
-      user.USER_ID = 1;
-      httpService.user = user;
-
-      //Spy auf HTTP-Client.post, which is called in the HttpService submitEndTime-method
-      httpClientSpy.post.and.callFake(() => {
-          return Observable.from([returnvalue]);
-      });
-
-      //Act
-      component.onSelect();
-
-      //Assert
-      expect(httpClientSpy.post).toHaveBeenCalled();
   });
 
   //reset()

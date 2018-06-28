@@ -4,6 +4,7 @@ import { TimerHistoryComponent } from './timer-history.component';
 import {HttpService} from "../http.service";
 import {TaskService} from "../task.service";
 import {Observable} from "rxjs/Observable";
+import {} from 'jasmine';
 
 describe('TimerHistoryComponent', () => {
   let component: TimerHistoryComponent;
@@ -39,14 +40,14 @@ describe('TimerHistoryComponent', () => {
                   {
                       TASK_NR: 1,
                       TASK_TYPE: 1,
-                      NAME: "Projektmanagement",
-                      STATUS: 0,
-                      DESCRIPTION: "Dokumentation,Qualit\u00e4t,Planung",
-                      UNTIL_DATE: "1-1-18",
-                      ARCHIVED: 0,
-                      PROJ_ID: null,
+                      NAME: "Testen1 getWorkPacks()",
+                      STATUS: true,
+                      DESCRIPTION: "Erstes Work-Package",
+                      UNTIL_DATE: "2018-03-14",
+                      COMPLETION_DATE: "2018-04-15",
+                      PROJ_ID: 1,
                       PACK_ID: null,
-                      COMPLETION_DATE: "1-1-16",
+                      ARCHIVED: 1
                   }
               ]
       };
@@ -58,14 +59,14 @@ describe('TimerHistoryComponent', () => {
                   {
                       TASK_NR: 2,
                       TASK_TYPE: 2,
-                      NAME: "Testen Working Package",
-                      STATUS: 0,
-                      DESCRIPTION: "Dokumentation,Qualit\u00e4t,Planung",
-                      UNTIL_DATE: "1-1-18",
-                      ARCHIVED: 0,
+                      NAME: "Testen1 getWorkPacks()",
+                      STATUS: true,
+                      DESCRIPTION: "Erstes Work-Package",
+                      UNTIL_DATE: "2018-03-14",
+                      COMPLETION_DATE: "2018-04-15",
                       PROJ_ID: 1,
-                      PACK_ID: null,
-                      COMPLETION_DATE: "1-1-16",
+                      PACK_ID: 2,
+                      ARCHIVED: 1
                   }]
       };
       //Arrange Tasks, which should be returned
@@ -75,14 +76,14 @@ describe('TimerHistoryComponent', () => {
                   {
                       TASK_NR: 3,
                       TASK_TYPE: 0,
-                      NAME: "Testen Tasks",
-                      STATUS: 0,
-                      DESCRIPTION: "Task des WorkPacks NR. 3",
-                      UNTIL_DATE: "1-1-18",
-                      ARCHIVED: 0,
+                      NAME: "Testen1 getWorkPacks()",
+                      STATUS: true,
+                      DESCRIPTION: "Erstes Work-Package",
+                      UNTIL_DATE: "2018-03-14",
+                      COMPLETION_DATE: "2018-04-15",
                       PROJ_ID: 1,
                       PACK_ID: 2,
-                      COMPLETION_DATE: "1-1-16",
+                      ARCHIVED: 1
                   }]
       };
 
@@ -103,6 +104,7 @@ describe('TimerHistoryComponent', () => {
       });
 
       //setInterval
+      jasmine.clock().uninstall();
       jasmine.clock().install();
       component.ngOnInit();
       jasmine.clock().tick(2001); //enough that your interval gets tripped

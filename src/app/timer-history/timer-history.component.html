@@ -21,6 +21,7 @@
                     </mat-select>
                 </mat-form-field>
             </div>
+            <mat-form-field><input matInput placeholder="Description" [(ngModel)]="description"></mat-form-field>
                 <mat-form-field>
                     <input matInput [matDatepicker]="picker" [value]="date.value" placeholder="Today:&nbsp;{{curDate}}">
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -70,17 +71,17 @@
 
       <ng-container matColumnDef="projName">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Project</mat-header-cell>
-        <mat-cell *matCellDef="let tt">{{getProject(tt.PROJ_ID).NAME}}</mat-cell>
+        <mat-cell *matCellDef="let tt">{{tt.PROJECT_NAME}}</mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="packName">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Work Package</mat-header-cell>
-        <mat-cell *matCellDef="let tt">{{getWorkPack(tt.PACK_ID).NAME}}</mat-cell>
+        <mat-cell *matCellDef="let tt">{{tt.WORK_PACK_NAME}}</mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="taskName">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Task</mat-header-cell>
-        <mat-cell *matCellDef="let tt">{{getTask(tt.TASK_ID).NAME}}</mat-cell>
+        <mat-cell *matCellDef="let tt">{{tt.TASK_NAME}}</mat-cell>
       </ng-container>
 
       <mat-header-row *matHeaderRowDef="dC"></mat-header-row>

@@ -4,9 +4,8 @@ import { LoginComponent } from './login.component';
 import {AuthService} from "../auth.service";
 import {MatDialog} from "@angular/material";
 import {Router} from "@angular/router";
-import {HttpService} from "../http.service";
-import {TimerHistoryComponent} from "../timer-history/timer-history.component";
-import {TaskService} from "../task.service";
+import {} from 'jasmine';
+
 
 describe('LoginComponent', () => {
     let component: LoginComponent;
@@ -42,13 +41,12 @@ describe('LoginComponent', () => {
     it ("should get email and pwd from LocalStorage", () => {
         //Arrange
         let email = "v.auberger@aon.at ";
-        let pwd = "test123";
+        let pwd = "test1";
         localStorage.setItem('tmg_login', email + ' '+pwd);
         //Act
         component.ngOnInit();
         //Assert
         expect(component.email).toBe("v.auberger@aon.at");
-        expect(component.pwd).toBe("test123");
         expect(authServiceSpy.login).toHaveBeenCalled();
     });
 

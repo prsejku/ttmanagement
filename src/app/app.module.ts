@@ -36,6 +36,10 @@ import {TaskDetailComponent} from './projects/task-detail/task-detail.component'
 import {ConfirmationDialogComponent} from './confirmation-dialog/confirmation-dialog.component';
 import {ReportingService} from './reporting.service';
 import {ChartsModule} from 'ng2-charts';
+import { ProjectReportComponent } from './project-report/project-report.component';
+import { ExportComponent } from './export/export.component';
+import { KeysPipe } from './pipes/keys';
+import { GraphvisDirective } from './graphvis.directive';
 
 
 @NgModule({
@@ -55,7 +59,11 @@ import {ChartsModule} from 'ng2-charts';
     TaskTableComponent,
     RegistrationComponent,
     TaskDetailComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    ProjectReportComponent,
+    ExportComponent,
+    KeysPipe,
+    GraphvisDirective,
   ],
   entryComponents: [
     TaskDetailComponent,
