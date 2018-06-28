@@ -65,6 +65,7 @@ export class ProjectsComponent implements OnInit {
     getWorkPacks() {
 
         this.taskService.workPacks = [];
+        console.log("gewähltes Projekt: " + this.selectedProj);
         if (!isNullOrUndefined(this.selectedProj)) {
             this.taskService.getWorkPacks(this.selectedProj);
         }
