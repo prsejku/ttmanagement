@@ -15,7 +15,7 @@
 
   <ng-container matColumnDef="delete">
     <mat-header-cell *matHeaderCellDef>Delete col</mat-header-cell>
-    <mat-cell *matCellDef="let pj"><button mat-icon-button (click)="openDeleteDialog(pj.TASK_NR, ''+pj.TASK_TYPE)" ><mat-icon>delete</mat-icon></button></mat-cell>
+    <mat-cell *matCellDef="let pj"><button mat-icon-button (click)="openDeleteDialog(pj.TASK_NR, ''+pj.TASK_TYPE, pj.PACK_ID)" ><mat-icon>delete</mat-icon></button></mat-cell>
   </ng-container>
 
   <mat-header-row *matHeaderRowDef="dC"></mat-header-row>

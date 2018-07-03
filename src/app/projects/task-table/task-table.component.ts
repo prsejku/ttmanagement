@@ -17,7 +17,7 @@ export class TaskTableComponent implements OnInit {
 
   dC = ['name', 'description', 'delete'];
 
-  constructor(private taskService: TaskService,
+  constructor(public taskService: TaskService,
               private httpService: HttpService,
               public dialog: MatDialog,
               private messageService: MessageService) { }
@@ -39,13 +39,16 @@ export class TaskTableComponent implements OnInit {
     }, _ => { this.log('Could not update Task'); });
   }
 
-  openDeleteDialog(taskID: number, taskType: string) {
+  openDeleteDialog(taskID: number, taskType: string, workPack: number) {
     // this.httpService.archiveTask(taskID, taskType);
     const dialogRef = this.dialog.open(ConfirmationDialogComponent);
 
     dialogRef.afterClosed().subscribe(x => {
         if (x) { this.httpService.archiveTask(taskID, taskType).subscribe(b => {
-          if (b) { this.log("Successfully deleted Task"); }
+          if (b) {
+            this.log("Successfully deleted Task");
+            this.taskService.getTasks(workPack);
+          }
         }); }
     }, _ => { this.log('Could not delete Task'); });
   }

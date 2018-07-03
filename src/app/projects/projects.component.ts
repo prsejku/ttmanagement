@@ -17,10 +17,9 @@ export class ProjectsComponent implements OnInit {
     selectedProj: number;
     selectedWP: number;
     taskType: string;
-    columnsToDisplay = ['name', 'description', 'delete'];
     superTask: Task;
 
-    constructor(public httpService: HttpService, private taskService: TaskService, private messageService: MessageService) {
+    constructor(public httpService: HttpService, public taskService: TaskService, private messageService: MessageService) {
     }
 
     ngOnInit() {
@@ -40,20 +39,19 @@ export class ProjectsComponent implements OnInit {
                 case 'Project':
                     this.httpService.addProject(this.toAdd.NAME, this.toAdd.DESCRIPTION).subscribe(b => {
                         if (b) { this.log('Successfully added the project'); this.getProjects(); }
-                    }, _ => this.log('Could not add the project'));
+                    }, () => this.log('Could not add the project'));
                     break;
                 case 'Work Package':
                     this.httpService.addWorkPack(this.toAdd.NAME, this.toAdd.DESCRIPTION, this.selectedProj).subscribe(b => {
                         if (b) { this.messageService.add('Successfully added the Work Package'); this.getWorkPacks(); }
-                    }, _ => { this.log('Could not add the Work Package'); });
+                    }, () => { this.log('Could not add the Work Package'); });
                     break;
                 case 'Task':
                     this.httpService.addTask(this.toAdd.NAME, this.toAdd.DESCRIPTION, this.selectedWP).subscribe(b => {
                         if (b) { this.log('Successfully added the Task'); this.getTasks(); }
-                    }, _ => { this.log('Could not add the task'); });
+                    }, () => { this.log('Could not add the task'); });
                     break;
             }
-
             this.toAdd = new Task();
         }
     }

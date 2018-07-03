@@ -12,7 +12,7 @@ import {ProjectReport, ProjectReportJson} from '../models/ProjectReport';
 
 /**
  * Service, der die für den Betrieb des Programms notwendige Kommunikation über HTTP
- * übernimmt. Alle Programmbereiche, die Daten aus dem Internet benötigen (ausßer Authentifizierung) nutzen diesen Service durch Injection.
+ * übernimmt. Alle Programmbereiche, die Daten aus dem Internet benötigen (außer Authentifizierung) nutzen diesen Service durch Injection.
  * Methoden können leider nicht übereinstimmend mit den Stored Procedures benannt werden, da JavaScript Method Overloading nur
  * eingeschränkt unterstützt.
  */
@@ -209,11 +209,12 @@ export class HttpService {
     addProject(projectName: string, projectDesc: string): Observable<Object> {
         const name = '\'' + projectName + '\'';
         const desc = '\'' + projectDesc + '\'';
-        const json = JSON.stringify({name: name, desc: desc, user_id: this.user.USER_ID});
+        const json = JSON.stringify({
+          name: name,
+          desc: desc,
+          user_id: this.user.USER_ID });
         console.log('POST: ' + json);
-        const res = this.http.post(`${this.apipostUrl}/PROJEKT/ADD_PROJECT`, json);
-        this.log('Successfully added the Project');
-        return res;
+        return this.http.post(`${this.apipostUrl}/PROJEKT/ADD_PROJECT`, json);
     }
 
     updateUser(user: User): Observable<boolean> {
@@ -281,13 +282,22 @@ export class HttpService {
         console.log('TaskType: ' + taskType);
         const json = JSON.stringify({TASK_NR: taskNr});
         let pack = '';
+        let archive = '';
         switch (Number.parseInt(taskType)) {
-            case 0: pack = 'ACTIVITY'; break;
-            case 1: pack = 'PROJEKT'; break;
-            case 2: pack = 'WORKING_PACKAGE'; break;
+            case 0:
+              pack = 'ACTIVITY';
+              archive = 'TASK';
+              break;
+            case 1:
+              pack = 'PROJEKT';
+              archive = 'PROJ';
+              break;
+            case 2:
+              pack = 'WORKING_PACKAGE';
+              archive = 'PACK';
+              break;
         }
-        console.log('Pack: ' + pack + ' JSON: ' + json);
-        return this.http.post<boolean>(`${this.apipostUrl}/${pack}/ARCHIVE_PROJ`, json);
+        return this.http.post<boolean>(`${this.apipostUrl}/${pack}/ARCHIVE_${archive}`, json);
     }
 
     getProjects(): Observable<ProjectJson> {

@@ -37,13 +37,16 @@ export class WorkPackTableComponent implements OnInit {
     });
   }
 
-  openDeleteDialog(taskId: number) {
+  openDeleteDialog(taskId: number, project: number) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent);
 
     dialogRef.afterClosed().subscribe(x => {
       if (x) { this.httpService.archiveTask(taskId, 2).subscribe(b => {
-        if (b) { this.log('Successfully deleted Work Package'); }
-        }, _ => { this.log('Could not delete Work Package'); });
+        if (b) {
+          this.log('Successfully deleted Work Package');
+          this.taskService.getWorkPacks(project);
+        }
+        }, () => { this.log('Could not delete Work Package'); });
       }
     });
   }
