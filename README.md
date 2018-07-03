@@ -2,26 +2,48 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.3.
 
-## Development server
+## Task Management
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+On the "Tasks" page, you can manage the sub-projects, work packages and tasks. The default view
+displays all sub-projects of the workspace. You can view the details by clicking on the name of
+a sub-project. In order to see the work packages of a sub-project, you can use the drop-down
+above the 'Add new Project' button and select a sub-project. The same things apply for the
+then appearing "Work Packages" page and the tasks of a work package.
 
-## Code scaffolding
+## Time Tracking
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+To use the time tracker at the top-right, you must select a sub-project ('PJ' button), a work
+package ('WP' button) and a task ('T' button) to assign your tracked time to. Then simply
+enter a description of max. 500 byte and click the 'start' button. After clicking the 'stop'
+button, the tracked time will remain visible until you 'reset' the timer with the corresponding
+button. Of course, the timer will keep running after logging out and logging in on another
+device.
 
-## Build
+## Timer History
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+The timer history page shows a list of all time tracks in chronological order. 
 
-## Running unit tests
+## Profile
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+On the profile page you can edit your user profile information.
 
-## Running end-to-end tests
+## Export
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+To export your tracked work time, click the 'Export' link in the menu. You will be provided
+with a JSON representation of some report information
 
-## Further help
+## Project Report
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+On the reporting page, all sub-projects, work packages and tasks are displayed as swim lanes,
+including planned and actual times.
+
+## Dashboard
+
+The dashboard page shows a graphical report of the task distribution of your tracked time
+and more useful diagrams.
+
+## Installation
+
+Currently no installation program or script is available. Therefore, manual installation
+of [node.js](https://nodejs.org), the PHP API including a web server and 
+[Angular](http://www.angular.io) as well as config setup is required. 
